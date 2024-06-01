@@ -1,2 +1,6 @@
 /services/*/node_modules
-/services/*/index.js
+/services/*/.DS_Store
+/services/*/.env.local
+/services/*/.env.development.local
+/services/*/.env.test.local
+/services/*/.env.production.local

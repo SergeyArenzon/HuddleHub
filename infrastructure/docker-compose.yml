@@ -1,0 +1,12 @@
+services: 
+  auth-api:
+    build: ../services/auth
+    ports: 
+      - 8080:8080
+    command: npm run dev
+    env_file:
+      - ../services/auth/.env
+    volumes:
+      - ../services/auth/src:/app/src
+      - /code/node_modules
+ 
