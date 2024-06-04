@@ -1,6 +1,8 @@
 services: 
   auth-api:
-    build: ../services/auth
+    build:
+      context: ../services/auth
+      dockerfile: Dockerfile
     ports: 
       - 8080:8080
     command: npm run dev
@@ -9,4 +11,18 @@ services:
     volumes:
       - ../services/auth/src:/app/src
       - /code/node_modules
- 
+
+  client:
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    command: npm run dev
+    volumes:
+      - ../client:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - auth-api
+
