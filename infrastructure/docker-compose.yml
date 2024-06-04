@@ -1,3 +1,5 @@
+version: 2.27.1
+
 services: 
   auth-api:
     build:
@@ -11,6 +13,24 @@ services:
     volumes:
       - ../services/auth/src:/app/src
       - /code/node_modules
+    
+  users-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DATABASE: huddle_hub
+    ports:
+      - 5432:5432
+    
+  pgadmin-users:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+
 
   client:
     build:

@@ -6,8 +6,7 @@ import Image from "next/image";
 import { signIn } from "next-auth/react";
 
 export function GoogleSignInButton() {
-  const handleClick = (e) => {
-    e.preventDefault()
+  const handleClick = () => {
     signIn("google");
   };
 
