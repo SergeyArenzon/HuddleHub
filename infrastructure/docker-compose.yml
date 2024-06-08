@@ -5,14 +5,16 @@ services:
     build:
       context: ../services/auth
       dockerfile: Dockerfile
-    ports: 
-      - 8080:8080
     command: npm run dev
-    env_file:
-      - ../services/auth/.env
+    environment:
+      ADDRESS: 0.0.0.0 
+      PORT: 8080
+      NODE_ENV: development
     volumes:
       - ../services/auth/src:/app/src
       - /code/node_modules
+    networks:
+      - huddlehub-network
     
   users-db:
     image: postgres
@@ -22,6 +24,8 @@ services:
       POSTGRES_DATABASE: huddle_hub
     ports:
       - 5432:5432
+    networks:
+      - huddlehub-network
     
   pgadmin-users:
     image: dpage/pgadmin4
@@ -30,6 +34,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+    networks:
+      - huddlehub-network
 
 
   client:
@@ -38,6 +44,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+    environment:
+      API_URL: "http://localhost:8080"
+      PORT: 3000
     command: npm run dev
     volumes:
       - ../client:/app
@@ -45,4 +54,32 @@ services:
       - /app/.next
     depends_on:
       - auth-api
+    networks:
+      - huddlehub-network
 
+  # nginx:
+  #   build:
+  #     context: ../services/nginx
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:80"
+  #   networks:
+  #     - huddlehub-network
+  #   depends_on:
+  #     - auth-api
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ../services/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - huddlehub-network
+    depends_on:
+      - auth-api
+      - client
+
+networks:
+  huddlehub-network:
+    driver: bridge
