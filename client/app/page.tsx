@@ -10,8 +10,7 @@ export default function Home() {
     return <div>authed...</div>
   }
 
-console.log(process.env.GOOGLE_ID);
-  
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <GoogleSignInButton/>

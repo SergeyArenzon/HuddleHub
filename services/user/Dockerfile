@@ -1,18 +1,22 @@
 # Fetching the minified node image on apline linux
-FROM node:slim
+FROM node
 
 # Setting up the work directory
 WORKDIR /app
 
-
 # COPY package.json
-COPY package.json /app
+COPY package*.json /app
 
 # Installing dependencies
-RUN yarn install
+RUN npm install
+
 
 # Copying all the files in our project
-COPY . /app
+COPY prisma ./prisma
+
+RUN npx prisma generate
+
+COPY . .
 
 
 # Exposing server port

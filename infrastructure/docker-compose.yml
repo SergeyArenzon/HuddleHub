@@ -1,33 +1,37 @@
 version: 2.27.1
 
 services: 
-  auth-api:
+  user-api:
     build:
-      context: ../services/auth
+      context: ../services/user
       dockerfile: Dockerfile
     command: npm run dev
     environment:
       ADDRESS: 0.0.0.0 
       PORT: 8080
       NODE_ENV: development
+      DATABASE_URL: "postgresql://${USER_DATABASE_USER}:${USER_DATABASE_PASSWORD}@user-db:${USER_DATABASE_PORT}/${USER_DATABASE_DB}?schema=public"
     volumes:
-      - ../services/auth/src:/app/src
+      - ../services/user/src:/app/src
+      - ../services/user/prisma:/app/prisma
       - /code/node_modules
     networks:
       - huddlehub-network
     
-  users-db:
+  user-db:
     image: postgres
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DATABASE: huddle_hub
+      POSTGRES_USER: ${USER_DATABASE_USER}
+      POSTGRES_PASSWORD: ${USER_DATABASE_PASSWORD}
+      POSTGRES_DB: ${USER_DATABASE_DB}
     ports:
-      - 5432:5432
+      - ${USER_DATABASE_PORT}:5432
+    volumes:
+      - ../data/user:/var/lib/postgresql/data
     networks:
       - huddlehub-network
     
-  pgadmin-users:
+  pgadmin:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
@@ -53,7 +57,7 @@ services:
       - /app/node_modules
       - /app/.next
     depends_on:
-      - auth-api
+      - user-api
     networks:
       - huddlehub-network
 
@@ -77,9 +81,13 @@ services:
     networks:
       - huddlehub-network
     depends_on:
-      - auth-api
+      - user-api
       - client
 
 networks:
   huddlehub-network:
     driver: bridge
+
+
+volumes:
+  user-data: {}
