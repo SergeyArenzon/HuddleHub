@@ -7,6 +7,8 @@ import { GoogleSignInButton } from "./components/authButtons";
 export default function Home() {
   const {data: session} = useSession()
   if(session && session.user) {
+    console.log(session.user);
+    
     return <div>authed...</div>
   }
 

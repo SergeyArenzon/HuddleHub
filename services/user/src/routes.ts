@@ -1,9 +1,9 @@
 import { FastifyInstance } from "fastify";
-import { registerUserHandler } from "./controller";
+import { tokenHandler } from "./controllers";
 
 
 const userRoutes = async(server: FastifyInstance) =>  {
-    server.get('/', registerUserHandler);
+    server.post('/token', tokenHandler);
 };
 
 export default userRoutes;

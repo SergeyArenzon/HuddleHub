@@ -1,6 +1,6 @@
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 
-import userRoutes from './route';
+import userRoutes from './routes';
 import { userSchemas } from "./schema";
 
 const {ADDRESS, PORT} = process.env;
