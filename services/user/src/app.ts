@@ -9,12 +9,6 @@ const server = Fastify({
   logger: true
 });
 
-// server.register(fjwt, {
-//   secret: "sdfsdfsdfsdf"
-// });
-// server.decorate("auth", async(request: FastifyRequest, reply: FastifyReply) => {
-
-// })
 
 for (const schema of userSchemas) {
   server.addSchema(schema)

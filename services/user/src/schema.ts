@@ -8,22 +8,30 @@ const userCore = {
         required_error: "Email is required",
         invalid_type_error: "Email must be a string"
     }).email(),
-    name: z.string({
-        required_error: "Password is required",
-        invalid_type_error: "Password must be a string"
-    })}
+    given_name: z.string({
+        required_error: "Given name is required",
+        invalid_type_error: "Given name must be a string"
+    }),
+    family_name: z.string({
+        required_error: "Family name is required",
+        invalid_type_error: "Family name must be a string"
+    }),
+    picture: z.string({
+        required_error: "Picture is required",
+        invalid_type_error: "Picture must be a url string"
+    }).url()
+}
 
 
 const createUserSchema = z.object({
-    ...userCore,
-    id: z.number(),
+    ...userCore
 });
 
 
 
 const createUserResponseSchema = z.object({
     ...userCore
-});;
+});
 
 export type CreateUserInput = z.infer<typeof createUserSchema>;
 
