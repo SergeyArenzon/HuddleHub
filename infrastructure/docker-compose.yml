@@ -17,6 +17,22 @@ services:
       - /code/node_modules
     networks:
       - huddlehub-network
+  auth:
+    build:
+      context: ../services/auth
+      dockerfile: Dockerfile
+    command: npm run dev
+    environment:
+      ADDRESS: 0.0.0.0 
+      PORT: 8081
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://${PG_DATABASE_USER}:${PG_DATABASE_PASSWORD}@pg-db:${PG_DATABASE_PORT}/${PG_DATABASE_DB}?schema=public"
+    volumes:
+      - ../services/auth/src:/app/src
+      - ../services/auth/prisma:/app/prisma
+      - /code/node_modules
+    networks:
+      - huddlehub-network
     
   pg-db:
     image: postgres
@@ -31,15 +47,15 @@ services:
     networks:
       - huddlehub-network
     
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
-    networks:
-      - huddlehub-network
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
+  #     PGADMIN_DEFAULT_PASSWORD: root
+  #   ports:
+  #     - "5050:80"
+  #   networks:
+  #     - huddlehub-network
 
 
   client:
