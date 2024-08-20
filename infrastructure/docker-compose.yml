@@ -1,33 +1,33 @@
 version: 2.27.1
 
 services: 
-  user-api:
+  server:
     build:
-      context: ../services/user
+      context: ../services/server
       dockerfile: Dockerfile
     command: npm run dev
     environment:
       ADDRESS: 0.0.0.0 
       PORT: 8080
       NODE_ENV: development
-      DATABASE_URL: "postgresql://${USER_DATABASE_USER}:${USER_DATABASE_PASSWORD}@user-db:${USER_DATABASE_PORT}/${USER_DATABASE_DB}?schema=public"
+      DATABASE_URL: "postgresql://${PG_DATABASE_USER}:${PG_DATABASE_PASSWORD}@pg-db:${PG_DATABASE_PORT}/${PG_DATABASE_DB}?schema=public"
     volumes:
-      - ../services/user/src:/app/src
-      - ../services/user/prisma:/app/prisma
+      - ../services/server/src:/app/src
+      - ../services/server/prisma:/app/prisma
       - /code/node_modules
     networks:
       - huddlehub-network
     
-  user-db:
+  pg-db:
     image: postgres
     environment:
-      POSTGRES_USER: ${USER_DATABASE_USER}
-      POSTGRES_PASSWORD: ${USER_DATABASE_PASSWORD}
-      POSTGRES_DB: ${USER_DATABASE_DB}
+      POSTGRES_USER: ${PG_DATABASE_USER}
+      POSTGRES_PASSWORD: ${PG_DATABASE_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE_DB}
     ports:
-      - ${USER_DATABASE_PORT}:5432
+      - ${PG_DATABASE_PORT}:5432
     volumes:
-      - ../data/user:/var/lib/postgresql/data
+      - ../data/server:/var/lib/postgresql/data
     networks:
       - huddlehub-network
     
@@ -57,7 +57,7 @@ services:
       - /app/node_modules
       - /app/.next
     depends_on:
-      - user-api
+      - server
     networks:
       - huddlehub-network
 
@@ -81,7 +81,7 @@ services:
     networks:
       - huddlehub-network
     depends_on:
-      - user-api
+      - server
       - client
 
 networks:
