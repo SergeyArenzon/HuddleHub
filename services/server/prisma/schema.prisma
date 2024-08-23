@@ -14,20 +14,17 @@ datasource db {
 }
 
 model User {
-    id         String   @id @default(uuid())
+    id          String   @id @default(uuid())
     email      String   @unique
     first_name String
     last_name  String
     image_url  String
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
-
     events        Event[]
     event_ratings EventRating[]
-    user_source   UserFriends   @relation("User_friends_source", fields: [userFriendsId], references: [id])
-    user_target   UserFriends   @relation("User_friends_target", fields: [userFriendsId], references: [id])
-    userFriendsId String
-    userFriendsId String
+    friends       UserFavorites[] @relation("UserFavoritesUser")
+    friendOf      UserFavorites[] @relation("UserFavoritesFriend")
 }
 
 model Event {
@@ -49,10 +46,11 @@ model EventRating {
     ratings  Json[]
 }
 
-model UserFriends {
-    id          String @id @default(uuid())
-    UserSource  User   @relation("User_friends_source", fields: [user_source], references: [id])
-    user_source String @unique
-    UserTarget  User   @relation("User_friends_target", fields: [user_target], references: [id])
-    user_target String @unique
+model UserFavorites {
+  @@id([user_id, favorite_id])
+  user_id   String
+  favorite_id String
+  user   User @relation("UserFavoritesUser", fields: [user_id], references: [id])
+  friend User @relation("UserFavoritesFriend", fields: [favorite_id], references: [id])
+
 }

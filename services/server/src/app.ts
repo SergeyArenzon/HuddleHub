@@ -1,4 +1,4 @@
-import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import Fastify from 'fastify';
 
 import userRoutes from './routes';
 import { userSchemas } from "./schema";
@@ -27,3 +27,5 @@ server.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address) 
     process.exit(1);
   }
 })
+
+
