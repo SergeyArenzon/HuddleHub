@@ -21,7 +21,7 @@ COPY . .
 
 
 # Exposing server port
-EXPOSE 8080
+EXPOSE 8081
 
 # Starting our application
 CMD [ "npm", "run", "dev" ]

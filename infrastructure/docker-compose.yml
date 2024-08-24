@@ -32,6 +32,24 @@ services:
     networks:
       - huddlehub-network
 
+    # User Service
+  auth:
+    build:
+      context: ../services/auth
+      dockerfile: Dockerfile
+    command: npm run dev
+    environment:
+      ADDRESS: 0.0.0.0 
+      PORT: 8084
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
+    volumes:
+      - ../services/auth/src:/app/src
+      - ../services/auth/prisma:/app/prisma
+      - /code/node_modules
+    networks:
+      - huddlehub-network
+
   # Event Service
   event:
     build:

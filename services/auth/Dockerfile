@@ -19,7 +19,7 @@ RUN npx prisma migrate
 COPY . .
 
 # Exposing server port
-EXPOSE 8081
+EXPOSE 8084
 
 # Starting our application
 CMD [ "npm", "run", "dev" ]
