@@ -1,22 +1,10 @@
 import Fastify from 'fastify';
 
-import userRoutes from './routes';
-import { userSchemas } from "./schema";
-
 const {ADDRESS, PORT} = process.env;
 
 const server = Fastify({
   logger: true
 });
-
-
-for (const schema of userSchemas) {
-  server.addSchema(schema)
-}
-
-
-server.register(userRoutes);
-
 
 
 server.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address) => {

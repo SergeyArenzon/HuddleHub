@@ -10,6 +10,7 @@ COPY package*.json /app
 # Installing dependencies
 RUN npm install
 
+
 # Copying all the files in our project
 COPY prisma ./prisma
 
@@ -18,8 +19,9 @@ RUN npx prisma migrate
 
 COPY . .
 
+
 # Exposing server port
-EXPOSE 8084
+EXPOSE 8081
 
 # Starting our application
 CMD [ "npm", "run", "dev" ]

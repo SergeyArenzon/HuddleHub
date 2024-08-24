@@ -1,22 +1,38 @@
-version: 2.27.1
+version: '2.27.1'
 
-services: 
-  server:
+services:
+  # User Service
+  user:
     build:
-      context: ../services/server
+      context: ../services/user
       dockerfile: Dockerfile
     command: npm run dev
     environment:
       ADDRESS: 0.0.0.0 
       PORT: 8080
       NODE_ENV: development
-      DATABASE_URL: "postgresql://${PG_DATABASE_USER}:${PG_DATABASE_PASSWORD}@pg-db:${PG_DATABASE_PORT}/${PG_DATABASE_DB}?schema=public"
+      DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
-      - ../services/server/src:/app/src
-      - ../services/server/prisma:/app/prisma
+      - ../services/user/src:/app/src
+      - ../services/user/prisma:/app/prisma
       - /code/node_modules
     networks:
       - huddlehub-network
+
+  user-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${PG_DEFAULT_DATABASE_USER}
+      POSTGRES_PASSWORD: ${PG_DEFAULT_DATABASE_PASSWORD}
+      POSTGRES_DB: ${PG_DEFAULT_DATABASE_DB}
+    ports:
+      - ${PG_USER_DATABASE_PORT}:5432
+    volumes:
+      - ../data/user:/var/lib/postgresql/data
+    networks:
+      - huddlehub-network
+
+    # User Service
   auth:
     build:
       context: ../services/auth
@@ -24,40 +40,110 @@ services:
     command: npm run dev
     environment:
       ADDRESS: 0.0.0.0 
-      PORT: 8081
+      PORT: 8084
       NODE_ENV: development
-      DATABASE_URL: "postgresql://${PG_DATABASE_USER}:${PG_DATABASE_PASSWORD}@pg-db:${PG_DATABASE_PORT}/${PG_DATABASE_DB}?schema=public"
+      DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
       - ../services/auth/src:/app/src
       - ../services/auth/prisma:/app/prisma
       - /code/node_modules
     networks:
       - huddlehub-network
-    
-  pg-db:
-    image: postgres
+
+  # Event Service
+  event:
+    build:
+      context: ../services/event
+      dockerfile: Dockerfile
+    command: npm run dev
     environment:
-      POSTGRES_USER: ${PG_DATABASE_USER}
-      POSTGRES_PASSWORD: ${PG_DATABASE_PASSWORD}
-      POSTGRES_DB: ${PG_DATABASE_DB}
-    ports:
-      - ${PG_DATABASE_PORT}:5432
+      ADDRESS: 0.0.0.0 
+      PORT: 8081
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@event-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
-      - ../data/server:/var/lib/postgresql/data
+      - ../services/event/src:/app/src
+      - ../services/event/prisma:/app/prisma
+      - /code/node_modules
     networks:
       - huddlehub-network
-    
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
-  #     PGADMIN_DEFAULT_PASSWORD: root
-  #   ports:
-  #     - "5050:80"
-  #   networks:
-  #     - huddlehub-network
 
+  event-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${PG_DEFAULT_DATABASE_USER}
+      POSTGRES_PASSWORD: ${PG_DEFAULT_DATABASE_PASSWORD}
+      POSTGRES_DB: ${PG_DEFAULT_DATABASE_DB}
+    ports:
+      - ${PG_EVENT_DATABASE_PORT}:5432
+    volumes:
+      - ../data/event:/var/lib/postgresql/data
+    networks:
+      - huddlehub-network
 
+  # Event Rating Service
+  event-rating:
+    build:
+      context: ../services/event-rating
+      dockerfile: Dockerfile
+    command: npm run dev
+    environment:
+      ADDRESS: 0.0.0.0 
+      PORT: 8082
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@event-rating-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
+    volumes:
+      - ../services/event-rating/src:/app/src
+      - ../services/event-rating/prisma:/app/prisma
+      - /code/node_modules
+    networks:
+      - huddlehub-network
+
+  event-rating-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${PG_DEFAULT_DATABASE_USER}
+      POSTGRES_PASSWORD: ${PG_DEFAULT_DATABASE_PASSWORD}
+      POSTGRES_DB: ${PG_DEFAULT_DATABASE_DB}
+    ports:
+      - ${PG_EVENT_RATING_DATABASE_PORT}:5432
+    volumes:
+      - ../data/event-rating:/var/lib/postgresql/data
+    networks:
+      - huddlehub-network
+
+  # User Favorite Service
+  user-favorite:
+    build:
+      context: ../services/user-favorite
+      dockerfile: Dockerfile
+    command: npm run dev
+    environment:
+      ADDRESS: 0.0.0.0 
+      PORT: 8083
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-favorite-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
+    volumes:
+      - ../services/user-favorite/src:/app/src
+      - ../services/user-favorite/prisma:/app/prisma
+      - /code/node_modules
+    networks:
+      - huddlehub-network
+
+  user-favorite-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${PG_DEFAULT_DATABASE_USER}
+      POSTGRES_PASSWORD: ${PG_DEFAULT_DATABASE_PASSWORD}
+      POSTGRES_DB: ${PG_DEFAULT_DATABASE_DB}
+    ports:
+      - ${PG_USER_FAVORITE_DATABASE_PORT}:5432
+    volumes:
+      - ../data/user-favorite:/var/lib/postgresql/data
+    networks:
+      - huddlehub-network
+
+  # Client Service
   client:
     build:
       context: ../client
@@ -73,21 +159,11 @@ services:
       - /app/node_modules
       - /app/.next
     depends_on:
-      - server
+      - user
     networks:
       - huddlehub-network
 
-  # nginx:
-  #   build:
-  #     context: ../services/nginx
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8080:80"
-  #   networks:
-  #     - huddlehub-network
-  #   depends_on:
-  #     - auth-api
-
+  # Nginx
   nginx:
     image: nginx:latest
     ports:
@@ -97,13 +173,12 @@ services:
     networks:
       - huddlehub-network
     depends_on:
-      - server
+      - user
       - client
 
 networks:
   huddlehub-network:
     driver: bridge
-
 
 volumes:
   user-data: {}

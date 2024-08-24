@@ -11,10 +11,12 @@ const server = Fastify({
 
 
 server.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address) => {
-  console.log(`[Auth] service is running on ${address}`);
+  console.log(`🚀 [Event] service is running on ${address}`);
 
   if (error) {
     server.log.error(error);
     process.exit(1);
   }
 })
+
+

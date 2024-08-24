@@ -1,6 +1,5 @@
 import Fastify from 'fastify';
 
-
 const {ADDRESS, PORT} = process.env;
 
 const server = Fastify({
@@ -9,12 +8,13 @@ const server = Fastify({
 
 
 
-
 server.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address) => {
-  console.log(`[Auth] service is running on ${address}`);
+  console.log(`🚀 [User Favorite] service is running on ${address}`);
 
   if (error) {
     server.log.error(error);
     process.exit(1);
   }
 })
+
+
