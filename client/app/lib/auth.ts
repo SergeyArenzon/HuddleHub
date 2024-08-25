@@ -26,15 +26,9 @@ export const authConfig: NextAuthOptions = {
   
         //   const { data }: { data: { access_token: string } } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/token`, { access_token: account.access_token })
         //   user.token = data.access_token
-
-        console.log("zain--------------");
-
       
             try {
-                const res = await axios.post("http://localhost:8080/api/user/token", {
-                
-                    access_token: account.access_token
-                })
+                const res = await axios.post("http://localhost:8080/api/auth", {access_token: account.access_token})
                 
                 console.log({res});
             } catch (error) {

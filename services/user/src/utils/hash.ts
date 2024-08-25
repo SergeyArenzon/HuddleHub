@@ -1,28 +1,44 @@
-import bcrypt from 'bcrypt';
+import crypto from "crypto";
 
-const saltRounds = 10; // Number of salt rounds to use
+export function hashPassword(password: string) {
+  /*
+   * Creating a unique salt for a particular user
+   * Salt is a random bit of data added to the user's password
+   * Salt means that every password's hash is going to be unique
+   */
+  const salt = crypto.randomBytes(16).toString("hex");
 
-// Function to hash a password
-async function hashPassword(password: string) {
-    try {
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        return hashedPassword;
-    } catch (error) {
-        console.error('Error hashing password:', error);
-    }
+  /*
+   * Create a hash with 1000 iterations
+   */
+  const hash = crypto
+    .pbkdf2Sync(password, salt, 1000, 64, "sha512")
+    .toString("hex");
+
+  return { hash, salt };
 }
 
-async function comparePassword(password: string, hashedPassword: string) {
-    try {
-        const match = await bcrypt.compare(password, hashedPassword);
-        if (match) {
-            console.log('Password is correct!');
-        } else {
-            console.log('Password is incorrect!');
-        }
-    } catch (error) {
-        console.error('Error comparing password:', error);
-    }
-}
+export function verifyPassword({
+  candidatePassword,
+  salt,
+  hash,
+}: {
+  candidatePassword: string;
+  salt: string;
+  hash: string;
+}) {
+  /*
+   * Create a hash with the salt from the user and the password
+   * the user tried to login with
+   */
+  const candidateHash = crypto
+    .pbkdf2Sync(candidatePassword, salt, 1000, 64, "sha512")
+    .toString("hex");
 
-export { comparePassword, hashPassword}
+  /*
+   * If the hash matches the hash we have stored for the user
+   * then the candidate password is correct
+   */
+
+  return candidateHash === hash;
+}
