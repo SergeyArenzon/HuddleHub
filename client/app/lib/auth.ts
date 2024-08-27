@@ -21,16 +21,19 @@ export const authConfig: NextAuthOptions = {
     },
     callbacks: {
         async signIn({ user, account}: any) {
+            
           if (!account || !account.access_token)
             return false
   
         //   const { data }: { data: { access_token: string } } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/token`, { access_token: account.access_token })
         //   user.token = data.access_token
       
-            try {
-                const res = await axios.post("http://localhost:8080/api/auth", {access_token: account.access_token})
-                
-                console.log({res});
+        try {
+
+                let res = await axios.post('http://auth:8084/login', {token: account.access_token});
+
+                console.log({res: res.data });
+                console.log("----------");
             } catch (error) {
                 console.log({error});
                 

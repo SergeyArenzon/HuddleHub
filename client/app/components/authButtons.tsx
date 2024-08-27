@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
@@ -46,7 +47,13 @@ export function EmailSignInButton() {
 		router.push('/login')
 	}
 
-	return (
+	const f = async() => {
+		let x = await axios.get('http://localhost:8080/api/auth/healthcheck');
+		console.log({x});
+		
+	}
+
+	return (<>
 		<button
 			onClick={handleClick}
 			className={AUTH_BUTTON_CLASS_NAME}
@@ -54,5 +61,7 @@ export function EmailSignInButton() {
 			<MdOutlineMailOutline className={AUTH_BUTTON_IMAGE_CLASS_NAME} />
 			<span className="ml-4">Sign in with Email</span>
 		</button>
+			<button onClick={f}>test</button>
+	</>
 	);
 }

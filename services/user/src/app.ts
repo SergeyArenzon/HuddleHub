@@ -12,6 +12,9 @@ const fastify = Fastify({logger: true});
 fastify.post("/", async (request, reply) => {
   console.log({request});
 });
+
+
+
 fastify.get("/healthcheck", async (request, reply) => {
   reply.send({status: 'ok'});
 });

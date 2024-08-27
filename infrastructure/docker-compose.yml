@@ -9,7 +9,7 @@ services:
     command: npm run dev
     environment:
       ADDRESS: 0.0.0.0 
-      PORT: 8080
+      PORT: 8085
       NODE_ENV: development
       DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
