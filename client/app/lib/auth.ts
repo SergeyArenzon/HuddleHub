@@ -30,7 +30,7 @@ export const authConfig: NextAuthOptions = {
       
         try {
 
-                let res = await axios.post('http://auth:8084/login', {token: account.access_token});
+                let res = await axios.post('http://auth:8084', {token: account.access_token});
 
                 console.log({res: res.data });
                 console.log("----------");

@@ -12,10 +12,14 @@ services:
       PORT: 8085
       NODE_ENV: development
       DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
+      RABBITMQ_URL: "${RABBITMQ_URL}"
     volumes:
       - ../services/user/src:/app/src
       - ../services/user/prisma:/app/prisma
       - /code/node_modules
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
     networks:
       - huddlehub-network
 
@@ -43,7 +47,7 @@ services:
       PORT: 8084
       NODE_ENV: development
       JWT_SECRET: ${JWT_SECRET}
-      RABBITMQ_URL: "amqp://guest:guest@rabbitmq:5672"
+      RABBITMQ_URL: "${RABBITMQ_URL}"
       DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
       - ../services/auth/src:/app/src

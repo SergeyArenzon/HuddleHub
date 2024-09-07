@@ -1,68 +1,32 @@
-import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import Fastify from 'fastify';
 import FastifyFormbody from '@fastify/formbody';
-import { loginSchema } from './schemas';
-import client, { Channel, Connection } from 'amqplib';
+import { createConnection } from './queues/connection';
+import { loginSchema } from './schemas/auth';
+import authRoutes from './routes/auth';
+import healthRoutes from './routes/health';
+import { Channel } from 'amqplib';
 
-const {ADDRESS, PORT, JWT_SECRE, RABBITMQ_URL} = process.env;
+const {ADDRESS, PORT, JWT_SECRE } = process.env;
 
 const fastify = Fastify({logger: true});
 
 fastify.register(FastifyFormbody);
 fastify.addSchema(loginSchema);
 
-fastify.get("/healthcheck", async (request, reply) => {
-  reply.send({status: 'ok'});
-})
+// Routes
+fastify.register(authRoutes, { prefix: '/' });
+fastify.register(healthRoutes, { prefix: '/health' });
 
-const connectToRabbit = async (): Promise<Channel | undefined> => {
-  try {
-    if (!RABBITMQ_URL) {
-      console.error('RabbitMQ URL is not defined');
-      return undefined;
-    }
-    console.log({RABBITMQ_URL});
-    
-    const connection: Connection = await client.connect(RABBITMQ_URL);
-    const channel: Channel = await connection.createChannel();
-    // Channel is ready for use
-    return channel;
-  } catch (error: unknown) {
-    console.error('Error connecting to RabbitMQ', error);
-    return undefined;
-  }
+let channel: Channel; 
+
+const startQueues = async () => {
+  let connection  =   await createConnection();
+  if (connection) channel = connection;
 };
-
- connectToRabbit();
-
-
-
-fastify.get("/rabbit", async (request, reply) => {
-  reply.send({status: 'ok'});
-})
-
-
-fastify.post("/login", {
-  schema: { 
-    body: { $ref: 'loginSchema#' },
-    response: {
-      201: {
-        type: 'object',
-        properties: {
-          token: { type: 'string' },
-          name: { type: 'string' }
-        }
-      }
-    }
-  }
-}, async (request: FastifyRequest<{Body: {token: string}}>, reply: FastifyReply) => {  
-
-  const google_url = `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${request.body.token}`
-  reply.code(201).send(request.body);
-});
-
 
 fastify.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address) => {
   console.log(`[Auth] service is running on ${address}`);
+  startQueues();
 
   if (error) {
     fastify.log.error(error);
@@ -70,7 +34,7 @@ fastify.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address)
   }
 })
 
-
+export { channel };
 
 
 

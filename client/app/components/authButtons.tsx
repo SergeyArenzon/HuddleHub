@@ -46,13 +46,7 @@ export function EmailSignInButton() {
 	const handleClick = () => {
 		router.push('/login')
 	}
-
-	const f = async() => {
-		let x = await axios.get('http://localhost:8080/api/auth/healthcheck');
-		console.log({x});
-		
-	}
-
+	
 	return (<>
 		<button
 			onClick={handleClick}
@@ -61,7 +55,6 @@ export function EmailSignInButton() {
 			<MdOutlineMailOutline className={AUTH_BUTTON_IMAGE_CLASS_NAME} />
 			<span className="ml-4">Sign in with Email</span>
 		</button>
-			<button onClick={f}>test</button>
 	</>
 	);
 }

@@ -1,5 +1,8 @@
 import Fastify from 'fastify';
 // import registerRoutes from './routes';
+import { Channel } from 'amqplib';
+import { createConnection } from './queues/connection';
+import { consumeAuthMessage } from './queues/auth.consumer';
 
 
 
@@ -15,13 +18,20 @@ fastify.post("/", async (request, reply) => {
 
 
 
-fastify.get("/healthcheck", async (request, reply) => {
+fastify.get("/health", async (request, reply) => {
   reply.send({status: 'ok'});
 });
 
 
-fastify.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address) => {
+
+const startQueues = async () => {
+  const userChannel = await createConnection() as Channel;
+  await consumeAuthMessage(userChannel);
+}
+
+fastify.listen({ port: Number(PORT) , host: String(ADDRESS)  }, async(error, address) => {
   console.log(`🚀 [User] service is running on ${address}`);
+  await startQueues();
 
   if (error) {
     fastify.log.error(error);
