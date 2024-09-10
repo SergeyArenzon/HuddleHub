@@ -20,13 +20,15 @@ fastify.register(healthRoutes, { prefix: '/health' });
 let channel: Channel; 
 
 const startQueues = async () => {
-  let connection  =   await createConnection();
+  let connection  = await createConnection();
   if (connection) channel = connection;
 };
+
 
 fastify.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address) => {
   console.log(`[Auth] service is running on ${address}`);
   startQueues();
+
 
   if (error) {
     fastify.log.error(error);

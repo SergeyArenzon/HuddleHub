@@ -19,7 +19,7 @@ const getUserPublisher = async(user: any) => {
             resolve(response);
           }
         }, { noAck: true });
-    
+
         channel.publish(exchangeName, routingKey, Buffer.from(JSON.stringify(user)), {
           replyTo: replyQueue.queue,
           correlationId,

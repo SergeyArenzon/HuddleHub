@@ -1,11 +1,11 @@
 # Fetching the minified node image on apline linux
-FROM node
+FROM node:alpine
 
 # Setting up the work directory
 WORKDIR /app
 
 # COPY package.json
-COPY package*.json /app
+COPY package*.json ./
 
 # Installing dependencies
 RUN npm install
@@ -23,3 +23,4 @@ EXPOSE 8084
 
 # Starting our application
 CMD [ "npm", "run", "dev" ]
+
