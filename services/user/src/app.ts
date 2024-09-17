@@ -4,8 +4,6 @@ import { Channel } from 'amqplib';
 import { createConnection } from './queues/connection';
 import { consumeAuthMessage } from './queues/auth.consumer';
 
-
-
 const {ADDRESS, PORT} = process.env;
 
 const fastify = Fastify({logger: true});
