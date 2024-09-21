@@ -16,7 +16,7 @@ const createConnection = async() : Promise<Channel | undefined> => {
     
 }
 
-const closeConnection = (channel: Channel, connection: Connection) : void => {
+const closeConnection = (channel: Channel, connection: Connection) : void => {    
     process.once('SIGINT', async () => {
         await channel.close();
         await connection.close();   

@@ -1,6 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
 import { loginController } from '../controllers/auth';
-
 import { loginResponseSchema } from '../schemas/auth';
 
 

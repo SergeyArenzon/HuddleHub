@@ -1,5 +1,4 @@
 import Fastify from 'fastify';
-// import registerRoutes from './routes';
 import { Channel } from 'amqplib';
 import { createConnection } from './queues/connection';
 import { consumeAuthMessage } from './queues/auth.consumer';
@@ -8,7 +7,7 @@ const {ADDRESS, PORT} = process.env;
 
 const fastify = Fastify({logger: true});
 
-// fastify.register(registerRout, { prefix: '/register'});
+
 
 fastify.post("/", async (request, reply) => {
   console.log({request});

@@ -5,17 +5,29 @@ import { loginSchema } from './schemas/auth';
 import authRoutes from './routes/auth';
 import healthRoutes from './routes/health';
 import { Channel } from 'amqplib';
-
-const {ADDRESS, PORT, JWT_SECRE } = process.env;
+import { config } from './config';
+import fastifyJwt from '@fastify/jwt';
+import auth from './plugins/auth';
 
 const fastify = Fastify({logger: true});
 
+fastify.register(fastifyJwt, {
+  secret: config.jwtSecret
+});
 fastify.register(FastifyFormbody);
+// fastify.register(auth);
 fastify.addSchema(loginSchema);
+
 
 // Routes
 fastify.register(authRoutes, { prefix: '/' });
 fastify.register(healthRoutes, { prefix: '/health' });
+
+// Register a custom method
+fastify.decorate('signJwt', (user: any) => {
+  return fastify.jwt.sign(user, { expiresIn: '1h' });
+});
+
 
 let channel: Channel; 
 
@@ -25,7 +37,7 @@ const startQueues = async () => {
 };
 
 
-fastify.listen({ port: Number(PORT) , host: String(ADDRESS)  }, (error, address) => {
+fastify.listen({ port: config.port , host: config.address  }, (error, address) => {
   console.log(`[Auth] service is running on ${address}`);
   startQueues();
 

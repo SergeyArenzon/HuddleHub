@@ -1,12 +1,11 @@
 import client, { Channel, Connection } from 'amqplib'; 
-
-const { RABBITMQ_URL } = process.env;
+import { config } from '../config';
 
 let channel: Channel | undefined;
 
 const createConnection = async() : Promise<Channel | undefined> => {
     try {
-        const connection: Connection = await client.connect(RABBITMQ_URL!);
+        const connection: Connection = await client.connect(config.rabbitmqUrl);
         channel = await connection.createChannel();
         console.log('[AMQP] Auth connected');
         closeConnection(channel, connection);

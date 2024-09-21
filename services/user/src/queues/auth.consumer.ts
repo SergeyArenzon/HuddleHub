@@ -14,23 +14,25 @@ const consumeAuthMessage = async (channel: Channel) => {
     channel.consume(queue.queue, async (message: ConsumeMessage | null) => {
       if (message) {
         const authUser: {
-          d: string
           email: string
           name: string
           given_name: string
           family_name: string
           picture: string
         } = JSON.parse(message.content.toString());
+        console.log("[user.auth.check.queue]", authUser);
+        
         const correlationId = message.properties.correlationId;
         const replyTo = message.properties.replyTo;
         const prisma = new PrismaClient();
-        let user = await prisma.user.findUnique({select: {email: true}, where: {email: authUser.email}});
+        let user = await prisma.user.findUnique({ where: {email: authUser.email}});
+        //  user is not found, create a new user
         if (!user) {
           user = await prisma.user.create({data: {
             email: authUser.email,
             first_name: authUser.given_name,
             last_name: authUser.family_name,
-            image_url: authUser.picture,
+            image_url: authUser.picture
           }});
         }
         

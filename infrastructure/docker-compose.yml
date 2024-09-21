@@ -10,7 +10,7 @@ services:
     environment:
       ADDRESS: 0.0.0.0 
       PORT: 8085
-      NODE_ENV: development
+      NODE_ENV: ${NODE_ENV}
       DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
       RABBITMQ_URL: "${RABBITMQ_URL}"
     volumes:
@@ -45,7 +45,7 @@ services:
     environment:
       ADDRESS: 0.0.0.0 
       PORT: 8084
-      NODE_ENV: development
+      NODE_ENV: ${NODE_ENV}
       JWT_SECRET: ${JWT_SECRET}
       RABBITMQ_URL: "${RABBITMQ_URL}"
       DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
@@ -67,7 +67,7 @@ services:
     environment:
       ADDRESS: 0.0.0.0 
       PORT: 8081
-      NODE_ENV: development
+      NODE_ENV: ${NODE_ENV}
       DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@event-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
       - ../services/event/src:/app/src
@@ -98,7 +98,7 @@ services:
     environment:
       ADDRESS: 0.0.0.0 
       PORT: 8082
-      NODE_ENV: development
+      NODE_ENV: ${NODE_ENV}
       DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@event-rating-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
       - ../services/event-rating/src:/app/src
@@ -129,7 +129,7 @@ services:
     environment:
       ADDRESS: 0.0.0.0 
       PORT: 8083
-      NODE_ENV: development
+      NODE_ENV: ${NODE_ENV}
       DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-favorite-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
       - ../services/user-favorite/src:/app/src

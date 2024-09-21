@@ -20,7 +20,9 @@ const getUserPublisher = async(user: any) => {
           }
         }, { noAck: true });
 
-        channel.publish(exchangeName, routingKey, Buffer.from(JSON.stringify(user)), {
+        const userPayload = JSON.stringify(user);
+        console.log(`Publishing message: ${userPayload} to exchange: ${exchangeName} with routing key: ${routingKey} and correlation ID: ${correlationId}`);
+        channel.publish(exchangeName, routingKey, Buffer.from(userPayload), {
           replyTo: replyQueue.queue,
           correlationId,
         });

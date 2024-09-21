@@ -32,6 +32,7 @@ export const authConfig: NextAuthOptions = {
 
                 let res = await axios.post('http://auth:8084', {token: account.access_token});
 
+                console.log("----------");
                 console.log({res: res.data });
                 console.log("----------");
             } catch (error) {
