@@ -6,14 +6,24 @@ import authRoutes from './routes/auth';
 import healthRoutes from './routes/health';
 import { Channel } from 'amqplib';
 import { config } from './config';
-import fastifyJwt from '@fastify/jwt';
 import auth from './plugins/auth';
+import fastifyJwt from '@fastify/jwt';
+import fastifyCookie from '@fastify/cookie';
 
 const fastify = Fastify({logger: true});
 
+console.log({config});
+
 fastify.register(fastifyJwt, {
-  secret: config.jwtSecret
+  secret: config.jwtSecret,
 });
+
+fastify.register(fastifyCookie, {
+  secret: "my-secret", // for cookies signature
+  hook: 'onRequest', // set to false to disable cookie autoparsing or set autoparsing on any of the following hooks: 'onRequest', 'preParsing', 'preHandler', 'preValidation'. default: 'onRequest'
+  parseOptions: {}  // options for parsing cookies
+});
+
 fastify.register(FastifyFormbody);
 // fastify.register(auth);
 fastify.addSchema(loginSchema);
@@ -22,11 +32,6 @@ fastify.addSchema(loginSchema);
 // Routes
 fastify.register(authRoutes, { prefix: '/' });
 fastify.register(healthRoutes, { prefix: '/health' });
-
-// Register a custom method
-fastify.decorate('signJwt', (user: any) => {
-  return fastify.jwt.sign(user, { expiresIn: '1h' });
-});
 
 
 let channel: Channel; 

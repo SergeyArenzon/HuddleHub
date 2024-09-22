@@ -25,36 +25,36 @@ export function GoogleSignInButton() {
 	);
 }
 
-export function GithubSignInButton() {
-	const handleClick = () => {
-		signIn("github");
-	};
+// export function GithubSignInButton() {
+// 	const handleClick = () => {
+// 		signIn("github");
+// 	};
 
-	return (
-		<button
-			onClick={handleClick}
-			className={AUTH_BUTTON_CLASS_NAME}
-		>
-			<span className="ml-4">Sign in with Github</span>
-		</button>
-	);
-}
+// 	return (
+// 		<button
+// 			onClick={handleClick}
+// 			className={AUTH_BUTTON_CLASS_NAME}
+// 		>
+// 			<span className="ml-4">Sign in with Github</span>
+// 		</button>
+// 	);
+// }
 
-export function EmailSignInButton() {
-	const router = useRouter()
+// export function EmailSignInButton() {
+// 	const router = useRouter()
 
-	const handleClick = () => {
-		router.push('/login')
-	}
+// 	const handleClick = () => {
+// 		router.push('/login')
+// 	}
 	
-	return (<>
-		<button
-			onClick={handleClick}
-			className={AUTH_BUTTON_CLASS_NAME}
-		>
-			<MdOutlineMailOutline className={AUTH_BUTTON_IMAGE_CLASS_NAME} />
-			<span className="ml-4">Sign in with Email</span>
-		</button>
-	</>
-	);
-}
+// 	return (<>
+// 		<button
+// 			onClick={handleClick}
+// 			className={AUTH_BUTTON_CLASS_NAME}
+// 		>
+// 			<MdOutlineMailOutline className={AUTH_BUTTON_IMAGE_CLASS_NAME} />
+// 			<span className="ml-4">Sign in with Email</span>
+// 		</button>
+// 	</>
+// 	);
+// }

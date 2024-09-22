@@ -15,8 +15,9 @@ const getUserPublisher = async(user: any) => {
     return new Promise<string>((resolve, reject) => {
         channel.consume(replyQueue.queue, (message) => {
           if (message && message.properties.correlationId === correlationId) {
-            const response = message.content.toString();
-            resolve(response);
+            const response = message.content;
+            const user = JSON.parse(response.toString());
+            resolve(user);
           }
         }, { noAck: true });
 
