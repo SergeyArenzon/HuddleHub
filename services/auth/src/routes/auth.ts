@@ -13,9 +13,9 @@ const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
         const googleUser = await res.json();
         try {
           const user = await getUserPublisher(googleUser);
+          const token = fastify.jwt.sign(user);
           if (user) {
-            const token = fastify.jwt.sign(user);
-            return reply.code(200).send(token);
+            return reply.code(200).send({user, token});
           } 
           throw new Error('User not found');
         } catch (error) {

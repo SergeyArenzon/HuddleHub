@@ -6,6 +6,9 @@ export const authConfig: NextAuthOptions = {
     session: {
         strategy: "jwt",
     },
+	jwt: {
+		secret: process.env.JWT_SECRET, // Use the same secret for JWT
+	},
     providers: [
 			GoogleProvider({
 				clientId: process.env.GOOGLE_ID as string,
@@ -17,34 +20,60 @@ export const authConfig: NextAuthOptions = {
 			signOut: '/',
 			error: '/',
     },
+	cookies: {
+        sessionToken: {
+            name: `__Secure-next-auth.access-sergey`, // Use a secure cookie name
+            options: {
+                httpOnly: true, // Prevent JavaScript access
+                secure: true, // Use secure cookies in production
+                sameSite: "lax", // Adjust this based on your needs
+                path: '/', // Specify the path for the cookie
+            },
+        },
+    },
     callbacks: {
-			async signIn({ user, account}: any) {
-				if (!account || !account.access_token) return false;
-				try {
-					let res = await axios.post('http://auth:8084', {token: account.access_token});
-					console.log("[User token]:", res.data );
-					const token = res.data;
+			async signIn({ user, account }) {
+				const {JWT_SECRET} = process.env
+				console.log({JWT_SECRET});
+				
+				// Persist the access token to the token object on sign in
+				if (account) {
+					account.accessToken = account.access_token;
+		  
+				  // Send the access token to the Fastify backend to check/create the user
+				  try {
+					const userInfoResponse = await axios.post('http://auth:8084', {
+					  token: account.access_token,
+					});
+					if (!userInfoResponse?.data?.user) return false;
+					// Store user information in the token
+					user.user = userInfoResponse.data.user;
+					user.accessToken = userInfoResponse.data.token;
 					return true
-				
-				} catch (error) {
-					console.error({error});
-					return false;
+
+				  } catch (error) {
+					console.error("Error checking/creating user:", error);
+				  }
 				}
-			},
-			async jwt({ token, user, account }) {
-				console.log({token, user, account});
+				return true;
+			  },
+			  async jwt({ token, user }) {
+				// Add user and access token to the token
+				console.log({user});
 				
-				// If user just signed in, add their custom token to the JWT
-				if (account && user) token.customToken = account.access_token; // Or your custom token from the response
-				
+				if (user) {
+					token.user = user.user // Store user information
+					token.accessToken = user.accessToken; // Store access token if available
+				}
 				return token;
-		},
-		async session({ session, token }) {
-				// Add custom token to the session
-				session.token = token.customToken;
+			},
+			async session({ session, token }) {
+				// Add user data and access token to the session
+				// console.log({token});
+				session.user = token.user; // User information
+				session.accessToken = token.accessToken; // Include access token
 				return session;
-		},
-		
+			},
 		},
 
 }

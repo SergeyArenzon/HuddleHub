@@ -1,4 +1,4 @@
-import Fastify from 'fastify';
+import Fastify, { FastifyReply, FastifyRequest, FastifyInstance } from 'fastify';
 import FastifyFormbody from '@fastify/formbody';
 import { createConnection } from './queues/connection';
 import { loginSchema } from './schemas/auth';
@@ -6,13 +6,11 @@ import authRoutes from './routes/auth';
 import healthRoutes from './routes/health';
 import { Channel } from 'amqplib';
 import { config } from './config';
-import auth from './plugins/auth';
 import fastifyJwt from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
 
-const fastify = Fastify({logger: true});
+const fastify: FastifyInstance = Fastify({logger: true});
 
-console.log({config});
 
 fastify.register(fastifyJwt, {
   secret: config.jwtSecret,
@@ -24,8 +22,8 @@ fastify.register(fastifyCookie, {
   parseOptions: {}  // options for parsing cookies
 });
 
+
 fastify.register(FastifyFormbody);
-// fastify.register(auth);
 fastify.addSchema(loginSchema);
 
 
@@ -33,6 +31,19 @@ fastify.addSchema(loginSchema);
 fastify.register(authRoutes, { prefix: '/' });
 fastify.register(healthRoutes, { prefix: '/health' });
 
+// Middleware to verify token
+fastify.decorate('verifyToken', async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+      await request.jwtVerify();
+  } catch (err) {
+      return reply.send(err);
+  }
+});
+
+fastify.get('/protected',{ preHandler: [fastify.verifyToken] }, async (req: FastifyRequest, reply: FastifyReply) => {
+  // If token is verified, you can access req.user
+  return { message: 'This is a protected route', user: req.user };
+});
 
 let channel: Channel; 
 
@@ -45,8 +56,7 @@ const startQueues = async () => {
 fastify.listen({ port: config.port , host: config.address  }, (error, address) => {
   console.log(`[Auth] service is running on ${address}`);
   startQueues();
-
-
+  
   if (error) {
     fastify.log.error(error);
     process.exit(1);

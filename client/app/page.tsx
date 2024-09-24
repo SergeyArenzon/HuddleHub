@@ -5,29 +5,31 @@ import { GoogleSignInButton } from "./components/authButtons";
 import Card from "./components/Card";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import axios from "axios";
+
 
 export default function Home() {
-	const { data: session } = useSession()
+	const { data: session,status } = useSession()
 	const router = useRouter()
-	console.log({session});
 	
-	if (session && session.user) {
-		console.log(session)
-		// router.push('/home')
-	}	
+	
 
 
 	useEffect(() => {
 		const fetchz = async () => {
-		  const res = await fetch('http://localhost:8080/api/auth/health', {
+		if (status !== "authenticated") return
+		console.log({session});
+		
+		  const res = await axios.get(`http://localhost:8080/api/auth/protected`, {
 			headers: {
-				credentials: 'include'
-			}
+				Authorization: `Bearer ${session.accessToken}`, // Include the access token
+			  },
+			  withCredentials: true
 		  })
 		}
 
 		fetchz()
-	  }, [])
+	  }, [status])
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24 bg-blue-300">
 			<Card>
