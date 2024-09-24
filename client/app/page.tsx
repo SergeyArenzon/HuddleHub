@@ -4,8 +4,9 @@ import { signOut, useSession } from "next-auth/react";
 import { GoogleSignInButton } from "./components/authButtons";
 import Card from "./components/Card";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import axios from "axios";
+import { Button , buttonVariants} from "@/components/ui/button";
+import { MdOutline10K } from "react-icons/md";
 
 
 export default function Home() {
@@ -35,9 +36,9 @@ export default function Home() {
 						<div className="flex flex-col gap-4">
 							<GoogleSignInButton />
 						</div>
+						<Button >click</Button>
 						{(session && session.user) && <div onClick={() => signOut()} className="text-[20px] text-center font-semibold cursor-pointer">Sign Out</div>}
 					</div>
-
 					<div className="text-[12px] text-center">Powered by HuddleHub</div>
 				</div>
 			</Card>
