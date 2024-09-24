@@ -1,22 +1,42 @@
-version: 2.27.1
+version: '2.27.1'
 
-services: 
-  server:
+services:
+  # User Service
+  user:
     build:
-      context: ../services/server
+      context: ../services/user
       dockerfile: Dockerfile
     command: npm run dev
     environment:
       ADDRESS: 0.0.0.0 
-      PORT: 8080
-      NODE_ENV: development
-      DATABASE_URL: "postgresql://${PG_DATABASE_USER}:${PG_DATABASE_PASSWORD}@pg-db:${PG_DATABASE_PORT}/${PG_DATABASE_DB}?schema=public"
+      PORT: 8085
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
+      RABBITMQ_URL: "${RABBITMQ_URL}"
     volumes:
-      - ../services/server/src:/app/src
-      - ../services/server/prisma:/app/prisma
+      - ../services/user/src:/app/src
+      - ../services/user/prisma:/app/prisma
       - /code/node_modules
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
     networks:
       - huddlehub-network
+
+  user-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${PG_DEFAULT_DATABASE_USER}
+      POSTGRES_PASSWORD: ${PG_DEFAULT_DATABASE_PASSWORD}
+      POSTGRES_DB: ${PG_DEFAULT_DATABASE_DB}
+    ports:
+      - ${PG_USER_DATABASE_PORT}:5432
+    volumes:
+      - ../data/user:/var/lib/postgresql/data
+    networks:
+      - huddlehub-network
+
+    # User Service
   auth:
     build:
       context: ../services/auth
@@ -24,40 +44,114 @@ services:
     command: npm run dev
     environment:
       ADDRESS: 0.0.0.0 
-      PORT: 8081
-      NODE_ENV: development
-      DATABASE_URL: "postgresql://${PG_DATABASE_USER}:${PG_DATABASE_PASSWORD}@pg-db:${PG_DATABASE_PORT}/${PG_DATABASE_DB}?schema=public"
+      PORT: 8084
+      NODE_ENV: ${NODE_ENV}
+      JWT_SECRET: ${JWT_SECRET}
+      RABBITMQ_URL: "${RABBITMQ_URL}"
+      DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
     volumes:
       - ../services/auth/src:/app/src
       - ../services/auth/prisma:/app/prisma
-      - /code/node_modules
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
     networks:
       - huddlehub-network
-    
-  pg-db:
-    image: postgres
-    environment:
-      POSTGRES_USER: ${PG_DATABASE_USER}
-      POSTGRES_PASSWORD: ${PG_DATABASE_PASSWORD}
-      POSTGRES_DB: ${PG_DATABASE_DB}
-    ports:
-      - ${PG_DATABASE_PORT}:5432
-    volumes:
-      - ../data/server:/var/lib/postgresql/data
-    networks:
-      - huddlehub-network
-    
-  # pgadmin:
-  #   image: dpage/pgadmin4
+
+  # # Event Service
+  # event:
+  #   build:
+  #     context: ../services/event
+  #     dockerfile: Dockerfile
+  #   command: npm run dev
   #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
-  #     PGADMIN_DEFAULT_PASSWORD: root
-  #   ports:
-  #     - "5050:80"
+  #     ADDRESS: 0.0.0.0 
+  #     PORT: 8081
+  #     NODE_ENV: ${NODE_ENV}
+  #     DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@event-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
+  #   volumes:
+  #     - ../services/event/src:/app/src
+  #     - ../services/event/prisma:/app/prisma
+  #     - /app/node_modules
   #   networks:
   #     - huddlehub-network
 
+  # event-db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: ${PG_DEFAULT_DATABASE_USER}
+  #     POSTGRES_PASSWORD: ${PG_DEFAULT_DATABASE_PASSWORD}
+  #     POSTGRES_DB: ${PG_DEFAULT_DATABASE_DB}
+  #   ports:
+  #     - ${PG_EVENT_DATABASE_PORT}:5432
+  #   volumes:
+  #     - ../data/event:/var/lib/postgresql/data
+  #   networks:
+  #     - huddlehub-network
 
+  # # Event Rating Service
+  # event-rating:
+  #   build:
+  #     context: ../services/event-rating
+  #     dockerfile: Dockerfile
+  #   command: npm run dev
+  #   environment:
+  #     ADDRESS: 0.0.0.0 
+  #     PORT: 8082
+  #     NODE_ENV: ${NODE_ENV}
+  #     DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@event-rating-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
+  #   volumes:
+  #     - ../services/event-rating/src:/app/src
+  #     - ../services/event-rating/prisma:/app/prisma
+  #     - /code/node_modules
+  #   networks:
+  #     - huddlehub-network
+
+  # event-rating-db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: ${PG_DEFAULT_DATABASE_USER}
+  #     POSTGRES_PASSWORD: ${PG_DEFAULT_DATABASE_PASSWORD}
+  #     POSTGRES_DB: ${PG_DEFAULT_DATABASE_DB}
+  #   ports:
+  #     - ${PG_EVENT_RATING_DATABASE_PORT}:5432
+  #   volumes:
+  #     - ../data/event-rating:/var/lib/postgresql/data
+  #   networks:
+  #     - huddlehub-network
+
+  # # User Favorite Service
+  # user-favorite:
+  #   build:
+  #     context: ../services/user-favorite
+  #     dockerfile: Dockerfile
+  #   command: npm run dev
+  #   environment:
+  #     ADDRESS: 0.0.0.0 
+  #     PORT: 8083
+  #     NODE_ENV: ${NODE_ENV}
+  #     DATABASE_URL: "postgresql://${PG_DEFAULT_DATABASE_USER}:${PG_DEFAULT_DATABASE_PASSWORD}@user-favorite-db:${PG_DEFAULT_DATABASE_PORT}/${PG_DEFAULT_DATABASE_DB}?schema=public"
+  #   volumes:
+  #     - ../services/user-favorite/src:/app/src
+  #     - ../services/user-favorite/prisma:/app/prisma
+  #     - /code/node_modules
+  #   networks:
+  #     - huddlehub-network
+
+  # user-favorite-db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: ${PG_DEFAULT_DATABASE_USER}
+  #     POSTGRES_PASSWORD: ${PG_DEFAULT_DATABASE_PASSWORD}
+  #     POSTGRES_DB: ${PG_DEFAULT_DATABASE_DB}
+  #   ports:
+  #     - ${PG_USER_FAVORITE_DATABASE_PORT}:5432
+  #   volumes:
+  #     - ../data/user-favorite:/var/lib/postgresql/data
+  #   networks:
+  #     - huddlehub-network
+
+  # Client Service
   client:
     build:
       context: ../client
@@ -65,6 +159,7 @@ services:
     ports:
       - 3000:3000
     environment:
+      JWT_SECRET: ${JWT_SECRET}
       API_URL: "http://localhost:8080"
       PORT: 3000
     command: npm run dev
@@ -73,21 +168,11 @@ services:
       - /app/node_modules
       - /app/.next
     depends_on:
-      - server
+      - user
     networks:
       - huddlehub-network
 
-  # nginx:
-  #   build:
-  #     context: ../services/nginx
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8080:80"
-  #   networks:
-  #     - huddlehub-network
-  #   depends_on:
-  #     - auth-api
-
+  # Nginx
   nginx:
     image: nginx:latest
     ports:
@@ -97,13 +182,29 @@ services:
     networks:
       - huddlehub-network
     depends_on:
-      - server
-      - client
+      - user
+      - auth    
+  
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - huddlehub-network
 
 networks:
   huddlehub-network:
     driver: bridge
-
 
 volumes:
   user-data: {}

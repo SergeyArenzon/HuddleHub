@@ -1,54 +1,60 @@
 "use client";
 
-import Image from "next/image";
-// import googleLogo from "@/public/google.png";
-// import githubLogo from "@/public/github.png";
+import axios from "axios";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
+import { MdOutlineMailOutline } from "react-icons/md";
+
+const AUTH_BUTTON_CLASS_NAME = "relative w-[80%] m-auto flex items-center font-semibold justify-center h-14 px-6 text-xl  transition-colors duration-300 bg-white border-2 border-black text-black rounded-lg focus:shadow-outline hover:bg-slate-200"
+const AUTH_BUTTON_IMAGE_CLASS_NAME = "w-5 h-5 absolute left-[20px] top-0 bottom-0 my-auto"
 
 export function GoogleSignInButton() {
-  const handleClick = () => {
-    signIn("google");
-  };
+	const handleClick = () => {
+		signIn("google");
+	};
 
-  return (
-    <button
-      onClick={handleClick}
-      className="w-full flex items-center font-semibold justify-center h-14 px-6 mt-4 text-xl  transition-colors duration-300 bg-white border-2 border-black text-black rounded-lg focus:shadow-outline hover:bg-slate-200"
-    >
-      {/* <Image src={googleLogo} alt="Google Logo" width={20} height={20} /> */}
-      <span className="ml-4">Continue with Google</span>
-    </button>
-  );
+	return (
+		<button
+			onClick={handleClick}
+			className={AUTH_BUTTON_CLASS_NAME}
+		>
+			<FcGoogle className={AUTH_BUTTON_IMAGE_CLASS_NAME} />
+			<span className="ml-4">Sign in with Google</span>
+		</button>
+	);
 }
 
-export function GithubSignInButton() {
-  const handleClick = () => {
-    signIn("github");
-  };
+// export function GithubSignInButton() {
+// 	const handleClick = () => {
+// 		signIn("github");
+// 	};
 
-  return (
-    <button
-      onClick={handleClick}
-      className="w-full flex items-center font-semibold justify-center h-14 px-6 mt-4 text-xl transition-colors duration-300 bg-white border-2 border-black text-black rounded-lg focus:shadow-outline hover:bg-slate-200"
-    >
-      {/* <Image src={githubLogo} alt="Github Logo" width={20} height={20} /> */}
-      <span className="ml-4">Continue with Github</span>
-    </button>
-  );
-}
+// 	return (
+// 		<button
+// 			onClick={handleClick}
+// 			className={AUTH_BUTTON_CLASS_NAME}
+// 		>
+// 			<span className="ml-4">Sign in with Github</span>
+// 		</button>
+// 	);
+// }
 
-export function CredentialsSignInButton() {
-  const handleClick = () => {
-    signIn();
-  };
+// export function EmailSignInButton() {
+// 	const router = useRouter()
 
-  return (
-    <button
-      onClick={handleClick}
-      className="w-full flex items-center font-semibold justify-center h-14 px-6 mt-4 text-xl transition-colors duration-300 bg-white border-2 border-black text-black rounded-lg focus:shadow-outline hover:bg-slate-200"
-    >
-      {/* <Image src={githubLogo} alt="Github Logo" width={20} height={20} /> */}
-      <span className="ml-4">Continue with Email</span>
-    </button>
-  );
-}
+// 	const handleClick = () => {
+// 		router.push('/login')
+// 	}
+	
+// 	return (<>
+// 		<button
+// 			onClick={handleClick}
+// 			className={AUTH_BUTTON_CLASS_NAME}
+// 		>
+// 			<MdOutlineMailOutline className={AUTH_BUTTON_IMAGE_CLASS_NAME} />
+// 			<span className="ml-4">Sign in with Email</span>
+// 		</button>
+// 	</>
+// 	);
+// }
