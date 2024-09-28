@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { GoogleSignInButton } from '../components/authButtons';
 
-const Signup = () => {
+function Signup() {
   return (
     <div>
-        <GoogleSignInButton/>
+      <GoogleSignInButton />
     </div>
-  )
+  );
 }
 
 export default Signup;

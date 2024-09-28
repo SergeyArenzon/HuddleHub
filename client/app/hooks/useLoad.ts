@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const useLoad = () => {
-    
-}
 
-export default useLoad
+};
+
+export default useLoad;
