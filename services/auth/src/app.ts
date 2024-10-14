@@ -10,11 +10,9 @@ import fastifyJwt from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
 import fastifyCors from '@fastify/cors';
 
-const fastify: FastifyInstance = Fastify({logger: true});
-
-
-fastify.register(fastifyJwt, {
-  secret: config.jwtSecret,
+// Initialize Fastify with custom logger
+const fastify: FastifyInstance = Fastify({
+  logger: true
 });
 
 fastify.register(fastifyCookie, {
@@ -61,6 +59,7 @@ const startQueues = async () => {
 
 fastify.listen({ port: config.port , host: config.address  }, (error, address) => {
   console.log(`[Auth] service is running on ${address}`);
+  fastify.log.info(`[Auth] service is running on ${address}`);
   startQueues();
 
   if (error) {
@@ -70,6 +69,3 @@ fastify.listen({ port: config.port , host: config.address  }, (error, address) =
 })
 
 export { channel };
-
-
-
