@@ -19,15 +19,13 @@ fastify.get("/health", async (request, reply) => {
   reply.send({status: 'ok'});
 });
 
-
-
 const startQueues = async () => {
   const userChannel = await createConnection() as Channel;
   await consumeAuthMessage(userChannel);
 }
 
 fastify.listen({ port: Number(PORT) , host: String(ADDRESS)  }, async(error, address) => {
-  console.log(`🚀 [User] service is running on ${address}`);
+
   await startQueues();
 
   if (error) {

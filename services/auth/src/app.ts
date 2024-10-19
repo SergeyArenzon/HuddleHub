@@ -11,9 +11,24 @@ import fastifyCookie from '@fastify/cookie';
 import fastifyCors from '@fastify/cors';
 
 // Initialize Fastify with custom logger
+// @ts-ignore
 const fastify: FastifyInstance = Fastify({
-  logger: true
+  // @ts-ignore
+  logger: {
+    level: 'debug',
+    transport: {
+      target: 'pino-socket',
+      options: {
+        host: 'logstash',  // Replace with your log server
+        port: 5044,                 // Port on the remote server (e.g., Logstash)
+        type: 'tcp',                // Use TCP connection
+        sync: false                 // Asynchronous logging
+      }
+
+    }
+  }
 });
+
 
 fastify.register(fastifyCookie, {
   secret: "my-secret", // for cookies signature
@@ -56,10 +71,10 @@ const startQueues = async () => {
   if (connection) channel = connection;
 };
 
+fastify.log.debug( "[Auth] Server started");
 
 fastify.listen({ port: config.port , host: config.address  }, (error, address) => {
-  console.log(`[Auth] service is running on ${address}`);
-  fastify.log.info(`[Auth] service is running on ${address}`);
+  fastify.log.debug({message: "[Auth] Server started", address});
   startQueues();
 
   if (error) {
@@ -67,5 +82,5 @@ fastify.listen({ port: config.port , host: config.address  }, (error, address) =
     process.exit(1);
   }
 })
+export { channel, fastify };
 
-export { channel };
