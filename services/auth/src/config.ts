@@ -7,6 +7,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(1),
   ADDRESS: z.string().min(1),
   RABBITMQ_URL: z.string().min(1),
+  NAME: z.string().min(1),
 
 });
 
@@ -25,4 +26,5 @@ export const config = {
   jwtSecret: parsedEnv.data.JWT_SECRET,
   address: parsedEnv.data.ADDRESS,
   rabbitmqUrl: parsedEnv.data.RABBITMQ_URL,
+  name: parsedEnv.data.NAME,
 };

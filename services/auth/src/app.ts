@@ -6,25 +6,25 @@ import authRoutes from './routes/auth';
 import healthRoutes from './routes/health';
 import { Channel } from 'amqplib';
 import { config } from './config';
-import fastifyJwt from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
 import fastifyCors from '@fastify/cors';
 
 // Initialize Fastify with custom logger
-// @ts-ignore
 const fastify: FastifyInstance = Fastify({
-  // @ts-ignore
   logger: {
     level: 'debug',
+    formatters: {
+      bindings: (bindings) => {
+        return { pid: bindings.pid, hostname: bindings.hostname, service: config.name };
+      },
+    },
     transport: {
       target: 'pino-socket',
       options: {
-        host: 'logstash',  // Replace with your log server
-        port: 5044,                 // Port on the remote server (e.g., Logstash)
-        type: 'tcp',                // Use TCP connection
-        sync: false                 // Asynchronous logging
+        mode: "tcp",
+        port: 5044,
+        address: "logstash"
       }
-
     }
   }
 });
@@ -71,10 +71,8 @@ const startQueues = async () => {
   if (connection) channel = connection;
 };
 
-fastify.log.debug( "[Auth] Server started");
-
 fastify.listen({ port: config.port , host: config.address  }, (error, address) => {
-  fastify.log.debug({message: "[Auth] Server started", address});
+  fastify.log.debug({message: "[Auth] Server started"});
   startQueues();
 
   if (error) {
@@ -83,4 +81,5 @@ fastify.listen({ port: config.port , host: config.address  }, (error, address) =
   }
 })
 export { channel, fastify };
+
 
