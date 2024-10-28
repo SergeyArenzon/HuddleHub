@@ -74,7 +74,6 @@ const startQueues = async () => {
 fastify.listen({ port: config.port , host: config.address  }, (error, address) => {
   fastify.log.debug({message: "[Auth] Server started"});
   startQueues();
-
   if (error) {
     fastify.log.error(error);
     process.exit(1);
