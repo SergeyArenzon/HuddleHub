@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: production
+spec:
+  serviceName: redis
+  # the simple reason why I am not using 2 or 3 replicas (so that 1 is the master and the others followers)
+  # is because I don't have a lot of space on my machine and minikube is just one single node. We have
+  # other objects that will be created and I don't want minikube to run out of memory
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      initContainers:
+      - name: config
+        image: redis:alpine
+        command: [ "sh", "-c" ]
+        volumeMounts:
+        - name: redis-config-map
+          mountPath: /etc/redis/
+        - name: config
+          mountPath: /tmp/redis/
+      containers:
+      - name: redis
+        image: redis:alpine
+        command: ["redis-server"]
+        args: ["/etc/redis/redis.conf"]
+        ports:
+        - containerPort: 6379
+          name: redis
+        readinessProbe:
+          periodSeconds: 10
+          tcpSocket:
+            port: redis
+        livenessProbe:
+          periodSeconds: 10
+          tcpSocket:
+            port: redis
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: redis-config-map
+          mountPath: /etc/redis/
+      volumes:
+      - name: redis-config-map
+        emptyDir: {}
+      - name: config
+        configMap:
+          name: redis-config-map
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "redis-persistent-volume"
+      resources:
+        requests:
+          storage: 500Mi
