@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis
-  namespace: production
+  namespace: development
 spec:
   serviceName: redis
   # the simple reason why I am not using 2 or 3 replicas (so that 1 is the master and the others followers)
@@ -21,8 +21,29 @@ spec:
       - name: config
         image: redis:alpine
         command: [ "sh", "-c" ]
+        args:
+          - |
+            cp /tmp/redis/redis.conf /etc/redis/redis.conf
+            
+            echo "finding master..."
+            MASTER_FQDN=`hostname  -f | sed -e 's/redis-[0-9]\./redis-0./'`
+            if [ "$(redis-cli -h sentinel -p 5000 ping)" != "PONG" ]; then
+              echo "master not found, defaulting to redis-0"
+
+              if [ "$(hostname)" == "redis-0" ]; then
+                echo "this is redis-0, not updating config..."
+              else
+                echo "updating redis.conf..."
+                echo "slaveof $MASTER_FQDN 6379" >> /etc/redis/redis.conf
+              fi
+            else
+              echo "sentinel found, finding master"
+              MASTER="$(redis-cli -h sentinel -p 5000 sentinel get-master-addr-by-name mymaster | grep -E '(^redis-\d{1,})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})')"
+              echo "master found : $MASTER, updating redis.conf"
+              echo "slaveof $MASTER 6379" >> /etc/redis/redis.conf
+            fi
         volumeMounts:
-        - name: redis-config-map
+        - name: redis-config
           mountPath: /etc/redis/
         - name: config
           mountPath: /tmp/redis/
@@ -45,20 +66,20 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
-        - name: redis-config-map
+        - name: redis-config
           mountPath: /etc/redis/
       volumes:
-      - name: redis-config-map
+      - name: redis-config
         emptyDir: {}
       - name: config
         configMap:
-          name: redis-config-map
+          name: redis-config
   volumeClaimTemplates:
   - metadata:
       name: data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "redis-persistent-volume"
+      storageClassName: redis-storage-class
       resources:
         requests:
           storage: 500Mi

@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: redis-config-map
-  namespace: production
+  name: redis-config
+  namespace: development
 data:
   redis.conf: |
     # Redis configuration file example.

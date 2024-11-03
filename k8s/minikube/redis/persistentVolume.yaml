@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: redis-persistent-volume
-  namespace: production
+  name: redis-pv
+  namespace: development
 spec:
   storageClassName: redis-storage-class
   capacity:
