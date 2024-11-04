@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: queue
+  name: rabbitmq
   namespace: development
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: queue
+      app: rabbitmq
   template:
     metadata:
       labels:
-        app: queue
+        app: rabbitmq
     spec:
       containers:
-        - name: queue
+        - name: rabbitmq
           image: rabbitmq:management-alpine
           env: 
           - name: RABBITMQ_DEFAULT_USER
@@ -23,16 +23,22 @@ spec:
             value: guest
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "1Gi"
+              cpu: "0.5"
             requests: 
-              memory: "128Mi"
+              memory: "150Mi"
               cpu: "100m"
           ports:
-          - name: queue
+          - name: rabbitmq
             containerPort: 5672
             protocol: TCP
           - name: mgmt
             containerPort: 15672
             protocol: TCP
-          
+          volumeMounts:
+          - name: rabbitmq-storage-class
+            mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: rabbitmq-storage-class
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc  

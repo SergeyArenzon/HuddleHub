@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: queue
+  name: rabbitmq
   namespace: development
 spec:
   type: ClusterIP
   selector:
-    app: queue
+    app: rabbitmq
   ports:
-  - name: queue
+  - name: rabbitmq
     port: 5672
-    targetPort: queue
+    targetPort: rabbitmq
     protocol: TCP
   - name: mgmt
     port: 15672
