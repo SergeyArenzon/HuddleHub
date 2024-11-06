@@ -24,6 +24,8 @@ spec:
           value: postgres
         - name: POSTGRES_DB
           value: user
+        - name: PGDATA
+          value: /var/lib/postgresql/data/user
         resources:
           limits:
             memory: "1Gi"
