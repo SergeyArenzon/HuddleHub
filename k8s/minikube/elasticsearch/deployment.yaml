@@ -19,7 +19,8 @@ spec:
       initContainers:
       - name: busybox
         image: busybox
-        command: ['sh', '-c', 'chown -R 1000:1000 /usr/share/elasticsearch/data']
+        imagePullPolicy: Always
+        command: ['sh', '-c', "chown -R 1000:1000 /usr/share/elasticsearch/data"]
         volumeMounts:
         - name: elasticsearch-storage-class
           mountPath: /usr/share/elasticsearch/data
@@ -27,6 +28,9 @@ spec:
       - name: elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
         imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
         env:
         - name: ES_JAVA_OPTS
           value: -Xmx1g -Xms1g
