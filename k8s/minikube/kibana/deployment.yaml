@@ -4,7 +4,7 @@ metadata:
   name: kibana
   namespace: development
 spec:
-  reolicas: 1
+  replicas: 1
   selector:
     matchLabels:
       app: kibana
@@ -20,9 +20,9 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "1500m"
-          memory:
-            memory: "1Gi"
-            cpu: "250m"
+          requests:
+            memory: 1Gi
+            cpu: 250m
         env:
           - name: ELASTICSEARCH_HOSTS
             value: "http://elasticsearch:9200"
@@ -33,8 +33,17 @@ spec:
           - name: ELASTICSEARCH_SERVICEACCOUNT_TOKEN
             value: AAEAAWVsYXN0aWMva2liYW5hL2pvYmJlci1raWJhbmE6N3BWZ0ItZWxSY21wMEJ0Y3ZKNTlHZw
           - name: XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS
-            value: http://elasticsearch:9200
+            value: '["http://elasticsearch:9200"]'
         ports:
         - name: kibana
           containerPort: 5601
           protocol: TCP
+        volumeMounts:
+        - name: kibana-config
+          mountPath: /usr/share/kibana/config/kibana.yml
+          subPath: kibana.yml
+          readOnly: true
+      volumes:
+        - name: kibana-config
+          configMap:
+            name: kibana-config
