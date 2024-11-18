@@ -19,13 +19,25 @@ spec:
         image: postgres
         env:
         - name: POSTGRES_USER
-          value: postgres
+          valueFrom: 
+            secretKeyRef:
+              key: pg-user-user
+              name: user-pg-secrets
         - name: POSTGRES_PASSWORD
-          value: postgres
+          valueFrom: 
+            secretKeyRef:
+              key: pg-user-password
+              name: user-pg-secrets
         - name: POSTGRES_DB
-          value: user
+          valueFrom: 
+            secretKeyRef:
+              key: pg-user-db-name
+              name: user-pg-secrets
         - name: PGDATA
-          value: /var/lib/postgresql/data/user
+          valueFrom: 
+            secretKeyRef:
+              key: pg-user-data
+              name: user-pg-secrets
         resources:
           limits:
             memory: "1Gi"

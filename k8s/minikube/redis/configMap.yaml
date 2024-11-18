@@ -6,4 +6,4 @@ metadata:
   namespace: development
 data:
   redis.conf: |
-    requirepass redis
+    requirepass myredispass
