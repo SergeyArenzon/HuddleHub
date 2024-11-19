@@ -8,14 +8,16 @@ spec:
   selector:
     matchLabels:
       app: elasticsearch
+  strategy:
+    type: Recreate
   minReadySeconds: 10
+  revisionHistoryLimit: 10
   progressDeadlineSeconds: 600
   template:
     metadata:
       labels:
         app: elasticsearch
     spec:
-      terminationGracePeriodSeconds: 10
       initContainers:
       - name: busybox
         image: busybox
@@ -32,6 +34,8 @@ spec:
           runAsUser: 1000
           runAsGroup: 1000
         env:
+        - name: discovery.type
+          value: single-node
         - name: ES_JAVA_OPTS
           value: -Xmx1g -Xms1g
         - name: bootstrap.memory_lock
@@ -52,11 +56,11 @@ spec:
           value: admin1234
         resources:
           limits:
-            memory: 4Gi
             cpu: 1500m
+            memory: 5Gi
           requests:
             cpu: 250m
-            memory: 4Gi
+            memory: 5Gi
         ports:
         - name: elasticsearch
           containerPort: 9200

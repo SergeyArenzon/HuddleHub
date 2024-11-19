@@ -25,7 +25,10 @@ spec:
             cpu: 250m
         env:
           - name: ELASTICSEARCH_HOSTS
-            value: "http://elasticsearch:9200"
+            valueFrom:
+              secretKeyRef:
+                key: elasticsearch-host
+                name: global-secrets
           - name: ELASTICSEARCH_USERNAME
             value: kibana_system
           - name: ELASTICSEARCH_PASSWORD
@@ -33,7 +36,10 @@ spec:
           - name: ELASTICSEARCH_SERVICEACCOUNT_TOKEN
             value: AAEAAWVsYXN0aWMva2liYW5hL2pvYmJlci1raWJhbmE6N3BWZ0ItZWxSY21wMEJ0Y3ZKNTlHZw
           - name: XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS
-            value: '["http://elasticsearch:9200"]'
+            valueFrom:
+              secretKeyRef:
+                key: elasticsearch-host
+                name: global-secrets
         ports:
         - name: kibana
           containerPort: 5601
