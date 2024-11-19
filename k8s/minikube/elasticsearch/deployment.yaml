@@ -53,7 +53,10 @@ spec:
         - name: xpack.security.authc.token.enabled  
           value: "true"
         - name: ELASTIC_PASSWORD
-          value: admin1234
+          valueFrom:
+            secretKeyRef:
+              key: elasticsearch-password
+              name: elasticsearch-secrets
         resources:
           limits:
             cpu: 1500m
