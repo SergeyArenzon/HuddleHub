@@ -5,7 +5,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 export class UserController {
   @Get()
   getUser() {
-    return {};
+    return {x: 1};
   }
 
   @Get('/:id')
@@ -17,6 +17,6 @@ export class UserController {
 
   @Post()
   createUser(@Body() body: CreateUserDto) {
-    return body;
+    console.log(body);
   }
 }
