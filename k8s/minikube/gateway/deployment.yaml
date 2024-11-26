@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: development
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25% 
+      maxSurge: 25%
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: uzochukwueddie/gateway:stable
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: '0.5'
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 150Mi
+        ports:
+        - name: gateway
+          containerPort: 4000
+       

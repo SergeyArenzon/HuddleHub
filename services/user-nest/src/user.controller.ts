@@ -5,7 +5,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 export class UserController {
   @Get()
   getUser() {
-    return {x: 1};
+    return { first_name: 'John', last_name: 'Doe' };
   }
 
   @Get('/:id')
