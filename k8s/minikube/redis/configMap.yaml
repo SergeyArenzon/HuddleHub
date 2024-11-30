@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: redis-config
-  namespace: development
+  # namespace: development
 data:
   redis.conf: |
     requirepass myredispass

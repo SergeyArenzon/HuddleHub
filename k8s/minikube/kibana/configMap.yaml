@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kibana-config
-  namespace: development
+  # namespace: development
 data:
   kibana.yml: |
     ## Default Kibana configuration from Kibana base image.

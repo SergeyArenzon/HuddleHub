@@ -1,27 +1,13 @@
-# Fetching the minified node image on apline linux
 FROM node:alpine
 
-# Setting up the work directory
 WORKDIR /app
 
-# COPY package.json
-COPY package*.json /app
+COPY package*.json ./
 
-# Installing dependencies
 RUN npm install
-
-
-# Copying all the files in our project
-COPY prisma ./prisma
-
-RUN npx prisma generate
-RUN npx prisma migrate
 
 COPY . .
 
+RUN npm run build
 
-# Exposing server port
-EXPOSE 8085
-
-# Starting our application
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "start:dev" ]

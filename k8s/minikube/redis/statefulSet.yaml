@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis
-  namespace: development
+  # namespace: development
 spec:
   serviceName: redis
   # the simple reason why I am not using 2 or 3 replicas (so that 1 is the master and the others followers)
