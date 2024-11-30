@@ -1,13 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
-  namespace: development
+  name: user
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gateway
+      app: user
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,11 +15,11 @@ spec:
   template:
     metadata:
       labels:
-        app: gateway
+        app: user
     spec:
       containers:
-      - name: gateway
-        image: uzochukwueddie/gateway:stable
+      - name: user
+        image: sergeyarenzon/huddlehub-user:latest
         imagePullPolicy: Always
         resources:
           limits:
@@ -30,6 +29,5 @@ spec:
             cpu: 100m
             memory: 150Mi
         ports:
-        - name: gateway
-          containerPort: 4000
-       
+        - name: user
+          containerPort: 4001

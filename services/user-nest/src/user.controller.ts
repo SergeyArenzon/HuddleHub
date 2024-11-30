@@ -1,10 +1,11 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 
-@Controller('user')
+@Controller()
 export class UserController {
   @Get()
   getUser() {
+    console.log("Asdasdasdasd");
     return { first_name: 'John', last_name: 'Doe' };
   }
 
