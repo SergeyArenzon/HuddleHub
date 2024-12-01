@@ -34,3 +34,8 @@ spec:
         env: 
         - name: PORT
           value: "4001"
+        - name: USER_DB_HOST
+          valueFrom:
+            secretKeyRef:
+              key: user-db-host
+              name: global-secrets
