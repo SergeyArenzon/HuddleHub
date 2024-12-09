@@ -1,8 +1,20 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  AfterCreate,
+  AfterDelete,
+  AfterUpdate,
+  Entity,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
+import { CreateUserDto } from 'src/dtos/create-user.dto';
 import { v4 as uuid } from 'uuid';
 
 @Entity()
 export class User {
+  constructor(user: CreateUserDto) {
+    Object.assign(this, user);
+  }
+
   @PrimaryKey()
   id: string = uuid();
 
@@ -23,4 +35,19 @@ export class User {
 
   @Property({ onUpdate: () => new Date() })
   updated_at: Date;
+
+  @AfterCreate()
+  logCreate() {
+    console.log('Created new user with id', this.id);
+  }
+
+  @AfterUpdate()
+  logUpdater() {
+    console.log('Update new user with id', this.id);
+  }
+
+  @AfterDelete()
+  logDelete() {
+    console.log('Deleted user with id', this.id);
+  }
 }

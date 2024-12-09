@@ -1,8 +1,20 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UsePipes,
+  ValidationPipe,
+  HttpCode,
+} from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { UserService } from './user.service';
 
 @Controller()
 export class UserController {
+  constructor(private usersService: UserService) {}
+
   @Get()
   getUser() {
     return { first_name: 'John', last_name: 'Doe' };
@@ -16,7 +28,9 @@ export class UserController {
   }
 
   @Post()
+  @UsePipes(ValidationPipe)
+  @HttpCode(201)
   createUser(@Body() body: CreateUserDto) {
-    console.log(body);
+    this.usersService.create(body);
   }
 }
