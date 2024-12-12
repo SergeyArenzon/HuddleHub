@@ -7,6 +7,9 @@ import {
   UsePipes,
   ValidationPipe,
   HttpCode,
+  NotFoundException,
+  UseInterceptors,
+  ClassSerializerInterceptor
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserService } from './user.service';
@@ -16,7 +19,7 @@ export class UserController {
   constructor(private usersService: UserService) {}
 
   @Get()
-  getUser() {
+  findUser() {
     return { first_name: 'John', last_name: 'Doe' };
   }
 
