@@ -51,6 +51,6 @@ export class User {
   created_at: Date;
 
   @Exclude()
-  @Property({ onUpdate: () => new Date() })
+  @Property({ onCreate: () => new Date(), onUpdate: () => new Date() })
   updated_at: Date;
 }

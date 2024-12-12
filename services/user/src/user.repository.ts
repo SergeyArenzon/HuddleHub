@@ -21,4 +21,3 @@ export class UserRepository {
     return users[id];
   }
 }
-

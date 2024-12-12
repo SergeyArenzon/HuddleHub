@@ -1,2 +1,10 @@
 
-GET http://huddlehub.io/api/user
+POST http://huddlehub.io/api/user
+Content-Type: application/json
+
+{
+  "first_name": "Sergey",
+  "last_name": "Arenzon",
+  "email": "asa@gmail.com",
+  "image_url": "http://www.google.com"
+}
