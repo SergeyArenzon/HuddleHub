@@ -38,7 +38,6 @@ export class UserController {
   @UsePipes(ValidationPipe)
   @HttpCode(201)
   createUser(@Body() body: CreateUserDto) {
-    console.log({body});
     this.usersService.create(body);
   }
 }
