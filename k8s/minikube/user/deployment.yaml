@@ -39,3 +39,15 @@ spec:
             secretKeyRef:
               key: user-db-host
               name: global-secrets
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4001
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4001
+          initialDelaySeconds: 15
+          periodSeconds: 20

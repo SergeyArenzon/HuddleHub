@@ -18,6 +18,10 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private usersService: UserService) {}
 
+  @HttpCode(200)
+  @Get('/health')
+  health() {}
+
   @Get()
   findUser() {
     return { first_name: 'John', last_name: 'Doe' };

@@ -4,7 +4,7 @@ import mikroOrmConfig from './mikro-orm.config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
-import { LoggerMiddleware } from './logger.middlewear';
+import { LoggerMiddleware } from './logger.middleware';
 
 @Module({
   imports: [
