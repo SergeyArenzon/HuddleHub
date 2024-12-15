@@ -1,5 +1,5 @@
 
-POST http://huddlehub.io/api/user
+GET http://huddlehub.io/api/user
 Content-Type: application/json
 
 {

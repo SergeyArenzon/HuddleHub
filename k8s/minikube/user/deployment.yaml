@@ -18,36 +18,43 @@ spec:
         app: user
     spec:
       containers:
-      - name: user
-        image: sergeyarenzon/huddlehub-user:latest
-        imagePullPolicy: IfNotPresent
-        resources:
-          limits:
-            cpu: '0.5'
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 150Mi
-        ports:
         - name: user
-          containerPort: 4001
-        env: 
-        - name: PORT
-          value: "4001"
-        - name: USER_DB_HOST
-          valueFrom:
-            secretKeyRef:
-              key: user-db-host
-              name: global-secrets
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 4001
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 4001
-          initialDelaySeconds: 15
-          periodSeconds: 20
+          image: sergeyarenzon/huddlehub-user:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: '0.5'
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 150Mi
+          ports:
+            - name: user
+              containerPort: 4001
+          env: 
+            - name: PORT
+              value: "4001"
+            - name: USER_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: user-db-host
+                  name: global-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4001
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+            - name: user-migrations-volume
+              mountPath: app/src/migrations  # Path in the container where you want to mount the migrations directory
+      volumes:
+        - name: user-migrations-volume
+          persistentVolumeClaim:
+            claimName: user-migrations-pvc  # Referencing the PVC

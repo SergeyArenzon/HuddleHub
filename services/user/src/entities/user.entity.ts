@@ -6,13 +6,13 @@ import {
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
-import { CreateUserDto } from 'src/dtos/create-user.dto';
+// import { CreateUserDto } from 'src/dtos/create-user.dto';
 import { v4 as uuid } from 'uuid';
 import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
-  constructor(user: CreateUserDto) {
+  constructor(user: Partial<User>) {
     Object.assign(this, user);
   }
 
