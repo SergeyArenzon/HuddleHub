@@ -51,10 +51,3 @@ spec:
               port: 4001
             initialDelaySeconds: 15
             periodSeconds: 20
-          volumeMounts:
-            - name: user-migrations-volume
-              mountPath: app/src/migrations  # Path in the container where you want to mount the migrations directory
-      volumes:
-        - name: user-migrations-volume
-          persistentVolumeClaim:
-            claimName: user-migrations-pvc  # Referencing the PVC
