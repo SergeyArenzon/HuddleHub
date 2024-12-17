@@ -41,7 +41,7 @@ manifests:
     - k8s/minikube/secrets/globals.yaml
     - k8s/minikube/user/deployment.yaml
     - k8s/minikube/user/service.yaml
-    - k8s/minikube/user/persistentVolume.yaml
+    # - k8s/minikube/user/persistentVolume.yaml
     - k8s/minikube/user-db/deployment.yaml
     - k8s/minikube/user-db/persistentVolume.yaml
     - k8s/minikube/user-db/secret.yaml

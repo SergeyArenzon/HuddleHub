@@ -17,6 +17,24 @@ spec:
       labels:
         app: user
     spec:
+      initContainers:
+        - name: wait-for-user-db
+          image: busybox
+          command:
+            - "/bin/sh"
+            - "-c"
+            - "until nc -z -v -w30 user-db 5432; do echo 'Waiting for PostgreSQL...'; sleep 5; done"
+        - name: migration
+          image: sergeyarenzon/huddlehub-user:latest  # Use a different image for migrations
+          command: ["npx", "mikro-orm", "migration:up"] # The migration command
+          env: 
+            - name: PORT
+              value: "4001"
+            - name: USER_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: user-db-host
+                  name: global-secrets
       containers:
         - name: user
           image: sergeyarenzon/huddlehub-user:latest
