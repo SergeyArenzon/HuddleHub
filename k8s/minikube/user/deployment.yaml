@@ -20,10 +20,16 @@ spec:
       initContainers:
         - name: wait-for-user-db
           image: busybox
+          env:
+            - name: USER_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: user-db-config
+                  key: POSTGRES_PORT
           command:
             - "/bin/sh"
             - "-c"
-            - "until nc -z -v -w30 user-db 5432; do echo 'Waiting for PostgreSQL...'; sleep 5; done"
+            - "until nc -z -v -w30 user-db $USER_DB_PORT; do echo 'Waiting for PostgreSQL...'; sleep 5; done"
         - name: migration
           image: sergeyarenzon/huddlehub-user:latest  # Use a different image for migrations
           command: ["npx", "mikro-orm", "migration:up"] # The migration command

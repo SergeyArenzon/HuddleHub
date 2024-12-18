@@ -38,13 +38,17 @@ manifests:
     # - k8s/minikube/redis/service.yaml
     # - k8s/minikube/redis/statefulSet.yaml
     # - k8s/minikube/redis/storageClass.yaml
+
+    # USER
     - k8s/minikube/secrets/globals.yaml
     - k8s/minikube/user/deployment.yaml
     - k8s/minikube/user/service.yaml
-    # - k8s/minikube/user/persistentVolume.yaml
+    
+    # USER_DB
     - k8s/minikube/user-db/deployment.yaml
     - k8s/minikube/user-db/persistentVolume.yaml
-    - k8s/minikube/user-db/secret.yaml
+    # - k8s/minikube/user-db/secret.yaml
+    - k8s/minikube/user-db/configMap.yaml
     - k8s/minikube/user-db/service.yaml
     - k8s/minikube/user-db/storageClass.yaml
 

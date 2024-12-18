@@ -17,27 +17,9 @@ spec:
       containers:
       - name: user-db
         image: postgres
-        env:
-        - name: POSTGRES_USER
-          valueFrom: 
-            secretKeyRef:
-              key: pg-user-user
-              name: user-db-secrets
-        - name: POSTGRES_PASSWORD
-          valueFrom: 
-            secretKeyRef:
-              key: pg-user-password
-              name: user-db-secrets
-        - name: POSTGRES_DB
-          valueFrom: 
-            secretKeyRef:
-              key: pg-user-db-name
-              name: user-db-secrets
-        - name: PGDATA
-          valueFrom: 
-            secretKeyRef:
-              key: pg-user-data
-              name: user-db-secrets
+        envFrom:
+        - configMapRef:
+            name: user-db-config # This references your ConfigMap
         resources:
           limits:
             memory: "1Gi"
