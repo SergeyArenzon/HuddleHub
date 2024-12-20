@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityManager, EntityRepository, wrap } from '@mikro-orm/postgresql';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class UserService {
@@ -11,11 +12,14 @@ export class UserService {
     @InjectRepository(User)
     private readonly repo: EntityRepository<User>,
     private readonly em: EntityManager,
+    @Inject('USER_SERVICE')
+    private rabbitClient: ClientProxy,
   ) {}
 
   async create(user: CreateUserDto): Promise<User> {
     const newUser = new User(user);
     await this.em.persistAndFlush(newUser);
+    this.rabbitClient.emit('user-created', newUser);
     return newUser;
   }
 

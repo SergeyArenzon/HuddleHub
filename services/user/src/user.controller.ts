@@ -7,17 +7,20 @@ import {
   UsePipes,
   ValidationPipe,
   HttpCode,
-  NotFoundException,
-  UseInterceptors,
-  ClassSerializerInterceptor
+  Inject,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserService } from './user.service';
+import { EventPattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class UserController {
-  constructor(private usersService: UserService) {}
+  constructor(
+    @Inject('USER_SERVICE') private rabbitClient,
+    private usersService: UserService,
+  ) {}
 
+  // ENDPOINTS
   @HttpCode(200)
   @Get('/health')
   health() {}
@@ -39,5 +42,11 @@ export class UserController {
   @HttpCode(201)
   createUser(@Body() body: CreateUserDto) {
     this.usersService.create(body);
+  }
+
+  // EVENTS
+  @EventPattern('user-create')
+  createUserEvent(@Payload() user: CreateUserDto) {
+    this.usersService.create(user);
   }
 }
