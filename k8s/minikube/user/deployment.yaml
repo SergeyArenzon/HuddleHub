@@ -38,9 +38,9 @@ spec:
               value: "4001"
             - name: USER_DB_HOST
               valueFrom:
-                secretKeyRef:
-                  key: user-db-host
-                  name: global-secrets
+                configMapKeyRef:
+                  name: user-db-config
+                  key: POSTGRES_HOST
       containers:
         - name: user
           image: sergeyarenzon/huddlehub-user:latest
@@ -60,9 +60,9 @@ spec:
               value: "4001"
             - name: USER_DB_HOST
               valueFrom:
-                secretKeyRef:
-                  key: user-db-host
-                  name: global-secrets
+                configMapKeyRef:
+                  name: user-db-config
+                  key: POSTGRES_HOST
           readinessProbe:
             httpGet:
               path: /health
