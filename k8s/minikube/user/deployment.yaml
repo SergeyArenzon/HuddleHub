@@ -63,6 +63,11 @@ spec:
                 configMapKeyRef:
                   name: user-db-config
                   key: POSTGRES_HOST
+            - name: RABBITMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-config
+                  key: RABBITMQ_HOST
           readinessProbe:
             httpGet:
               path: /health

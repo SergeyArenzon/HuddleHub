@@ -19,20 +19,30 @@ build:
     
 manifests:
  rawYaml:
-    # - k8s/minikube/elasticsearch/deployment.yaml
-    # - k8s/minikube/elasticsearch/persistentVolume.yaml
-    # - k8s/minikube/elasticsearch/secrets.yaml
-    # - k8s/minikube/elasticsearch/service.yaml
-    # - k8s/minikube/elasticsearch/storageClass.yaml
-    - k8s/minikube/gateway/ingress.yaml
-    - k8s/minikube/gateway/service.yaml
+    #  ELASTIC
+    - k8s/minikube/elasticsearch/deployment.yaml
+    - k8s/minikube/elasticsearch/persistentVolume.yaml
+    - k8s/minikube/elasticsearch/secrets.yaml
+    - k8s/minikube/elasticsearch/service.yaml
+    - k8s/minikube/elasticsearch/storageClass.yaml
+
+    # KIBANA
     # - k8s/minikube/kibana/configMap.yaml
     # - k8s/minikube/kibana/deployment.yaml
     # - k8s/minikube/kibana/service.yaml
-    # - k8s/minikube/rabbitmq/deployment.yaml
-    # - k8s/minikube/rabbitmq/persistentVolume.yaml
-    # - k8s/minikube/rabbitmq/service.yaml
-    # - k8s/minikube/rabbitmq/storageClass.yaml
+        
+    # GATEWAY
+    - k8s/minikube/gateway/ingress.yaml
+    - k8s/minikube/gateway/service.yaml
+
+    # RABBITMQ
+    - k8s/minikube/rabbitmq/deployment.yaml
+    - k8s/minikube/rabbitmq/persistentVolume.yaml
+    - k8s/minikube/rabbitmq/service.yaml
+    - k8s/minikube/rabbitmq/storageClass.yaml
+    - k8s/minikube/rabbitmq/configMap.yaml
+
+    # REDIS
     # - k8s/minikube/redis/configMap.yaml
     # - k8s/minikube/redis/persistentVolume.yaml
     # - k8s/minikube/redis/service.yaml
@@ -47,37 +57,6 @@ manifests:
     # USER_DB
     - k8s/minikube/user-db/deployment.yaml
     - k8s/minikube/user-db/persistentVolume.yaml
-    # - k8s/minikube/user-db/secret.yaml
     - k8s/minikube/user-db/configMap.yaml
     - k8s/minikube/user-db/service.yaml
     - k8s/minikube/user-db/storageClass.yaml
-
-# manifests:
-#   rawYaml:
-#     - k8s/minikube/elasticsearch/deployment.yaml
-#     - k8s/minikube/elasticsearch/persistentVolume.yaml
-#     - k8s/minikube/elasticsearch/secrets.yaml
-#     - k8s/minikube/elasticsearch/service.yaml
-#     - k8s/minikube/elasticsearch/storageClass.yaml
-#     - k8s/minikube/gateway/ingress.yaml
-#     - k8s/minikube/gateway/service.yaml
-#     - k8s/minikube/kibana/configMap.yaml
-#     - k8s/minikube/kibana/deployment.yaml
-#     - k8s/minikube/kibana/service.yaml
-#     - k8s/minikube/rabbitmq/deployment.yaml
-#     - k8s/minikube/rabbitmq/persistentVolume.yaml
-#     - k8s/minikube/rabbitmq/service.yaml
-#     - k8s/minikube/rabbitmq/storageClass.yaml
-#     - k8s/minikube/redis/configMap.yaml
-#     - k8s/minikube/redis/persistentVolume.yaml
-#     - k8s/minikube/redis/service.yaml
-#     - k8s/minikube/redis/statefulSet.yaml
-#     - k8s/minikube/redis/storageClass.yaml
-#     - k8s/minikube/secrets/globals.yaml
-#     - k8s/minikube/user/deployment.yaml
-#     - k8s/minikube/user/service.yaml
-#     - k8s/minikube/user-db/deployment.yaml
-#     - k8s/minikube/user-db/persistentVolume.yaml
-#     - k8s/minikube/user-db/secret.yaml
-#     - k8s/minikube/user-db/service.yaml
-#     - k8s/minikube/user-db/storageClass.yaml
