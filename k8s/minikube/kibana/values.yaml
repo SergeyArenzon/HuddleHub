@@ -111,10 +111,17 @@ extraContainers: []
 #   image: busybox
 #   command: ['echo', 'hey']
 
-extraInitContainers: []
-# - name: dummy-init
-#   image: busybox
-#   command: ['echo', 'hey']
+# extraInitContainers:
+#   - name: wait-for-elasticsearch
+#     image: busybox
+#     command:
+#       - sh
+#       - -c
+#       - |
+#         until wget --spider -q "${https://elasticsearch-master:9200}"; do
+#           echo "Waiting for Elasticsearch to be ready..."
+#           sleep 5
+#         done
 
 updateStrategy:
   type: "Recreate"

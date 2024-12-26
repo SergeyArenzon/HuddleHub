@@ -2,61 +2,69 @@ apiVersion: skaffold/v4beta11
 kind: Config
 metadata:
   name: huddlehub
-build:
-  artifacts:
-    - image: sergeyarenzon/huddlehub-user
-      context: services/user
-      docker:
-        dockerfile: Dockerfile
-      sync: 
-        manual:
-          - src: "src/**/*.ts"
-            dest: .
-  tagPolicy:
-    gitCommit: {}
-  local:
-    useBuildkit: true
+# build:
+#   artifacts:
+#     - image: sergeyarenzon/huddlehub-user
+#       context: services/user
+#       docker:
+#         dockerfile: Dockerfile
+#       sync: 
+#         manual:
+#           - src: "src/**/*.ts"
+#             dest: .
+#   tagPolicy:
+#     gitCommit: {}
+#   local:
+#     useBuildkit: true
+deploy:
+  helm:
+    releases:
+      - name: elasticsearch
+        chartPath: k8s/minikube/elasticsearch
+        valuesFiles: 
+          - k8s/minikube/elasticsearch/values.yaml
+      - name: logstash
+        chartPath: k8s/minikube/logstash
+        valuesFiles: 
+          - k8s/minikube/logstash/values.yaml
+      - name: filebeat
+        chartPath: k8s/minikube/filebeat
+        valuesFiles: 
+          - k8s/minikube/filebeat/values.yaml
+      - name: kibana
+        chartPath: k8s/minikube/kibana
+        valuesFiles: 
+          - k8s/minikube/kibana/values.yaml
     
-manifests:
- rawYaml:
-    #  ELASTIC
-    - k8s/minikube/elasticsearch/deployment.yaml
-    - k8s/minikube/elasticsearch/persistentVolume.yaml
-    - k8s/minikube/elasticsearch/secrets.yaml
-    - k8s/minikube/elasticsearch/service.yaml
-    - k8s/minikube/elasticsearch/storageClass.yaml
+# manifests:
+#  rawYaml:
 
-    # KIBANA
-    # - k8s/minikube/kibana/configMap.yaml
-    # - k8s/minikube/kibana/deployment.yaml
-    # - k8s/minikube/kibana/service.yaml
-        
-    # GATEWAY
-    - k8s/minikube/gateway/ingress.yaml
-    - k8s/minikube/gateway/service.yaml
+#     # GATEWAY
+#     - k8s/minikube/gateway/ingress.yaml
+#     - k8s/minikube/gateway/service.yaml
 
-    # RABBITMQ
-    - k8s/minikube/rabbitmq/deployment.yaml
-    - k8s/minikube/rabbitmq/persistentVolume.yaml
-    - k8s/minikube/rabbitmq/service.yaml
-    - k8s/minikube/rabbitmq/storageClass.yaml
-    - k8s/minikube/rabbitmq/configMap.yaml
+#     # RABBITMQ
+#     - k8s/minikube/rabbitmq/deployment.yaml
+#     - k8s/minikube/rabbitmq/persistentVolume.yaml
+#     - k8s/minikube/rabbitmq/service.yaml
+#     - k8s/minikube/rabbitmq/storageClass.yaml
+#     - k8s/minikube/rabbitmq/configMap.yaml
 
-    # REDIS
-    # - k8s/minikube/redis/configMap.yaml
-    # - k8s/minikube/redis/persistentVolume.yaml
-    # - k8s/minikube/redis/service.yaml
-    # - k8s/minikube/redis/statefulSet.yaml
-    # - k8s/minikube/redis/storageClass.yaml
+#     # REDIS
+#     # - k8s/minikube/redis/configMap.yaml
+#     # - k8s/minikube/redis/persistentVolume.yaml
+#     # - k8s/minikube/redis/service.yaml
+#     # - k8s/minikube/redis/statefulSet.yaml
+#     # - k8s/minikube/redis/storageClass.yaml
 
-    # USER
-    - k8s/minikube/secrets/globals.yaml
-    - k8s/minikube/user/deployment.yaml
-    - k8s/minikube/user/service.yaml
+#     # USER
+#     - k8s/minikube/secrets/globals.yaml
+#     - k8s/minikube/user/deployment.yaml
+#     - k8s/minikube/user/service.yaml
     
-    # USER_DB
-    - k8s/minikube/user-db/deployment.yaml
-    - k8s/minikube/user-db/persistentVolume.yaml
-    - k8s/minikube/user-db/configMap.yaml
-    - k8s/minikube/user-db/service.yaml
-    - k8s/minikube/user-db/storageClass.yaml
+#     # USER_DB
+#     - k8s/minikube/user-db/deployment.yaml
+#     - k8s/minikube/user-db/persistentVolume.yaml
+#     - k8s/minikube/user-db/configMap.yaml
+#     - k8s/minikube/user-db/service.yaml
+#     - k8s/minikube/user-db/storageClass.yaml

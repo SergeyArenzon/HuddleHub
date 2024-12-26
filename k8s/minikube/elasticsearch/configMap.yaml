@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: elastic-config
-data:
-  ELASTIC_HOST: '[http://elastic:admin1234@elasticsearch.development.svc.cluster.local:9200]'
