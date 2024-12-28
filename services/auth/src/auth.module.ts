@@ -1,16 +1,11 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { UserController } from './user.controller';
-import mikroOrmConfig from './mikro-orm.config';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { User } from './entities/user.entity';
-import { UserService } from './user.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { LoggerMiddleware } from './logger.middleware';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
-    MikroOrmModule.forRoot(mikroOrmConfig),
-    MikroOrmModule.forFeature([User]),
     ClientsModule.register([
       {
         name: 'USER_SERVICE',
@@ -22,10 +17,10 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       },
     ]),
   ],
-  controllers: [UserController],
-  providers: [UserService],
+  controllers: [AuthController],
+  providers: [AuthService],
 })
-export class UserModule {
+export class AuthModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }

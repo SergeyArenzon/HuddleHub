@@ -3,10 +3,10 @@ POST http://localhost:4002
 Content-Type: application/json
 
 {
-  "first_name": "Sergey2121212",
-  "last_name": "Arenzon2",
-  "email": "asa2@gmail.com",
-  "image_url": "http://www.google2.com"
+  "firs_name": "xsdfx1xasdx2sssdfsdfdfdfsdf3",
+  "last_name": "Arens1dfzon22sdfsdfsdf13",
+  "email": "asa2123s1sdfdf22@sdfsdfgmail.com",
+  "image_url": "http://www.go1ogl12sdfsdfsdf3e222.com"
  }
 
 

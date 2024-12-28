@@ -5,22 +5,20 @@ import { Logger } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    UserModule,
-    {
-      transport: Transport.RMQ,
-      options: {
-        urls: [process.env.RABBITMQ_HOST],
-        queue: 'auth_queue',
-        queueOptions: {
-          durable: false,
-        },
-      },
-    },
-  );
+  const app = await NestFactory.create(UserModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   const logger = new Logger('Bootstrap');
   app.useLogger(logger);
-  await app.listen();
+  await app.listen(process.env.PORT ?? 3000);
+
+  const microservice = app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.RMQ,
+    options: {
+      urls: [process.env.RABBITMQ_HOST],
+      queue: 'user_queue',
+      queueOptions: { durable: true },
+    },
+  });
+  await microservice.listen();
 }
 bootstrap();

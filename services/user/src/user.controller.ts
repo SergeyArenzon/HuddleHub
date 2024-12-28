@@ -7,7 +7,6 @@ import {
   UsePipes,
   ValidationPipe,
   HttpCode,
-  Inject,
   Logger,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -45,9 +44,8 @@ export class UserController {
 
   // EVENTS
   @EventPattern('user_create')
-  createUserEvent(@Payload() user: CreateUserDto) {
-    console.log("[][][][]");
-    
+  @UsePipes(ValidationPipe)
+  async createUserEvent(@Payload() user: CreateUserDto) {
     this.usersService.create(user);
   }
 }
