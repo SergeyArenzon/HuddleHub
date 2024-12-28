@@ -11,16 +11,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   imports: [
     MikroOrmModule.forRoot(mikroOrmConfig),
     MikroOrmModule.forFeature({ entities: [User] }),
-    ClientsModule.register([
-      {
-        name: 'USER_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.RABBITMQ_HOST],
-          queue: 'user-queue',
-        },
-      },
-    ]),
   ],
   controllers: [UserController],
   providers: [UserService],

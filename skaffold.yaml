@@ -4,6 +4,14 @@ metadata:
   name: huddlehub
 build:
   artifacts:
+    - image: sergeyarenzon/huddlehub-auth
+      context: services/auth
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
     - image: sergeyarenzon/huddlehub-user
       context: services/user
       docker:
@@ -36,6 +44,7 @@ manifests:
     # - k8s/minikube/redis/service.yaml
     # - k8s/minikube/redis/statefulSet.yaml
     # - k8s/minikube/redis/storageClass.yaml
+    
     # USER_DB
     - k8s/minikube/user-db/deployment.yaml
     - k8s/minikube/user-db/persistentVolume.yaml
@@ -47,6 +56,12 @@ manifests:
     - k8s/minikube/secrets/globals.yaml
     - k8s/minikube/user/deployment.yaml
     - k8s/minikube/user/service.yaml
+    
+    # AUTH
+    - k8s/minikube/auth/deployment.yaml
+    - k8s/minikube/auth/service.yaml
+
+
 # deploy:
 #   helm:
 #     releases:

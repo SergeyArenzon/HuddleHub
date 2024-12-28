@@ -1,14 +1,14 @@
 
-# POST http://localhost:4001
-# Content-Type: application/json
-
-# {
-#   "first_name": "Sergey2",
-#   "last_name": "Arenzon2",
-#   "email": "asa2@gmail.com",
-#   "image_url": "http://www.google2.com"
-# }
-
-
-GET http://localhost:4001/b5ece753-c793-47b7-a49e-d55feeb1829d
+POST http://localhost:4002
 Content-Type: application/json
+
+{
+  "first_name": "Sergey2121212",
+  "last_name": "Arenzon2",
+  "email": "asa2@gmail.com",
+  "image_url": "http://www.google2.com"
+ }
+
+
+# GET http://localhost:4002
+# Content-Type: application/json

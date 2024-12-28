@@ -19,7 +19,7 @@ export class UserService {
   async create(user: CreateUserDto): Promise<User> {
     const newUser = new User(user);
     await this.em.persistAndFlush(newUser);
-    this.rabbitClient.emit('user-created', newUser);
+    // this.rabbitClient.emit('user-created', newUser);
     return newUser;
   }
 

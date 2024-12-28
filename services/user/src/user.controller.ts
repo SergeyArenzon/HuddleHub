@@ -44,8 +44,10 @@ export class UserController {
   }
 
   // EVENTS
-  @EventPattern('user-create')
+  @EventPattern('user_create')
   createUserEvent(@Payload() user: CreateUserDto) {
+    console.log("[][][][]");
+    
     this.usersService.create(user);
   }
 }

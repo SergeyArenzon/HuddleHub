@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: rabbitmq-config
 data:
-  RABBITMQ_HOST: amqp://guest:guest@rabbitmq.development.svc.cluster.local:5672
+  RABBITMQ_HOST: amqp://guest:guest@rabbitmq:5672
