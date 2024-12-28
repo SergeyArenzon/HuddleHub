@@ -47,22 +47,24 @@ manifests:
     - k8s/minikube/secrets/globals.yaml
     - k8s/minikube/user/deployment.yaml
     - k8s/minikube/user/service.yaml
-deploy:
-  helm:
-    releases:
-      - name: elasticsearch
-        chartPath: k8s/minikube/elasticsearch
-        valuesFiles: 
-          - k8s/minikube/elasticsearch/values.yaml
-      - name: logstash
-        chartPath: k8s/minikube/logstash
-        valuesFiles: 
-          - k8s/minikube/logstash/values.yaml
-      - name: filebeat
-        chartPath: k8s/minikube/filebeat
-        valuesFiles: 
-          - k8s/minikube/filebeat/values.yaml
-      # - name: kibana
-      #   chartPath: k8s/minikube/kibana
-      #   valuesFiles: 
-      #     - k8s/minikube/kibana/values.yaml
+# deploy:
+#   helm:
+#     releases:
+#       - name: elasticsearch
+#         chartPath: k8s/minikube/elasticsearch
+#         valuesFiles: 
+#           - k8s/minikube/elasticsearch/values.yaml
+#       - name: logstash
+#         chartPath: k8s/minikube/logstash
+#         valuesFiles: 
+#           - k8s/minikube/logstash/values.yaml
+#         wait: false
+#       - name: filebeat
+#         chartPath: k8s/minikube/filebeat
+#         valuesFiles: 
+#           - k8s/minikube/filebeat/values.yaml
+#         wait: false
+#       - name: kibana
+#         chartPath: k8s/minikube/kibana
+#         valuesFiles: 
+#           - k8s/minikube/kibana/values.yaml
