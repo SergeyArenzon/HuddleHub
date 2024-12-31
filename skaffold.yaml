@@ -25,7 +25,27 @@ build:
   local:
     useBuildkit: true
 manifests:
- rawYaml:
+  # helm:
+  #   releases:
+  #     - name: elasticsearch
+  #       chartPath: k8s/minikube/elasticsearch
+  #       valuesFiles: 
+  #         - k8s/minikube/elasticsearch/values.yaml
+  #     - name: logstash
+  #       chartPath: k8s/minikube/logstash
+  #       valuesFiles: 
+  #         - k8s/minikube/logstash/values.yaml
+  #     - name: filebeat
+  #       chartPath: k8s/minikube/filebeat
+  #       valuesFiles: 
+  #         - k8s/minikube/filebeat/values.yaml
+  #     - name: kibana
+  #       chartPath: k8s/minikube/kibana
+  #       valuesFiles: 
+  #         - k8s/minikube/kibana/values.yaml
+    
+
+  rawYaml:
 
     # GATEWAY
     # - k8s/minikube/gateway/ingress.yaml
@@ -69,6 +89,7 @@ manifests:
 #         chartPath: k8s/minikube/elasticsearch
 #         valuesFiles: 
 #           - k8s/minikube/elasticsearch/values.yaml
+#         wait: false
 #       - name: logstash
 #         chartPath: k8s/minikube/logstash
 #         valuesFiles: 
@@ -83,3 +104,5 @@ manifests:
 #         chartPath: k8s/minikube/kibana
 #         valuesFiles: 
 #           - k8s/minikube/kibana/values.yaml
+#         wait: false
+        

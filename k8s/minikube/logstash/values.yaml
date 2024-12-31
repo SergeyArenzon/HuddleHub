@@ -22,7 +22,7 @@ logstashPipeline:
         port => 5044
       }
     }
-
+    
      output {
       elasticsearch {
         hosts => "https://elasticsearch-master:9200"

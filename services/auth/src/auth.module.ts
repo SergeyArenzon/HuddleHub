@@ -21,7 +21,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   providers: [AuthService],
 })
 export class AuthModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(LoggerMiddleware).forRoutes('*');
+  // }
 }
