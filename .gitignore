@@ -13,6 +13,7 @@
 /client/.pnp.js
 /client/.yarn/install-state.gz
 /client-old
+/client-old/node_modules
 
 
 # testing
