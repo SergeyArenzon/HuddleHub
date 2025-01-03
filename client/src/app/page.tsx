@@ -1,9 +1,20 @@
-import Image from "next/image";
+import { signIn } from "@/app/auth";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+
+  const { data, update} = useSession();
+
+  console.log({ data, update });
+  
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        
-    </div>
+    <form
+    action={async () => {
+      "use server"
+      await signIn("github", { redirectTo: "/dashboard" })
+    }}
+  >
+    <button type="submit">Sign in</button>
+  </form>
   );
 }

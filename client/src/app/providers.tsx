@@ -14,7 +14,9 @@ export function Providers({ children }: Props) {
   return (
     // <SessionProvider>
       <QueryClientProvider client={queryClient}>
-        {children}
+        <SessionProvider>
+          {children}
+        </SessionProvider>
       </QueryClientProvider>
     // </SessionProvider>
   );
