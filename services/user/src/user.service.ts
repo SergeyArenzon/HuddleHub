@@ -16,6 +16,17 @@ export class UserService {
     private rabbitClient: ClientProxy,
   ) {}
 
+
+  async createIfNotExist(user: CreateUserDto)  : Promise<User> {
+    const foundUserByEmail = await this.findAll({ email: user.email });
+    console.log({foundUserByEmail});
+    
+    if (foundUserByEmail) {
+      return foundUserByEmail[0];
+    } 
+    return await this.create(user);
+  }
+
   async create(user: CreateUserDto): Promise<User> {
     const newUser = new User(user);
     // Fork a new EntityManager to avoid global context issues

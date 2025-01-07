@@ -26,6 +26,7 @@ export class AuthController {
   @Get()
   findUser() {
     return { first_name: 'John', last_name: 'Doe' };
+    
   }
 
   @Get('/:id')
@@ -35,9 +36,20 @@ export class AuthController {
   }
 
   @Post()
-  @UsePipes(ValidationPipe)
-  @HttpCode(201)
-  createUser(@Body() body: CreateUserDto) {
-    this.authService.createUser(body);
+  async signIn(@Body() body: any) {
+    const user = await this.authService.authenticateProvider(body);
+    
+    const res = await fetch('http://user:4001/create-or-find', {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    const authUser = await res.json();
+    console.log({authUser});
+    
+    
   }
 }

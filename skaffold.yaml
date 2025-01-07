@@ -48,8 +48,8 @@ manifests:
   rawYaml:
 
     # GATEWAY
-    # - k8s/minikube/gateway/ingress.yaml
-    # - k8s/minikube/gateway/service.yaml
+    - k8s/minikube/gateway/ingress.yaml
+    - k8s/minikube/gateway/service.yaml
 
     # RABBITMQ
     - k8s/minikube/rabbitmq/deployment.yaml
