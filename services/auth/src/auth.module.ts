@@ -3,9 +3,14 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LoggerMiddleware } from './logger.middleware';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    JwtModule.register({
+      secret: "sdfgdfgfdhgdfghfgdhgfhdcfgfdhsdf", // You should use an environment variable
+      signOptions: { expiresIn: '1h' }, // Optional expiration
+    }),
     ClientsModule.register([
       {
         name: 'USER_SERVICE',

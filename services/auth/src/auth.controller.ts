@@ -8,9 +8,12 @@ import {
   ValidationPipe,
   HttpCode,
   Logger,
+  UnauthorizedException,
+  Res,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthService } from './auth.service';
+import { Response } from 'express';
 
 @Controller()
 export class AuthController {
@@ -25,8 +28,7 @@ export class AuthController {
 
   @Get()
   findUser() {
-    return { first_name: 'John', last_name: 'Doe' };
-    
+    return { first_name: 'John', last_name: 'Doe' }; 
   }
 
   @Get('/:id')
@@ -36,20 +38,28 @@ export class AuthController {
   }
 
   @Post()
-  async signIn(@Body() body: any) {
+  async signIn(
+    @Res({ passthrough: true }) response: Response,
+    @Body() body: any,
+  ): Promise<any> {
     const user = await this.authService.authenticateProvider(body);
-    
+
     const res = await fetch('http://user:4001/create-or-find', {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(user),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
-    
+
     const authUser = await res.json();
-    console.log({authUser});
+    if (!authUser) {
+      throw new UnauthorizedException();
+    }
+
+    const token = this.authService.generateToken({ userId: authUser.id });
     
-    
+    response.cookie('token', token, { httpOnly: true, maxAge: 3600000, secure: true });    
+    return { user: authUser};
   }
 }
