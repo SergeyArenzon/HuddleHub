@@ -58,8 +58,7 @@ export class AuthController {
     }
 
     const token = this.authService.generateToken({ userId: authUser.id });
-    
-    response.cookie('token', token, { httpOnly: true, maxAge: 3600000, secure: true });    
-    return { user: authUser};
+    response.cookie('accessToken', token, { httpOnly: true, maxAge: 3600000, secure: true });    
+    return authUser;
   }
 }
