@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Param,
   HttpCode,
   Logger,
   UnauthorizedException,
@@ -13,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
-import { Providers } from './enums';
 import { AuthDto } from './dtos';
 
 @Controller()
@@ -30,12 +28,6 @@ export class AuthController {
   @Get()
   findUser() {
     return { first_name: 'John', last_name: 'Doe' };
-  }
-
-  @Get('/:id')
-  getUserById(@Param('id') id: string) {
-    // const user = this.usersService.findOne(id);
-    // return user;
   }
 
   @Post()

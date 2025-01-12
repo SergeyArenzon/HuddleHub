@@ -1,9 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Providers } from './enums';
-import { CreateUserDto } from './dtos/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
-import { AuthDto } from './dtos';
+import { AuthDto, ProviderUserDto } from './dtos';
 
 @Injectable()
 export class AuthService {
@@ -21,9 +20,9 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  async authenticateProvider(auth: AuthDto): Promise<CreateUserDto> {
+  async authenticateProvider(auth: AuthDto): Promise<ProviderUserDto> {
     {
-      let user = {} as CreateUserDto;
+      let user = {} as ProviderUserDto;
       switch (auth.provider) {
         case Providers.GOOGLE:
           const googleResponse = await fetch(
