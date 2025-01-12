@@ -4,16 +4,17 @@ import {
   Post,
   Body,
   Param,
-  UsePipes,
-  ValidationPipe,
   HttpCode,
   Logger,
   UnauthorizedException,
   Res,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
+import { Providers } from './enums';
+import { AuthDto } from './dtos';
 
 @Controller()
 export class AuthController {
@@ -28,7 +29,7 @@ export class AuthController {
 
   @Get()
   findUser() {
-    return { first_name: 'John', last_name: 'Doe' }; 
+    return { first_name: 'John', last_name: 'Doe' };
   }
 
   @Get('/:id')
@@ -38,13 +39,14 @@ export class AuthController {
   }
 
   @Post()
+  @UsePipes(ValidationPipe)
   async signIn(
     @Res({ passthrough: true }) response: Response,
-    @Body() body: any,
+    @Body() body: AuthDto,
   ): Promise<any> {
     const user = await this.authService.authenticateProvider(body);
 
-    const res = await fetch('http://user:4001/create-or-find', {
+    const res = await fetch('http://user:4001/auth', {
       method: 'POST',
       body: JSON.stringify(user),
       headers: {
@@ -58,7 +60,12 @@ export class AuthController {
     }
 
     const token = this.authService.generateToken({ userId: authUser.id });
-    response.cookie('accessToken', token, { httpOnly: true, maxAge: 3600000, secure: true });    
+
+    response.cookie('accessToken', token, {
+      httpOnly: true,
+      maxAge: 3600000,
+      secure: true,
+    });
     return authUser;
   }
 }

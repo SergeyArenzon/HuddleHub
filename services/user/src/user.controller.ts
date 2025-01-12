@@ -12,7 +12,6 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserService } from './user.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { User } from './entities/user.entity';
 
 @Controller()
 export class UserController {
@@ -36,15 +35,10 @@ export class UserController {
     return user;
   }
 
-  @Post('/create-or-find')
+  @Post('/auth')
   @HttpCode(200)
   async createOrFind(@Body() body: CreateUserDto) {
-    console.log({ body });
-    
-    const userFound = await this.usersService.createIfNotExist(body);
-    console.log({ userFound });
-    
-    return userFound
+    return await this.usersService.createIfNotExist(body);
   }
 
   @Post()

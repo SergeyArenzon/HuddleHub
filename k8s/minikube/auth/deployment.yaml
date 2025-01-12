@@ -39,6 +39,11 @@ spec:
                 configMapKeyRef:
                   name: rabbitmq-config
                   key: RABBITMQ_HOST
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: global-secrets
+                  key: jwt-secret
           readinessProbe:
             httpGet:
               path: /health

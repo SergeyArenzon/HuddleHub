@@ -47,6 +47,9 @@ manifests:
 
   rawYaml:
 
+    # SECRETS
+    - k8s/minikube/secrets/globals.yaml
+
     # GATEWAY
     - k8s/minikube/gateway/ingress.yaml
     - k8s/minikube/gateway/service.yaml
