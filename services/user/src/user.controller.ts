@@ -12,6 +12,7 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserService } from './user.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
+import { User } from './entities/user.entity';
 
 @Controller()
 export class UserController {
@@ -24,34 +25,34 @@ export class UserController {
   @Get('/health')
   health() {}
 
-  @Get()
-  findUser() {
-    return { first_name: 'John', last_name: 'Doe' };
-  }
+  // @Get()
+  // findUser() {
+  //   return { first_name: 'John', last_name: 'Doe' };
+  // }
 
-  @Get('/:id')
-  getUserById(@Param('id') id: string) {
-    const user = this.usersService.findOne(id);
-    return user;
-  }
+  // @Get('/:id')
+  // getUserById(@Param('id') id: string) {
+  //   const user = this.usersService.findOne(id);
+  //   return user;
+  // }
 
   @Post('/auth')
   @HttpCode(200)
-  async createOrFind(@Body() body: CreateUserDto) {
+  async createOrFind(@Body() body: CreateUserDto) : Promise<User> {
     return await this.usersService.createIfNotExist(body);
   }
 
-  @Post()
-  @UsePipes(ValidationPipe)
-  @HttpCode(201)
-  createUser(@Body() body: CreateUserDto) {
-    this.usersService.create(body);
-  }
+  // @Post()
+  // @UsePipes(ValidationPipe)
+  // @HttpCode(201)
+  // createUser(@Body() body: CreateUserDto) {
+  //   this.usersService.create(body);
+  // }
 
-  // EVENTS
-  @EventPattern('user_create')
-  @UsePipes(ValidationPipe)
-  async createUserEvent(@Payload() user: CreateUserDto) {
-    this.usersService.create(user);
-  }
+  // // EVENTS
+  // @EventPattern('user_create')
+  // @UsePipes(ValidationPipe)
+  // async createUserEvent(@Payload() user: CreateUserDto) {
+  //   this.usersService.create(user);
+  // }
 }
