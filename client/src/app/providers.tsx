@@ -12,12 +12,10 @@ type Props = {
 
 export function Providers({ children }: Props) {
   return (
-    // <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
           {children}
         </SessionProvider>
       </QueryClientProvider>
-    // </SessionProvider>
   );
 }

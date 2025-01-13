@@ -2,7 +2,6 @@
 
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
 export default function Home() {
   const {  data, status } = useSession();
@@ -18,8 +17,8 @@ export default function Home() {
   console.log({data, status});
   
   return (
-    <div>
-      <button onClick={handleSignIn}>Sign In</button>
+    <div className="h-screen w-screen flex items-center justify-center bg-black">
+      <button className="bg-red-500" onClick={handleSignIn}>Sign In</button>
     </div>
   );
 }
