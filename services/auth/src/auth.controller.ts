@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
-import { AuthDto } from './dtos';
+import { AuthDto, UserDto } from './dtos';
 
 @Controller()
 export class AuthController {
@@ -37,6 +37,7 @@ export class AuthController {
     @Body() body: AuthDto,
   ): Promise<any> {
     const user = await this.authService.authenticateProvider(body);
+    this.logger.debug(`Authenticated user: ${JSON.stringify(user)}`);
 
     const res = await fetch('http://user:4001/auth', {
       method: 'POST',
@@ -46,16 +47,19 @@ export class AuthController {
       },
     });
 
-    const authUser = await res.json();
+    const authUser: UserDto = await res.json();
     if (!authUser) {
+      this.logger.warn('Authentication failed: No user returned from user service');
       throw new UnauthorizedException();
     }
 
     const token = this.authService.generateToken({ userId: authUser.id });
 
+    this.logger.log('Setting accessToken cookie in response');
+
     response.cookie('accessToken', token, {
       httpOnly: true,
-      maxAge: 3600000,
+      maxAge: Number(process.env.JWT_MAX_AGE),
       secure: true,
     });
     return authUser;

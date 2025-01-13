@@ -38,6 +38,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             string,
             string
         ];
+        console.log({cookieValue});
+        
         
         (await cookies()).set({
           name: cookieName,

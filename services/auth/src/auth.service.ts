@@ -1,26 +1,26 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Providers } from './enums';
 import { JwtService } from '@nestjs/jwt';
 import { AuthDto, ProviderUserDto } from './dtos';
+import { AuthController } from './auth.controller';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private jwtService: JwtService,
     @Inject('USER_SERVICE')
     private rabbitClient: ClientProxy,
   ) {}
 
-  async createUser(user: any) {
-    this.rabbitClient.emit('user_create', user);
-  }
-
-  generateToken(payload: Record<string, string>): string {
+  generateToken(payload: Record<string, string>) : string {
+    this.logger.log('Sign JWT token');
     return this.jwtService.sign(payload);
   }
 
-  async authenticateProvider(auth: AuthDto): Promise<ProviderUserDto> {
+  async authenticateProvider(auth: AuthDto) : Promise<ProviderUserDto> {
     {
       let user = {} as ProviderUserDto;
       switch (auth.provider) {

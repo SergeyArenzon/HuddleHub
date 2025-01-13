@@ -16,10 +16,10 @@
 
 
 
-# POST http://huddlehub.io/api/auth
-# Content-Type: application/json
+POST http://huddlehub.io/api/auth
+Content-Type: application/json
 
-# {
-#   "jwt": "sdfsdfsdfsdf",
-#   "provider": "google" 
-# }
+{
+  "jwt": "sdfsdfsdfsdf",
+  "provider": "google" 
+}

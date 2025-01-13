@@ -39,6 +39,11 @@ spec:
                 configMapKeyRef:
                   name: rabbitmq-config
                   key: RABBITMQ_HOST
+            - name: JWT_MAX_AGE
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: JWT_MAX_AGE
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
