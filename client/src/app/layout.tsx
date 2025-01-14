@@ -4,11 +4,12 @@ import "./globals.css";
 import { Providers } from "./providers";
 import TopBar from "./topbar";
 import { Roboto_Mono } from 'next/font/google'
+import SideBar from "./sidebar";
 
 
 const robotoMono = Roboto_Mono({
   subsets: ['latin', 'cyrillic'],
-  variable: '--font-roboto-serif',
+  variable: '--font-roboto-mono',
   style: ['normal', 'italic']
 })
 
@@ -36,9 +37,10 @@ export default function RootLayout({
     <Providers>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased grid grid-cols-[1fr_200px] grid-rows-2`}
         >
           <TopBar />
+          <SideBar />
           {children}
         </body>
       </html>

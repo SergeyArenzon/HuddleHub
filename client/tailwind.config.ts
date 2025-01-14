@@ -17,7 +17,7 @@ export default {
 			background: '#F6F4F0'
   		},
 		fontFamily: {
-			primary: ["var(--font-roboto-serif)"],
+			primary: ["var(--font-roboto-mono)"],
 		},
   		borderRadius: {
   			lg: 'var(--radius)',
