@@ -1,7 +1,7 @@
 
 const TopBar = () => {
   return (
-    <div className="h-9 w-full bg-secondary">header</div>
+    <section className="h-16 w-full col-start-1 col-span-1 bg-secondary rounded-bl-3xl"></section>
   )
 }
 

@@ -37,7 +37,7 @@ export default function RootLayout({
     <Providers>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased grid grid-cols-[1fr_200px] grid-rows-2`}
+          className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased grid grid-cols-[1fr_auto] grid-rows-[auto_1fr]`}
         >
           <TopBar />
           <SideBar />

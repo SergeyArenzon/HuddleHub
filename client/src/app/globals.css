@@ -4,10 +4,10 @@
 
 @layer base {
     body {
-        @apply bg-background font-primary 
+        @apply bg-background font-primary overflow-hidden h-full
     }
-    html: {
-        
+    html {
+        @apply overflow-hidden h-screen 
     }
 
   }
