@@ -3,12 +3,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import TopBar from "./topbar";
-import { Roboto_Serif } from 'next/font/google'
+import { Roboto_Mono } from 'next/font/google'
 
 
-const robotoMono = Roboto_Serif({
+const robotoMono = Roboto_Mono({
   subsets: ['latin', 'cyrillic'],
-  display: 'swap',
   variable: '--font-roboto-serif',
   style: ['normal', 'italic']
 })
