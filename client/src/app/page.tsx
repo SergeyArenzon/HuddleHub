@@ -17,8 +17,8 @@ export default function Home() {
   console.log({data, status});
   
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-black">
-      <button className="bg-red-500" onClick={handleSignIn}>Sign In</button>
+    <div className="h-screen w-screen flex items-center justify-center">
+      <button className="bg-primary" onClick={handleSignIn}>Sign In</button>
     </div>
   );
 }
