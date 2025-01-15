@@ -13,8 +13,8 @@ export default {
 			primary: '#2E5077',
 			secondary: '#4DA1A9',
 			accent: '#79D7BE',
-			zain: '#79D7BE',
-			background: '#F6F4F0'
+			background: '#F6F4F0',
+			alert: "#e48d8d",
   		},
 		fontFamily: {
 			primary: ["var(--font-roboto-mono)"],
