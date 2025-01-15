@@ -11,7 +11,8 @@ type PopupStore = {
 
 export const usePopupStore = create<PopupStore>((set) => ({
   popups: {
-    X: false
+    X: false,
+    Y: false
   },
   updatePopup: (popupName, value) =>
     set((state) => ({
