@@ -4,7 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import TopBar from "../components/TopBar";
 import { Roboto_Mono } from 'next/font/google'
-import SideBar from "../components/SideBar";
+import { Sidebar } from "@/components/Sidebar";
 
 
 const robotoMono = Roboto_Mono({
@@ -34,16 +34,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Providers>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased grid grid-cols-[1fr_auto] grid-rows-[auto_1fr]`}
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased grid grid-cols-[1fr_300px] grid-rows-[auto_1fr]`}
         >
-          <TopBar />
-          <SideBar />
-          {children}
+          <Providers>
+            <TopBar />
+            <Sidebar />
+            {children}
+          </Providers>
         </body>
       </html>
-    </Providers>
   );
 }

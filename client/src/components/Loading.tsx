@@ -30,29 +30,12 @@ import Loader from "./ui/loader"
   }
 
 
-  export function Modal({ mode, open } : ModalProps) {
-
-
-    let content = null;
-
-    switch (mode) {
-        case "confirm":
-            content = <Dialog />
-            break;
-        case "loader":
-            content = <Loader />
-            break;
-    
-        default:
-            break;
-    }
+  export function Loading() {
 
     return (
-      <AlertDialog open={open}>
-        <AlertDialogContent>
-            { content }
-        </AlertDialogContent>
-      </AlertDialog>
+      <div className="h-screen w-screen flex justify-center items-center bg-gray-700 bg-opacity-50 fixed left-0 top-0">
+        <Loader />
+      </div>
     )
   }
   

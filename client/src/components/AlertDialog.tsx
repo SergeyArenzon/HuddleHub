@@ -1,8 +1,5 @@
-import React, { useState } from "react";
 import {
   AlertDialog as AlertDialogComponent,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -11,26 +8,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-export function AlertDialog() {
-  const [isOpen, setIsOpen] = useState(false);
+type AlertDialogProps = {
+  open: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}
 
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
-  const handleConfirm = () => {
-    console.log("Confirmed!");
-    setIsOpen(false); // Close the dialog after confirmation
-  };
-
+export function AlertDialog({ open, onCancel, onConfirm } : AlertDialogProps) {
   return (
-    <div>
-      <Button variant="outline" onClick={handleOpen}>
-        Show Dialog
-      </Button>
-
-      <AlertDialogComponent
-        open={isOpen}
-        onOpenChange={(open) => setIsOpen(open)} // Handles both close by outside click and other triggers
-      >
+      <AlertDialogComponent open={open}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -40,11 +26,10 @@ export function AlertDialog() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <Button variant={"error"}  onClick={handleClose}>Cancel</Button>
-            <Button variant={"default"} onClick={handleConfirm}>Continue</Button>
+            <Button variant={"error"}  onClick={onCancel}>Cancel</Button>
+            <Button variant={"default"} onClick={onConfirm}>Continue</Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogComponent>
-    </div>
   );
 }
