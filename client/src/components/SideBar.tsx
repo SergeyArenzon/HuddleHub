@@ -60,6 +60,7 @@ export function Sidebar() {
               align="start"
             >
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <Separator />
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />

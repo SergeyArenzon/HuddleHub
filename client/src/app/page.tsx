@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { usePopupStore } from "@/store";
 import Loader from "@/components/ui/loader";
 import { Loading } from "@/components/Loading";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   const {  data, status } = useSession();
