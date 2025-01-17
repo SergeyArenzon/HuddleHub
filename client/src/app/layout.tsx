@@ -36,13 +36,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased grid grid-cols-[1fr_300px] grid-rows-[auto_1fr]`}
+        className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased grid grid-cols-[1fr_300px] grid-rows-[70px_1fr]`}
         >
-          <Providers>
-            <TopBar />
-            <Sidebar />
-            {children}
-          </Providers>
+            <Providers>
+              <TopBar />
+              <Sidebar />
+              <main>{children}</main>
+            </Providers>
         </body>
       </html>
   );
