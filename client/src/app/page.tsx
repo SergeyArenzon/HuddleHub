@@ -15,7 +15,6 @@ export default function Home() {
     signIn(); // Specify the provider if needed
   };
     
-
     if (status === "loading") return <Loading />;
     else if (status === "unauthenticated") redirect('signin');
     else redirect('dashboard');

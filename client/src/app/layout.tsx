@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import TopBar from "../components/Topbar";
 import { Roboto_Mono } from 'next/font/google'
-import { Sidebar } from "@/components/Sidebar";
 
 
 const robotoMono = Roboto_Mono({
