@@ -16,6 +16,8 @@ import {
 import { signOut, useSession } from 'next-auth/react'
 import { Avatar } from './Avatar'
 import { Separator } from './ui/separator'
+import ROUTES from '@/app/routes'
+import useUserStore from '@/store/useUser'
 
 // This is sample data. In a real application, you'd fetch this from an API or database.
 
@@ -29,8 +31,8 @@ const tabs = [
 export function Sidebar() {
   const [activeTab, setActiveTab] = React.useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
-  const { data } = useSession();
-
+  const { user } = useUserStore();
+  
   return (
     <div className="flex h-screen">
       <aside className={cn(
@@ -42,11 +44,11 @@ export function Sidebar() {
             <DropdownMenuTrigger asChild>
                 <Button size={"xl"} variant="no_hover"  className="w-full justify-start gap-2 px-2 py-2">
                 <Avatar 
-                  src={data?.user?.image} 
-                  fallback={`${data?.user?.name?.split(' ').at(0)?.at(0)}${data?.user?.name?.split(' ')[1][0]}`}/>
+                  src={user?.image_url} 
+                  fallback={`${user?.first_name?.split(' ').at(0)?.at(0)}${user?.last_name?.split(' ')[1][0]}`}/>
                 <div className="flex flex-col items-start">
-                  <span className="font-semibold">{data?.user?.name}</span>
-                  <span className="text-xs text-muted-foreground">{data?.user?.email}</span>
+                  <span className="font-semibold">{user?.first_name}</span>
+                  <span className="text-xs text-muted-foreground">{user?.email}</span>
                 </div>
                 <div>
                   <ChevronUp />
@@ -72,7 +74,7 @@ export function Sidebar() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <Separator />
-              <DropdownMenuItem onClick={() => signOut()}>
+              <DropdownMenuItem onClick={() => signOut({redirect: true, callbackUrl: ROUTES.DASHBOARD})}>
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
               </DropdownMenuItem>

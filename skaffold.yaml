@@ -81,5 +81,4 @@ manifests:
     - k8s/minikube/user/service.yaml
     
     # AUTH
-    - k8s/minikube/auth/deployment.yaml
-    - k8s/minikube/auth/service.yaml
+    - k8s/minikube/auth/*

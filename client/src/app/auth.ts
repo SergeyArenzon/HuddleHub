@@ -16,12 +16,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         headers: {
           'Content-Type': 'application/json',
         },
-
         body: JSON.stringify({
           jwt: account?.id_token, // Send the Google JWT to verify
           provider: account?.provider
         }),
-      });
+      });  
 
       if (response.ok) {
         const userData = await response.json();
@@ -38,8 +37,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             string,
             string
         ];
-        console.log({cookieValue});
-        
         
         (await cookies()).set({
           name: cookieName,
@@ -74,6 +71,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         };
       }
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // Redirect to the homepage if signing in
+      return baseUrl + "/dashboard";
     },
   }
 })
