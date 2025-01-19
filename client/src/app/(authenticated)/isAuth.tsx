@@ -1,16 +1,15 @@
-"use client";
-import { useEffect } from "react";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Loading } from "@/components/Loading";
 
 
-export default function isAuth(Component: any) {
-    
-    
-    return function IsAuth(props: any) {
+export default function isAuth<T extends object>(Component: React.ComponentType<T>) {
+    return function IsAuth(props: T) {
         const { status } = useSession();
         if (status == "unauthenticated") {
             return redirect("/signin");
+        } else if(status == "loading") {
+            return <Loading />;
         }
 
         return <Component {...props} />;

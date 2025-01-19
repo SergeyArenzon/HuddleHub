@@ -1,7 +1,7 @@
 'use client'
-import Topbar from "@/components/Topbar";
-import { Sidebar } from "@/components/Sidebar";
-import isAuth from "../isAuth";
+import Topbar from "@/components/TopBar";
+import { Sidebar } from "@/components/SideBar";
+import isAuth from "./isAuth";
 
 
 function DashboardLayout({
