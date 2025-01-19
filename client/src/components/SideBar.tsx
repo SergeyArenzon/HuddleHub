@@ -43,7 +43,7 @@ export function Sidebar() {
                 <Button size={"xl"} variant="no_hover"  className="w-full justify-start gap-2 px-2 py-2">
                 <Avatar 
                   src={data?.user?.image} 
-                  fallback={`${data?.user?.name?.split(' ')[0][0]}${data?.user?.name?.split(' ')[1][0]}`}/>
+                  fallback={`${data?.user?.name?.split(' ').at(0)?.at(0)}${data?.user?.name?.split(' ')[1][0]}`}/>
                 <div className="flex flex-col items-start">
                   <span className="font-semibold">{data?.user?.name}</span>
                   <span className="text-xs text-muted-foreground">{data?.user?.email}</span>
