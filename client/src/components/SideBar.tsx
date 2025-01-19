@@ -34,7 +34,7 @@ export function Sidebar() {
   return (
     <div className="flex h-screen">
       <aside className={cn(
-        " bg-gray-100 p-4 transition-all duration-300 ease-in-out",
+        "bg-gray-100 p-4 transition-all duration-300 ease-in-out",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="mb-4">

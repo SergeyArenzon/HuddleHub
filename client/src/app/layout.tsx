@@ -36,12 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased grid grid-cols-[1fr_300px] grid-rows-[70px_1fr]`}
-        >
+        className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased`}>
             <Providers>
-              <TopBar />
-              <Sidebar />
-              <main>{children}</main>
+              {children}
             </Providers>
         </body>
       </html>
