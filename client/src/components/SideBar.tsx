@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { LayoutDashboard, FileText, FileSpreadsheet, Folder, User, CreditCard, LogOut, ChevronDown, ChevronUp  } from 'lucide-react'
+import { LayoutDashboard, FileText, FileSpreadsheet, Folder, User, CreditCard, LogOut, ChevronDown, ChevronUp, UserRound  } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -18,6 +18,7 @@ import { Avatar } from './Avatar'
 import { Separator } from './ui/separator'
 import ROUTES from '@/app/routes'
 import useUserStore from '@/store/useUser'
+
 
 // This is sample data. In a real application, you'd fetch this from an API or database.
 
@@ -44,8 +45,9 @@ export function Sidebar() {
             <DropdownMenuTrigger asChild>
                 <Button size={"xl"} variant="no_hover"  className="w-full justify-start gap-2 px-2 py-2">
                 <Avatar 
-                  src={user?.image_url} 
-                  fallback={`${user?.first_name?.split(' ').at(0)?.at(0)}${user?.last_name?.split(' ')[1][0]}`}/>
+                  src={user?.image_url || ""} 
+                  fallback={`${user?.first_name?.at(0)}${user?.last_name.at(0)}`}
+                  />
                 <div className="flex flex-col items-start">
                   <span className="font-semibold">{user?.first_name}</span>
                   <span className="text-xs text-muted-foreground">{user?.email}</span>

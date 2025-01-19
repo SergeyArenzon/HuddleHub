@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import useUserStore from "@/store/useUser";
 import { UserSchema } from "@/schema";
+import { Loading } from "@/components/Loading";
 
 
 function DashboardLayout({
@@ -14,7 +15,7 @@ function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const {  data, status } = useSession();
-  const { setUser, clearUser } = useUserStore();
+  const { setUser, clearUser, isLogged } = useUserStore();
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -24,6 +25,8 @@ function DashboardLayout({
       clearUser();
     }
   }, [status])
+
+  if (!isLogged) return <Loading />;
 
   
   return (

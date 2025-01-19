@@ -1,3 +1,4 @@
+'use client'
 import { signIn } from "next-auth/react";
 import useUserStore from "@/store/useUser";
 
@@ -9,7 +10,6 @@ export default function Dashboard() {
       <button className="bg-primary" onClick={() => signIn()}>zx</button>
       {/* <button className="bg-primary" onClick={() => updatePopup("X", true)}>zx</button> */}
       <div>
-        {JSON.stringify(user)}
       </div>
     </div>
   );
