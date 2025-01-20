@@ -38,7 +38,7 @@ export class UserController {
 
   @Post('/auth')
   @HttpCode(200)
-  async createOrFind(@Body() body: CreateUserDto) : Promise<User> {
+  async createOrFind(@Body() body: CreateUserDto): Promise<User> {
     return await this.usersService.createIfNotExist(body);
   }
 

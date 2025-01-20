@@ -6,6 +6,9 @@ import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import { LoggerMiddleware } from './logger.middleware';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { GuideModule } from './guide/guide.module';
+import { TravellerService } from './traveller/traveller.service';
+import { TravellerModule } from './traveller/traveller.module';
 
 @Module({
   imports: [
@@ -21,9 +24,11 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       },
     ]),
+    GuideModule,
+    TravellerModule,
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, TravellerService],
 })
 export class UserModule {
   configure(consumer: MiddlewareConsumer) {
