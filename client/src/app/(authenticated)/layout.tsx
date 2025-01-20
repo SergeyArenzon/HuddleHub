@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Topbar from "@/components/Topbar";
 import { Sidebar } from "@/components/SideBar";
 import isAuth from "./isAuth";
@@ -23,4 +23,4 @@ function DashboardLayout({
     )  
 }
 
-export default isAuth(DashboardLayout)
+export default isAuth(DashboardLayout);

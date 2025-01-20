@@ -13,7 +13,16 @@ export default function Dashboard() {
   
   return (
     <div>
-      <Button onClick={() => signIn()}>Sign in</Button>
+      <div>Become a Guide
+      <Button onClick={() => signIn( )}>Sign in as Guide</Button>
+
+
+      </div>
+      <div>Become a Traveller
+        <Button onClick={() => signIn()}>Sign in as Traveller</Button>
+      </div>
+
+      
     </div>
   );
 }
