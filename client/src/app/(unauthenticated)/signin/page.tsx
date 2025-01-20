@@ -10,6 +10,7 @@ export default function Dashboard() {
   
   if (status === "authenticated") return redirect(ROUTES.DASHBOARD);
   else if (status === "loading") return <Loading />;
+  
   return (
     <div>
       <Button onClick={() => signIn()}>Sign in</Button>

@@ -1,4 +1,5 @@
 const ROUTES = {
+    ROOT: '/',
     DASHBOARD: '/dashboard',
     SIGNIN: '/signin',
   };
