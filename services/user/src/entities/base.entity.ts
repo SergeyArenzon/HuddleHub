@@ -1,4 +1,4 @@
-import { PrimaryKey, Property, UuidType } from '@mikro-orm/core';
+import { PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 as uuid } from 'uuid';
 import { Exclude } from 'class-transformer';
 

@@ -8,12 +8,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { GuideModule } from './guide/guide.module';
 import { TravellerService } from './traveller/traveller.service';
 import { TravellerModule } from './traveller/traveller.module';
-import { Traveller, User } from './entities';
+import { Guide, Traveller, User } from './entities';
+import { GuideService } from './guide/guide.service';
 
 @Module({
   imports: [
     MikroOrmModule.forRoot(mikroOrmConfig),
-    MikroOrmModule.forFeature([User, Traveller]),
+    MikroOrmModule.forFeature([User, Traveller, Guide]),
     ClientsModule.register([
       {
         name: 'USER_SERVICE',
@@ -26,9 +27,10 @@ import { Traveller, User } from './entities';
     ]),
     GuideModule,
     TravellerModule,
+    GuideModule,
   ],
   controllers: [UserController],
-  providers: [UserService, TravellerService],
+  providers: [UserService, TravellerService, GuideService],
 })
 export class UserModule {
   configure(consumer: MiddlewareConsumer) {
