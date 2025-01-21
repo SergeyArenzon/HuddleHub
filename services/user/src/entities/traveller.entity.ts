@@ -3,9 +3,7 @@ import {
   AfterDelete,
   AfterUpdate,
   Entity,
-  Property,
   ManyToOne,
-  UuidType,
 } from '@mikro-orm/core';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
