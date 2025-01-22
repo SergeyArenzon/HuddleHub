@@ -16,7 +16,7 @@ export class UserService {
     private rabbitClient: ClientProxy,
   ) {}
 
-  async createIfNotExist(user: CreateUserDto): Promise<User | null> {
+  async createOrFind(user: CreateUserDto): Promise<User | null> {
     const foundUserByEmail = await this.em.findOne(User, { email: user.email });
     if (foundUserByEmail) {
       return foundUserByEmail;
