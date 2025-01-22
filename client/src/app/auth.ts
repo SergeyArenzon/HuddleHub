@@ -1,16 +1,30 @@
-import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import type { Provider } from "next-auth/providers";
 import { cookies } from "next/headers";
 import qs from "querystring";
 
-
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [Google],
-  session: {
-    strategy: "jwt",
+const providers: Provider[] = [Google];
+ 
+export const providerMap = providers
+  .map((provider) => {
+    if (typeof provider === "function") {
+      const providerData = provider()
+      return { id: providerData.id, name: providerData.name }
+    } else {
+      return { id: provider.id, name: provider.name }
+    }
+  })
+  .filter((provider) => provider.id !== "credentials")
+ 
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  providers,
+  pages: {
+    signIn: "/signin",
   },
   callbacks: {
     signIn: async ({ account, user }) => {
+      
       const response = await fetch(`http://huddlehub.io/api/auth`, {
         method: 'POST',
         headers: {
@@ -22,9 +36,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }),
       });  
 
+      
+      
       if (response.ok) {
         const userData = await response.json();
-        user.tokenData = userData
+        console.log({userData});
+        user.tokenData = userData;
         const setCookie = qs.decode(
           response.headers.get("set-cookie") as string,
           "; ",

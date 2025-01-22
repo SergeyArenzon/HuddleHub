@@ -1,3 +1,4 @@
+
 'use client'
 import ROUTES from "@/app/routes";
 import { Loading } from "@/components/Loading";
@@ -6,6 +7,7 @@ import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import bg from '@/../public/images/guilherme-stecanella-_dH-oQF9w-Y-unsplash.jpg'
+
 
 export default function Dashboard() {
   const { status } = useSession();
@@ -16,7 +18,7 @@ export default function Dashboard() {
   return (
     <div className="bg-white w-3/5 h-3/4 flex">
       <div className="relative w-1/2 p-container flex justify-center items-center bg-primary m-2 overflow-hidden">
-        <Button  claonClick={() => signIn()}>Sign in</Button>
+        <Button onClick={() => signIn("google")}>Sign in with Google</Button>
         <Image src={bg} className="opacity-30 absolute"/>
       </div>
       <p className="w-1/2 p-container">
@@ -24,6 +26,5 @@ export default function Dashboard() {
         Your simplest way to connect with expert local guides for unforgettable experiences.
         Sign in and start your journey today
       </p>
-    </div>
-  );
+    )
 }
