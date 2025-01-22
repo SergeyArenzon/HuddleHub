@@ -23,8 +23,6 @@ export abstract class BaseEntity {
   // Utility method for serialization
   toJSON() {
     const obj = { ...this };
-    delete obj.created_at; // Remove excluded properties
-    delete obj.updated_at;
     return obj;
   }
 }
