@@ -7,8 +7,17 @@
     @apply rounded-md;
   }
   body {
-    @apply bg-background font-primary overflow-hidden h-full 
+    @apply bg-background font-primary overflow-hidden h-full
   }
+  h1 {
+    @apply text-3xl lg:text-5xl;
+  } 
+  h2 {
+    @apply text-2xl lg:text-3xl;
+  } 
+  h2 {
+    @apply text-xl lg:text-2xl;
+  } 
   html {
     @apply overflow-hidden h-screen 
   }

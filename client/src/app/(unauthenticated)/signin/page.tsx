@@ -1,42 +1,30 @@
-// 'use client'
-// import ROUTES from "@/app/routes";
-// import { Loading } from "@/components/Loading";
-// import { Button } from "@/components/ui/button";
-// import { signIn, useSession } from "next-auth/react";
-// import { redirect } from "next/navigation";
 
-// export default function Dashboard() {
-//   const { status } = useSession();
-  
-//   if (status === "authenticated") return redirect(ROUTES.DASHBOARD);
-//   else if (status === "loading") return <Loading />;
-  
-//   return (
-//     <div>
-//       <div>Become a Guide
-//       <Button onClick={() => signIn("google",{zain: 12})}>Sign in as Guide</Button>
-
-
-//       </div>
-//       <div>Become a Traveller
-//         <Button onClick={() => signIn()}>Sign in as Traveller</Button>
-//       </div>
-
-      
-//     </div>
-//   );
-// }
 'use client'
-import { redirect } from "next/navigation"
-import { signIn, useSession } from "next-auth/react";
+import ROUTES from "@/app/routes";
+import { Loading } from "@/components/Loading";
 import { Button } from "@/components/ui/button";
- 
-export default function SignInPage(props: {
-  searchParams: { callbackUrl: string | undefined }
-}) {
+import { signIn, useSession } from "next-auth/react";
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import bg from '@/../public/images/guilherme-stecanella-_dH-oQF9w-Y-unsplash.jpg'
+
+
+export default function Dashboard() {
+  const { status } = useSession();
+  
+  if (status === "authenticated") return redirect(ROUTES.DASHBOARD);
+  else if (status === "loading") return <Loading />;
+  
   return (
-    <div className="flex flex-col gap-2">
-      <Button onClick={() => signIn("google")}>Sign in with Google</Button>
-    </div>
-  );
+    <div className="bg-white w-3/5 h-3/4 flex">
+      <div className="relative w-1/2 p-container flex justify-center items-center bg-primary m-2 overflow-hidden">
+        <Button onClick={() => signIn("google")}>Sign in with Google</Button>
+        <Image src={bg} className="opacity-30 absolute"/>
+      </div>
+      <p className="w-1/2 p-container">
+        <h2>Discover More, Travel Better</h2>
+        Your simplest way to connect with expert local guides for unforgettable experiences.
+        Sign in and start your journey today
+      </p>
+    )
 }
