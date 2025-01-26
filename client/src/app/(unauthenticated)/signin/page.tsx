@@ -26,5 +26,6 @@ export default function Dashboard() {
         Your simplest way to connect with expert local guides for unforgettable experiences.
         Sign in and start your journey today
       </p>
+      </div>
     )
 }
