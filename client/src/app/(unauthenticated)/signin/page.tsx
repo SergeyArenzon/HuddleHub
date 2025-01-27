@@ -18,16 +18,16 @@ export default function SigninPage() {
   return (
     <div className="bg-white w-3/5 h-3/4 flex shadow-md">
       <div className="relative w-1/2 p-container flex justify-center items-center bg-primary m-4 overflow-hidden">
-        <Button className="z-10" onClick={() => signIn("google")}>Sign in with Google</Button>
         <Image src={bg} className="opacity-60 absolute z-0" layout="fill" objectFit="cover" alt="traveller image"/>
       </div>
-      
+
       <p className="w-1/2 p-container">
         <h2 className="font-bold">Discover More, Travel Better</h2>
         <div className="italic">
           Your simplest way to connect with expert local guides for unforgettable experiences.
           Sign in and start your journey today
         </div>
+        <Button  className="z-10 bg-red-600" onClick={() => signIn("google")}>Sign in with Google</Button>
       </p>
     </div>
     )
