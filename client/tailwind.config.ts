@@ -38,7 +38,7 @@ export default {
   		},
 		padding: {
 			container: '10px'
-		}
+		},
   	}
   },
   plugins: [require("tailwindcss-animate")],

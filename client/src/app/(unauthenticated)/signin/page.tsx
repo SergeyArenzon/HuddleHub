@@ -16,14 +16,14 @@ export default function SigninPage() {
   else if (status === "loading") return <Loading />;
   
   return (
-    <div className="bg-white w-3/5 h-3/4 flex shadow-md">
-      <div className="relative w-1/2 p-container flex justify-center items-center bg-primary m-4 overflow-hidden">
+    <div className="bg-white w-3/5 h-3/4 flex shadow-md container text-primary">
+      <div className="relative w-1/2 container flex justify-center items-center bg-primary overflow-hidden">
         <Image src={bg} className="opacity-60 absolute z-0" layout="fill" objectFit="cover" alt="traveller image"/>
       </div>
 
-      <p className="w-1/2 p-container">
-        <h2 className="font-bold">Discover More, Travel Better</h2>
-        <div className="italic">
+      <p className="w-1/2 container flex flex-col gap-4  items-center ">
+        <h2 className="font-extrabold">Discover More, Travel Better</h2>
+        <div className="italic text-black">
           Your simplest way to connect with expert local guides for unforgettable experiences.
           Sign in and start your journey today
         </div>

@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    @apply rounded-md;
+
+@layer components {
+  .container {
+    @apply rounded-md p-4;
   }
+}
+
+
+@layer base {
+  * {}
   body {
     @apply bg-background font-primary overflow-hidden h-full
   }
