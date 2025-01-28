@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Loading } from "@/components/Loading";
-import ROUTES from "../routes";
+import ROUTES from "@/app/routes";
 
 
 export default function isAuth<T extends object>(Component: React.ComponentType<T>) {
@@ -10,7 +9,7 @@ export default function isAuth<T extends object>(Component: React.ComponentType<
         if (status == "unauthenticated") {
             return redirect(ROUTES.SIGNIN);
         } else if(status == "loading") {
-            return <Loading />;
+            return <div>Loading...</div>;
         }
 
         return <Component {...props} />;
