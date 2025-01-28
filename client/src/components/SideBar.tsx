@@ -3,16 +3,6 @@
 import * as React from 'react'
 import { LayoutDashboard, FileText, FileSpreadsheet, Folder, User, CreditCard, LogOut, ChevronDown, ChevronUp, UserRound  } from 'lucide-react'
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { signOut, useSession } from 'next-auth/react'
 import { Avatar } from './Avatar'
 import { Separator } from './ui/separator'
