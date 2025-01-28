@@ -10,6 +10,7 @@ import { TravellerService } from './traveller/traveller.service';
 import { TravellerModule } from './traveller/traveller.module';
 import { Guide, Traveller, User } from './entities';
 import { GuideService } from './guide/guide.service';
+import { AppModule } from './app/app.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { GuideService } from './guide/guide.service';
     GuideModule,
     TravellerModule,
     GuideModule,
+    AppModule,
   ],
   controllers: [UserController],
   providers: [UserService, TravellerService, GuideService],
