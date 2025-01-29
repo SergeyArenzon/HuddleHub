@@ -1,6 +1,6 @@
 'use client';
 import Sidebar from "@/components/Sidebar";
-import isAuth from "./isAuth";
+import isAuth from "@/utils/isAuth";
 
 import useAuth from "./hooks/useAuth";
 
