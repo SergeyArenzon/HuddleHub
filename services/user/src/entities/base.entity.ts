@@ -1,17 +1,14 @@
 import { PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 as uuid } from 'uuid';
-import { Exclude } from 'class-transformer';
 
 // Generic BaseEntity with utility methods
 export abstract class BaseEntity {
   @PrimaryKey()
   id: string = uuid();
 
-  @Exclude()
   @Property({ onCreate: () => new Date() })
   created_at: Date;
 
-  @Exclude()
   @Property({ onCreate: () => new Date(), onUpdate: () => new Date() })
   updated_at: Date;
 

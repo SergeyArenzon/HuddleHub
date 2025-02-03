@@ -1,21 +1,19 @@
+import { ClientProxy } from '@nestjs/microservices';
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from './entities/user.entity';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityManager, EntityRepository, wrap } from '@mikro-orm/postgresql';
-import { CreateUserDto } from './dtos/create-user.dto';
-import { UpdateUserDto } from './dtos/update-user.dto';
-import { ClientProxy } from '@nestjs/microservices';
-import { Guide, Traveller } from './entities';
+import { User, Guide, Traveller  } from './entities';
+import { CreateUserDto, ResponseUserDto, UpdateUserDto } from './dtos';
+import { GuideService } from './guide/guide.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: EntityRepository<User>,
-    @InjectRepository(Traveller) private travellerRepository: EntityRepository<Traveller>,
-    @InjectRepository(Guide) private guideRepository: EntityRepository<Guide>,
     private readonly em: EntityManager,
     @Inject('USER_SERVICE')
     private rabbitClient: ClientProxy,
+    private readonly guideService: GuideService,
   ) {}
 
 
@@ -28,11 +26,17 @@ export class UserService {
     return await this.create(createUserDto);
   }
 
-  async create(user: CreateUserDto): Promise<User> {
-    const newUser = new User(user);
-    // Fork a new EntityManager to avoid global context issues
+  async create(createUserDto: CreateUserDto): Promise<ResponseUserDto> {
+    // Start a new transaction with EntityManager
     const em = this.em.fork();
+    // Create a new User entity
+    const newUser = new User(createUserDto);
+    // Persist the user in the transaction
     await em.persistAndFlush(newUser);
+    // Create the Guide associated with the user inside the same transaction
+    await this.guideService.createWithTransaction(newUser, em);
+    // Commit the transaction
+    await em.flush();
     return newUser;
   }
 
