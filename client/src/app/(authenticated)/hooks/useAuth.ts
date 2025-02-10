@@ -8,7 +8,7 @@ const useAuth = () => {
     const { setUser, clearUser, isLogged } = useUserStore();
   
     useEffect(() => {
-      if (status === "authenticated") {        
+      if (status === "authenticated") {  
         const user = UserSchema.parse(data?.user);
         setUser(user);
       } else if (status === "unauthenticated") {

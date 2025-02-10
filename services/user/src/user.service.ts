@@ -2,9 +2,10 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityManager, EntityRepository, wrap } from '@mikro-orm/postgresql';
-import { User, Guide, Traveller  } from './entities';
-import { CreateUserDto, ResponseUserDto, UpdateUserDto } from './dtos';
+import { User } from './entities';
+import { CreateUserDto, ResponseUserDto, UpdateUserDto, UserDto } from './dtos';
 import { GuideService } from './guide/guide.service';
+import { TravellerService } from './traveller/traveller.service';
 
 @Injectable()
 export class UserService {
@@ -14,11 +15,10 @@ export class UserService {
     @Inject('USER_SERVICE')
     private rabbitClient: ClientProxy,
     private readonly guideService: GuideService,
+    private readonly travellerService: TravellerService,
   ) {}
 
-
-
-  async createOrFind(createUserDto: CreateUserDto): Promise<User | null> {
+  async createOrFind(createUserDto: CreateUserDto): Promise<UserDto | null> {
     const user = await this.em.findOne(User, { email: createUserDto.email });
     if (user) {
       return user;
@@ -35,6 +35,7 @@ export class UserService {
     await em.persistAndFlush(newUser);
     // Create the Guide associated with the user inside the same transaction
     await this.guideService.createWithTransaction(newUser, em);
+    await this.travellerService.createWithTransaction(newUser, em);
     // Commit the transaction
     await em.flush();
     return newUser;

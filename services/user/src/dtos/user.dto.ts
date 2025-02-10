@@ -1,10 +1,18 @@
-import { IsString, IsNotEmpty, IsEmail, IsUrl, IsUUID, IsDate } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  IsUrl,
+  IsUUID,
+  IsDate,
+} from 'class-validator';
 import { Type } from 'class-transformer';
+import { OmitType } from '@nestjs/mapped-types';
 
 export class UserDto {
   @IsUUID()
-  @IsNotEmpty()   
-  id: string 
+  @IsNotEmpty()
+  id: string;
 
   @IsString()
   @IsNotEmpty()
@@ -24,8 +32,19 @@ export class UserDto {
   @IsDate()
   @Type(() => Date)
   created_at: Date;
-  
+
   @IsDate()
   @Type(() => Date)
   updated_at: Date;
 }
+
+export class CreateUserDto extends OmitType(UserDto, [
+  'id',
+  'created_at',
+  'updated_at',
+] as const) {}
+export class UpdateUserDto extends OmitType(UserDto, [
+  'created_at',
+  'updated_at',
+] as const) {}
+export class ResponseUserDto extends UserDto {}

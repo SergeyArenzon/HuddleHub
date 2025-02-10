@@ -39,6 +39,8 @@ export class AuthController {
     const user = await this.authService.authenticateProvider(body);
     this.logger.debug(`Authenticated user: ${JSON.stringify(user)}`);
 
+    console.log({user});
+
     const res = await fetch('http://user:4001/auth', {
       method: 'POST',
       body: JSON.stringify(user),
@@ -47,8 +49,9 @@ export class AuthController {
       },
     });
 
-    const authUser: UserDto = await res.json();
-    if (!authUser) {
+    const authUser = await res.json();
+    
+    if (authUser?.statusCode === 400) {
       this.logger.warn('Authentication failed: No user returned from user service');
       throw new UnauthorizedException();
     }
