@@ -15,12 +15,12 @@ export class AuthService {
     private rabbitClient: ClientProxy,
   ) {}
 
-  generateToken(payload: Record<string, string>) : string {
+  generateToken(payload: Record<string, string>): string {
     this.logger.log('Sign JWT token');
     return this.jwtService.sign(payload);
   }
 
-  async authenticateProvider(auth: AuthDto) : Promise<ProviderUserDto> {
+  async authenticateProvider(auth: AuthDto): Promise<ProviderUserDto> {
     {
       let user = {} as ProviderUserDto;
       switch (auth.provider) {
