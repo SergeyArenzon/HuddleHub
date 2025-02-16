@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
-import { AuthDto, UserDto } from './dtos';
+import { AuthDto } from './dtos';
 
 @Controller()
 export class AuthController {
@@ -39,8 +39,6 @@ export class AuthController {
     const user = await this.authService.authenticateProvider(body);
     this.logger.debug(`Authenticated user: ${JSON.stringify(user)}`);
 
-    console.log({user});
-
     const res = await fetch('http://user:4001/auth', {
       method: 'POST',
       body: JSON.stringify(user),
@@ -50,9 +48,10 @@ export class AuthController {
     });
 
     const authUser = await res.json();
-    
     if (authUser?.statusCode === 400) {
-      this.logger.warn('Authentication failed: No user returned from user service');
+      this.logger.warn(
+        'Authentication failed: No user returned from user service',
+      );
       throw new UnauthorizedException();
     }
 
