@@ -5,6 +5,7 @@ import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import bg from '@/../public/images/guilherme-stecanella-_dH-oQF9w-Y-unsplash.jpg'
+import { Button } from "@/components/ui/button";
 
 
 export default function SigninPage() {
@@ -15,8 +16,8 @@ export default function SigninPage() {
   
   return (
     <div className="bg-white w-3/5 h-3/4 flex shadow-md container text-primary">
-      <div className="relative w-1/2 container flex justify-center items-center bg-primary overflow-hidden">
-        <Image src={bg} className="opacity-60 absolute z-0" layout="fill" objectFit="cover" alt="traveller image"/>
+      <div className="relative w-1/2 container flex justify-center rounded items-center bg-primary overflow-hidden">
+        <Image src={bg} className="opacity-60 absolute z-0 " layout="fill" objectFit="cover" alt="traveller image"/>
       </div>
 
       <div className="w-1/2 container flex flex-col gap-4  items-center ">
@@ -25,7 +26,7 @@ export default function SigninPage() {
           Your simplest way to connect with expert local guides for unforgettable experiences.
           Sign in and start your journey today
         </div>
-        <div className="z-10 bg-red-600" onClick={() => signIn("google")}>Sign in with Google</div>
+        <Button onClick={() => signIn("google")}>Sign in with Google</Button>
       </div>
     </div>
     )
