@@ -7,7 +7,7 @@ const microOrmConfig: MikroOrmModuleSyncOptions = {
   entities: [User, Traveller, Guide],
   driver: PostgreSqlDriver, // Specify PostgreSQL driver
   migrations: {
-    path: '../src/migrations', // Ensure migrations are inside src
+    path: 'src/migrations', // Ensure migrations are inside src
   },
   debug: true, // Enable for development
 };
