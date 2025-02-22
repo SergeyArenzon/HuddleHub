@@ -26,6 +26,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import useUserStore from "@/store/useUser"
+import { signOut } from "next-auth/react" 
+
 
 const navigation = [
   {
@@ -57,6 +59,12 @@ const userNavigation = [
 export default function Sidebar() {
 
   const user = useUserStore((state) => state.user);
+  const clearUser = useUserStore((state) => state.clearUser);
+
+  const logoutHandler = () => {
+    clearUser();
+    signOut();
+  }
 
   return (
     <SidebarProvider >
@@ -123,7 +131,7 @@ export default function Sidebar() {
                     ))}
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={logoutHandler}>
                     <LogOut className="mr-2 size-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>

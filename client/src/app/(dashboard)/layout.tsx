@@ -1,7 +1,6 @@
 'use client';
 import Sidebar from "@/components/Sidebar";
 import isAuth from "@/utils/isAuth";
-
 import useAuth from "./hooks/useAuth";
 import TopBar from "@/components/Topbar";
 
