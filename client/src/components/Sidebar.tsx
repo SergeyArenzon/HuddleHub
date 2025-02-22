@@ -1,117 +1,141 @@
-// 'use client'
+"use client"
+import { Bell, ChevronDown, CreditCard, Home, Inbox, LayoutDashboard, LogOut, Settings, User2 } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Sidebar as  ShadcnSidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import useUserStore from "@/store/useUser"
 
-// import * as React from 'react'
-// import { LayoutDashboard, FileText, FileSpreadsheet, Folder, User, CreditCard, LogOut, ChevronDown, ChevronUp, UserRound  } from 'lucide-react'
-// import { cn } from "@/lib/utils"
-// import { Button } from "@/components/ui/button"
-// import { ScrollArea } from "@/components/ui/scroll-area"
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu"
-// import { signOut, useSession } from 'next-auth/react'
-// import { Avatar } from './Avatar'
-// import { Separator } from './ui/separator'
-// import ROUTES from '@/app/routes'
-// import useUserStore from '@/store/useUser'
+const navigation = [
+  {
+    title: "Overview",
+    items: [
+      { title: "Dashboard", icon: LayoutDashboard, url: "#", isActive: true },
+      { title: "Home", icon: Home, url: "#" },
+      { title: "Inbox", icon: Inbox, url: "#", badge: "5" },
+      { title: "Notifications", icon: Bell, url: "#" },
+    ],
+  },
+]
 
+const userNavigation = [
+  {
+    title: "Profile",
+    icon: User2,
+  },
+  {
+    title: "Billing",
+    icon: CreditCard,
+  },
+  {
+    title: "Settings",
+    icon: Settings,
+  },
+]
 
-// // This is sample data. In a real application, you'd fetch this from an API or database.
+export default function Sidebar() {
 
-// const tabs = [
-//   { id: "overview", label: "Overview", icon: LayoutDashboard },
-//   { id: "projects", label: "Projects", icon: Folder },
-//   { id: "invoices", label: "Invoices", icon: FileSpreadsheet },
-//   { id: "documents", label: "Documents", icon: FileText },
-// ]
+  const user = useUserStore((state) => state.user);
 
-// export function Sidebar() {
-//   const [activeTab, setActiveTab] = React.useState("overview");
-//   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
-//   const { user } = useUserStore();
-  
-//   return (
-//     <div className="flex h-screen">
-//       <aside className={cn(
-//         "bg-gray-100 p-4 transition-all duration-300 ease-in-out",
-//         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-//       )}>
-//         <div className="mb-4">
-//           <DropdownMenu>
-//             <DropdownMenuTrigger asChild>
-//                 <Button size={"xl"} variant="no_hover"  className="w-full justify-start gap-2 px-2 py-2">
-//                 <Avatar 
-//                   src={user?.image_url || ""} 
-//                   fallback={`${user?.first_name?.at(0)}${user?.last_name.at(0)}`}
-//                   />
-//                 <div className="flex flex-col items-start">
-//                   <span className="font-semibold">{user?.first_name}</span>
-//                   <span className="text-xs text-muted-foreground">{user?.email}</span>
-//                 </div>
-//                 <div>
-//                   <ChevronUp />
-//                   <ChevronDown />
-//                 </div>
-//               </Button>
-//             </DropdownMenuTrigger>
-//             <Separator />
-//             <DropdownMenuContent 
-//               className="w-56 bg-white border border-gray-200 shadow-lg z-50" 
-//               align="start"
-//             >
-//               <DropdownMenuLabel>My Account</DropdownMenuLabel>
-//               <Separator />
-//               <DropdownMenuSeparator />
-//               <DropdownMenuItem>
-//                 <User className="mr-2 h-4 w-4" />
-//                 <span>Profile</span>
-//               </DropdownMenuItem>
-//               <DropdownMenuItem>
-//                 <CreditCard className="mr-2 h-4 w-4" />
-//                 <span>Billing</span>
-//               </DropdownMenuItem>
-//               <DropdownMenuSeparator />
-//               <Separator />
-//               <DropdownMenuItem onClick={() => signOut({redirect: true, callbackUrl: ROUTES.DASHBOARD})}>
-//                 <LogOut className="mr-2 h-4 w-4" />
-//                 <span>Log out</span>
-//               </DropdownMenuItem>
-//             </DropdownMenuContent>
-//           </DropdownMenu>
-//         </div>
-//         <ScrollArea className="h-[calc(100vh-6rem)]">
-//           <nav className="space-y-2">
-//             {tabs.map((tab) => (
-//               <Button
-//                 key={tab.id}
-//                 variant="ghost"
-//                 onClick={() => setActiveTab(tab.id)}
-//                 className={cn(
-//                   "w-full justify-start",
-//                   activeTab === tab.id && "bg-muted"
-//                 )}
-//               >
-//                 <tab.icon className="mr-2 h-4 w-4" />
-//                 {tab.label}
-//               </Button>
-//             ))}
-//           </nav>
-//         </ScrollArea>
-//       </aside>
-//     </div>
-//   )
-// }
-
-import React from 'react'
-
-const Sidebar = () => {
   return (
-    <div>SideBar</div>
+    <SidebarProvider >
+      <ShadcnSidebar side="right">
+        <SidebarHeader>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton size="lg">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                  <LayoutDashboard className="size-4" />
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-semibold">Acme Inc</span>
+                  <span className="text-xs">Dashboard</span>
+                </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent>
+          {navigation.map((group) => (
+            <SidebarGroup key={group.title}>
+              <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {group.items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild isActive={item.isActive}>
+                        <a href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </SidebarContent>
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton>
+                    <Avatar className="size-6">
+                      <AvatarImage src={user?.image_url} />
+                      <AvatarFallback>{user?.first_name.charAt(0)}{user?.last_name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <span>{user?.first_name} {user?.last_name}</span>
+                    <ChevronDown className="ml-auto size-4" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="start" side="right">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    {userNavigation.map((item) => (
+                      <DropdownMenuItem key={item.title}>
+                        <item.icon className="mr-2 size-4" />
+                        <span>{item.title}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <LogOut className="mr-2 size-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+        <SidebarRail />
+      </ShadcnSidebar>
+      <SidebarTrigger />
+    </SidebarProvider>
   )
 }
 
-export default Sidebar
