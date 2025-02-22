@@ -1,13 +1,13 @@
 import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { User, Traveller, Guide } from '../src/entities';
+import { User, Traveller, Guide } from './entities';
 
 const microOrmConfig: MikroOrmModuleSyncOptions = {
   clientUrl: process.env.USER_DB_HOST, // Connection URL
   entities: [User, Traveller, Guide],
   driver: PostgreSqlDriver, // Specify PostgreSQL driver
   migrations: {
-    path: 'src/migrations', // Ensure migrations are inside src
+    path: '../src/migrations', // Ensure migrations are inside src
   },
   debug: true, // Enable for development
 };
