@@ -1,19 +1,23 @@
 "use client"
-import { Bell, ChevronDown, CreditCard, Home, Inbox, LayoutDashboard, LogOut, Settings, User2 } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+import * as React from "react"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+  Settings,
+  Users,
+  FileText,
+  BarChart3,
+  Search,
+  Bell,
+  MessageSquare,
+  User,
+  LogOut,
+  CreditCard,
+  ChevronUp,
+} from "lucide-react"
+
 import {
-  Sidebar as  ShadcnSidebar,
+  Sidebar as ShadcnSidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -21,128 +25,148 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
   SidebarRail,
-  SidebarTrigger,
+  SidebarFooter,
+  SidebarProvider,
 } from "@/components/ui/sidebar"
+import { Input } from "@/components/ui/input"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import useUserStore from "@/store/useUser"
-import { signOut } from "next-auth/react" 
+
+export function Sidebar({ ...props }: React.ComponentProps<typeof ShadcnSidebar>) {
+  const [activeTab, setActiveTab] = React.useState("analytics");
+  const { user } = useUserStore();
 
 
-const navigation = [
-  {
-    title: "Overview",
-    items: [
-      { title: "Dashboard", icon: LayoutDashboard, url: "#", isActive: true },
-      { title: "Home", icon: Home, url: "#" },
-      { title: "Inbox", icon: Inbox, url: "#", badge: "5" },
-      { title: "Notifications", icon: Bell, url: "#" },
-    ],
-  },
-]
+  const tabs = [
+    { id: "analytics", label: "Analytics", icon: BarChart3 },
+    { id: "customers", label: "Customers", icon: Users },
+    { id: "documents", label: "Documents", icon: FileText },
+    { id: "messages", label: "Messages", icon: MessageSquare, badge: 5 },
+    { id: "notifications", label: "Notifications", icon: Bell, badge: 3 },
+    { id: "settings", label: "Settings", icon: Settings },
+  ]
 
-const userNavigation = [
-  {
-    title: "Profile",
-    icon: User2,
-  },
-  {
-    title: "Billing",
-    icon: CreditCard,
-  },
-  {
-    title: "Settings",
-    icon: Settings,
-  },
-]
-
-export default function Sidebar() {
-
-  const user = useUserStore((state) => state.user);
-  const clearUser = useUserStore((state) => state.clearUser);
-
-  const logoutHandler = () => {
-    clearUser();
-    signOut();
-  }
+  console.log({user});
+  
 
   return (
-    <SidebarProvider >
-      <ShadcnSidebar side="right">
+    <SidebarProvider>
+      <ShadcnSidebar side="right" {...props}>
         <SidebarHeader>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton size="lg">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <LayoutDashboard className="size-4" />
-                </div>
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold">Acme Inc</span>
-                  <span className="text-xs">Dashboard</span>
-                </div>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          <div className="flex items-center justify-center px-4 py-2">
+            <div className="flex h-8 px-1 items-center justify-center rounded-md bg-primary">
+              <span className="text-lg font-bold text-primary-foreground">Rapid</span>
+            </div>
+            <div className="font-bold text-lg ">Guide</div>
+          </div>
+          <div className="relative px-4 py-2">
+            <Search className="absolute left-6 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input placeholder="Search..." className="pl-8 h-9" />
+          </div>
         </SidebarHeader>
         <SidebarContent>
-          {navigation.map((group) => (
-            <SidebarGroup key={group.title}>
-              <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {group.items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild isActive={item.isActive}>
-                        <a href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          ))}
+          <SidebarGroup>
+            <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {tabs.slice(0, 3).map((tab) => (
+                  <SidebarMenuItem key={tab.id}>
+                    <SidebarMenuButton isActive={activeTab === tab.id} onClick={() => setActiveTab(tab.id)}>
+                      <tab.icon className="h-4 w-4" />
+                      <span>{tab.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupLabel>Notifications</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {tabs.slice(3, 5).map((tab) => (
+                  <SidebarMenuItem key={tab.id}>
+                    <SidebarMenuButton isActive={activeTab === tab.id} onClick={() => setActiveTab(tab.id)}>
+                      <tab.icon className="h-4 w-4" />
+                      <span>{tab.label}</span>
+                      {tab.badge && (
+                        <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-primary text-xs font-medium text-primary-foreground">
+                          {tab.badge}
+                        </span>
+                      )}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupLabel>Preferences</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {tabs.slice(5).map((tab) => (
+                  <SidebarMenuItem key={tab.id}>
+                    <SidebarMenuButton isActive={activeTab === tab.id} onClick={() => setActiveTab(tab.id)}>
+                      <tab.icon className="h-4 w-4" />
+                      <span>{tab.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton>
-                    <Avatar className="size-6">
-                      <AvatarImage src={user?.image_url} />
-                      <AvatarFallback>{user?.first_name.charAt(0)}{user?.last_name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <span>{user?.first_name} {user?.last_name}</span>
-                    <ChevronDown className="ml-auto size-4" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start" side="right">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    {userNavigation.map((item) => (
-                      <DropdownMenuItem key={item.title}>
-                        <item.icon className="mr-2 size-4" />
-                        <span>{item.title}</span>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logoutHandler}>
-                    <LogOut className="mr-2 size-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
+        <SidebarFooter className="border-t p-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex w-full items-center gap-3 rounded-md p-2 text-left hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src={user?.image_url} alt={user?.first_name} referrerPolicy="no-referrer"/>
+                  <AvatarFallback>{`${user?.first_name.charAt(0)}${user?.last_name.charAt(0)}`}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 overflow-hidden">
+                  <p className="text-sm font-medium leading-none truncate">{`${user?.first_name} ${user?.last_name}`}</p>
+                  <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                </div>
+                <ChevronUp className="h-4 w-4 text-muted-foreground" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[200px]">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <CreditCard className="mr-2 h-4 w-4" />
+                <span>Billing</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </SidebarFooter>
         <SidebarRail />
       </ShadcnSidebar>
-      <SidebarTrigger />
     </SidebarProvider>
   )
 }
