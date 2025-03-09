@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { UserModule } from './user.module';
+import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create(UserModule);
+  const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   const logger = new Logger('Bootstrap');
   app.useLogger(logger);

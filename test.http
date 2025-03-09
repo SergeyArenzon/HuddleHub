@@ -16,13 +16,12 @@
 
 
 
-# POST http://huddlehub.io/api/auth
-# Content-Type: application/json
+POST http://huddlehub.io/api/user
+Content-Type: application/json
 
-# {
-#   "jwt": "sdfsdfsdfsdf",
-#   "provider": "google" 
-# }
+{
+  "user_id": "1bf15d4b-9559-4f06-864a-f0dbd0c97988",
+}
 
 
-GET http://huddlehub.io/api/user/guide
+# GET http://huddlehub.io/api/user/guide

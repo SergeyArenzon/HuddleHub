@@ -9,12 +9,12 @@ import {
   HttpCode,
   Logger,
 } from '@nestjs/common';
-import { CreateUserDto, ResponseUserDto } from './dtos';
+import { CreateUserDto, ResponseUserDto } from '../dtos';
 import { UserService } from './user.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { User } from './entities/user.entity';
 
-@Controller()
+
+@Controller("")
 export class UserController {
   private readonly logger = new Logger(UserController.name);
 
