@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityManager, EntityRepository, wrap } from '@mikro-orm/postgresql';
-import { User } from '../entities';
-import { CreateUserDto, ResponseUserDto, UpdateUserDto, UserDto } from '../dtos';
+import { Guide, User } from '../entities';
+import { CreateUserDto, UpdateUserDto, UserDto } from '../dtos';
 
 @Injectable()
 export class UserService {
@@ -12,14 +12,19 @@ export class UserService {
   ) {}
 
   async createOrFind(createUserDto: CreateUserDto): Promise<UserDto | null> {
-    const user = await this.em.findOne(User, { email: createUserDto.email });
-    if (user) {
-      return user;
+    try {
+      const user = await this.em.findOne(User, { email: createUserDto.email },  {populate: ['guide']});
+      if (user) {
+        return user;
+      }
+      
+      return await this.create(createUserDto);
+    } catch (error) {
+      console.log(error); 
     }
-    return await this.create(createUserDto);
   }
 
-  async create(createUserDto: CreateUserDto): Promise<ResponseUserDto> {
+  async create(createUserDto: CreateUserDto): Promise<UserDto> {
     // Start a new transaction with EntityManager
     const em = this.em.fork();
     // Create a new User entity

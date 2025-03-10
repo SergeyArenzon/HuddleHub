@@ -12,6 +12,8 @@ export class GuideService {
       // private readonly userService: UserService,
       private readonly em: EntityManager,
     ) {}
+
+
     
     async create(createGuideDto: CreateGuideDto): Promise<ResponseGuideDto> {
         const user = await this.em.findOne(User, { id: createGuideDto.user_id });

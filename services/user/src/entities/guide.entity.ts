@@ -4,6 +4,7 @@ import {
   AfterUpdate,
   Entity,
   ManyToOne,
+  OneToOne
 } from '@mikro-orm/core';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
@@ -30,6 +31,6 @@ export class Guide extends BaseEntity {
     console.log('Deleted guide with id', this.id);
   }
 
-  @ManyToOne(() => User)
-  user: User;
+  @OneToOne(() => User)
+  user!: User;
 }

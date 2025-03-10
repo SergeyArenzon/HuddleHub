@@ -3,9 +3,11 @@ import {
   AfterDelete,
   AfterUpdate,
   Entity,
+  OneToOne,
   Property,
 } from '@mikro-orm/core';
 import { BaseEntity } from './base.entity';
+import { Guide } from './guide.entity'; // Ensure the correct path to Guide entity
 
 @Entity()
 export class User extends BaseEntity {
@@ -40,4 +42,9 @@ export class User extends BaseEntity {
 
   @Property()
   image_url: string;
+
+  // One-to-One relationship with Guide entity
+  @OneToOne(() => Guide, guide => guide.user)
+
+  guide!: Guide; // Make this nullable if the relationship is optional
 }

@@ -9,7 +9,7 @@ import {
   HttpCode,
   Logger,
 } from '@nestjs/common';
-import { CreateUserDto, ResponseUserDto } from '../dtos';
+import { CreateUserDto, UserDto } from '../dtos';
 import { UserService } from './user.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
 
@@ -32,7 +32,7 @@ export class UserController {
 
   @Post('/auth')
   @HttpCode(200)
-  async createOrFind(@Body() body: CreateUserDto): Promise<ResponseUserDto> {
+  async createOrFind(@Body() body: CreateUserDto): Promise<UserDto> {
     return await this.usersService.createOrFind(body);
   }
 
