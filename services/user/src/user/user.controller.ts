@@ -20,12 +20,6 @@ export class UserController {
 
   constructor(private usersService: UserService) {}
 
-  // ENDPOINTS
-  @HttpCode(200)
-  @Get('/health')
-  health() {}
-
-  // @Get()
   // findUser() {
   //   return { first_name: 'John', last_name: 'Doe' };
   // }

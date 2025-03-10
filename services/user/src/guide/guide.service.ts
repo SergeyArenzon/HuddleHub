@@ -3,13 +3,13 @@ import { EntityManager, EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 import { CreateGuideDto, ResponseGuideDto } from 'src/dtos/guide.dto';
 import { Guide, User } from 'src/entities';
-import { UserService } from 'src/app.service';
+// import { UserService } from 'src/app.service';
 
 @Injectable()
 export class GuideService {
     constructor(
       @InjectRepository(Guide) private guideRepository: EntityRepository<Guide>,
-      private readonly userService: UserService,
+      // private readonly userService: UserService,
       private readonly em: EntityManager,
     ) {}
     

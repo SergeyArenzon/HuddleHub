@@ -1,29 +1,18 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { UserController } from './user/user.controller';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { UserService } from './user/user.service';
-import { LoggerMiddleware } from './logger.middleware';
+import { MikroOrmModule } from '@mikro-orm/nestjs';;
 import { ClientsModule } from '@nestjs/microservices';
-import { GuideModule } from './guide/guide.module';
-import { TravellerService } from './traveller/traveller.service';
-import { TravellerModule } from './traveller/traveller.module';
-import { Guide, Traveller, User } from './entities';
-import { GuideService } from './guide/guide.service';
-import { JwtModule } from '@nestjs/jwt';
-import { rabbitMqConfig, jwtConfig, microOrmConfig } from 'config';
+import { rabbitMqConfig, microOrmConfig } from 'config';
+import { UserModule } from './user/user.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
-    JwtModule.registerAsync(jwtConfig.asProvider()),
     MikroOrmModule.forRoot(microOrmConfig),
-    MikroOrmModule.forFeature([User, Traveller, Guide]),
     ClientsModule.register(rabbitMqConfig),
-    GuideModule,
-    TravellerModule,
-    AppModule,
+    UserModule,
   ],
-  controllers: [UserController, GuideModule],
-  providers: [UserService, TravellerService, GuideService],
+  controllers: [AppController],
+  providers: [],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
