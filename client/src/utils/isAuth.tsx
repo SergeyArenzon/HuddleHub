@@ -17,8 +17,6 @@ export default function isAuth<T extends object>(Component: React.ComponentType<
             return redirect(ROUTES.SIGNIN);
         } else if (status === "authenticated" && pathname === ROUTES.SIGNIN) {
             return redirect(ROUTES.DASHBOARD);
-        } else if(status === "loading") {
-            return <div>Loading...</div>;
         }
         return <Component {...props} />;
     };
