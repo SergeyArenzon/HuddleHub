@@ -1,17 +1,9 @@
 'use client';
 
-export default function Home() {
-  // const { status } = useSession();
-    
-  // if (status === "loading") return <Loading />;
-  // else if (status === "unauthenticated") redirect('signin');
-  //  redirect('dashboard');
+import isAuth from "@/utils/isAuth";
 
-
-const me = () => {
-  const res = fetch('http://huddlehub.io/api/client/me')
+const  Home = () => {
+  return (<div>HOME</div>)
 }
 
-
-  return (<div onClick={me}>dfsdfsdf</div>)
-}
+export default isAuth(Home)

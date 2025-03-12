@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Roboto_Mono } from 'next/font/google'
+import ClientApp from "@/components/ClientApp";
 
 
 const robotoMono = Roboto_Mono({
@@ -36,7 +37,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${robotoMono.variable} antialiased`}>
             <Providers>
-              {children}
+              <ClientApp>
+                {children}
+              </ClientApp>
             </Providers>
         </body>
       </html>

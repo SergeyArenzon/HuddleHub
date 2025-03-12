@@ -6,7 +6,9 @@ import { useEffect } from "react";
 const useAuth = () => {
     const {  data, status } = useSession();
     const { setUser, clearUser, isLogged } = useUserStore();
-  
+
+    console.log("useAuth rendered");
+    
     useEffect(() => {
       if (status === "authenticated") {  
         const user = UserSchema.parse(data?.user);
@@ -16,7 +18,7 @@ const useAuth = () => {
       }
     }, [status]);
 
-    return { isLogged };
+    return { isLogged , status};
 };
 
 export default useAuth;
