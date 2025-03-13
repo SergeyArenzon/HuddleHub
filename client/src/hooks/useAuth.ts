@@ -6,8 +6,6 @@ import { useEffect } from "react";
 const useAuth = () => {
     const {  data, status } = useSession();
     const { setUser, clearUser, isLogged } = useUserStore();
-
-    console.log("useAuth rendered");
     
     useEffect(() => {
       if (status === "authenticated") {  
