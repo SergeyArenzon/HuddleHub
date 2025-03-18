@@ -24,11 +24,13 @@ type GuideForm = {
     name: string
 }
 
+console.log(process.env.BASE_URL);
 
 export default function SignupGuide() {
   // Queries
-  const query = useQuery({ queryKey: ['languages'], queryFn: new Api().getLanguages() });
+  const query = useQuery({ queryKey: ['languages'], queryFn:() =>  new Api().getLanguages() });
 
+console.log({query});
 
   const handleSubmit = (data: GuideForm) => {
     console.log("Form submitted:", data)
@@ -80,7 +82,7 @@ export default function SignupGuide() {
           type: "dropdown-checkbox",
           name: "languages",
           label: "Languages",
-          options: languages,
+          options: [],
           placeholder: "Select languages",
           required: true,
           validation: {
