@@ -95,14 +95,13 @@ export function FormDropdownCheckboxField({
                   >
                     <Checkbox
                       checked={selectedItems.includes(option.value)}
-                      onCheckedChange={() => handleItemToggle(option.value)}
+                      onCheckedChange={(checked) => handleItemToggle(option.value)}
                       id={`${name}-${option.value}`}
                       className="mr-2"
                     />
-                    <Label htmlFor={`${name}-${option.value}`} className="flex-grow cursor-pointer">
+                    <Label htmlFor={`${name}-${option.value}`} onClick={(e) => e.stopPropagation()} className="flex-grow cursor-pointer">
                       {option.label}
                     </Label>
-
                     {selectedItems.includes(option.value) && <Check className="h-4 w-4 text-primary" />}
                   </CommandItem>
                 ))}
