@@ -44,9 +44,9 @@ type DropdownCheckboxFieldConfig = BaseFieldConfig & {
 
 type FieldConfig = TextFieldConfig | TextareaFieldConfig | DropdownCheckboxFieldConfig
 
-type FormProps = {
+type FormProps<T> = {
   fields: FieldConfig[]
-  onSubmit: (data: any) => void
+  onSubmit: (data: T) => void
   submitButtonText?: string
   title?: string
   description?: string
@@ -56,24 +56,24 @@ type FormProps = {
       cancelButtonText?: undefined 
     } // Neither exists
   | { 
-    onCancel: (data: any) => void; 
+    onCancel: () => void; 
     cancelButtonText: string 
   } // Both required
 )
 
-export default function Form({
+export default function Form<T>({
   fields,
   onSubmit,
   submitButtonText = "Submit",
   title,
   description
-}: FormProps) {
+}: FormProps<T>) {
   // Generate Zod schema dynamically based on field configurations
   const generateZodSchema = () => {
-    const schemaMap: Record<string, any> = {}
+    const schemaMap: Record<string, z.ZodTypeAny> = {}; // ✅ Correct type
 
     fields.forEach(field => {
-      let fieldSchema: any = z.string()
+      let fieldSchema: z.ZodString | z.ZodArray<z.ZodString> = z.string();
 
       if (field.required) {
         fieldSchema = fieldSchema.min(1, `${field.label} is required`)
@@ -137,12 +137,12 @@ export default function Form({
     defaultValues: fields.reduce((acc, field) => {
       acc[field.name] = field.type === 'dropdown-checkbox' ? [] : ''
       return acc
-    }, {} as Record<string, any>)
+    }, {} as Record<string, unknown> )
   })
 
   // Handle form submission
   const onSubmitHandler = (data: FormValues) => {
-    onSubmit(data)
+    onSubmit(data as T)
   }
 
   // Render field based on type

@@ -95,7 +95,7 @@ export function FormDropdownCheckboxField({
                   >
                     <Checkbox
                       checked={selectedItems.includes(option.value)}
-                      onCheckedChange={(checked) => handleItemToggle(option.value)}
+                      onCheckedChange={() => handleItemToggle(option.value)}
                       id={`${name}-${option.value}`}
                       className="mr-2"
                     />

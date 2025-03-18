@@ -1,6 +1,5 @@
 "use client"
-
-import Form from "@/components/form"
+import Form from "@/components/form";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -24,8 +23,18 @@ const languages = [
   { value: "arabic", label: "Arabic" },
 ]
 
+
+
+type GuideForm = {
+    bio: string
+    categories: string[]
+    languages: string[]
+    name: string
+}
+
+
 export default function SignupGuide() {
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: GuideForm) => {
     console.log("Form submitted:", data)
     // Handle form submission here
   }
@@ -38,27 +47,14 @@ export default function SignupGuide() {
         {
           type: "text",
           name: "name",
-          label: "Full Name",
-          placeholder: "Enter your full name",
+          label: "Guide Name",
+          placeholder: "Enter guide name",
           required: true,
           validation: {
             min: 2,
             max: 100,
           },
           helperText: "Your full name as it appears on your ID.",
-        },
-        {
-          type: "text",
-          name: "email",
-          label: "Email Address",
-          placeholder: "your.email@example.com",
-          required: true,
-          inputType: "email",
-          validation: {
-            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: "Please enter a valid email address",
-          },
-          helperText: "We'll never share your email with anyone else.",
         },
         {
           type: "textarea",
