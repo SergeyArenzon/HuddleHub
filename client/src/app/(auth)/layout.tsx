@@ -12,5 +12,4 @@ function AuthLayout({
   return children
    
 }
-// export default isAuth(AuthLayout);
-export default AuthLayout;
+export default isAuth(AuthLayout);
