@@ -1,5 +1,7 @@
 "use client"
 import Form from "@/components/form";
+import { useQuery } from "@tanstack/react-query";
+import Api from "@/utils/api";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -12,16 +14,6 @@ const categories = [
   { value: "entertainment", label: "Entertainment" },
 ]
 
-const languages = [
-  { value: "english", label: "English" },
-  { value: "spanish", label: "Spanish" },
-  { value: "french", label: "French" },
-  { value: "german", label: "German" },
-  { value: "chinese", label: "Chinese" },
-  { value: "japanese", label: "Japanese" },
-  { value: "russian", label: "Russian" },
-  { value: "arabic", label: "Arabic" },
-]
 
 
 
@@ -34,6 +26,10 @@ type GuideForm = {
 
 
 export default function SignupGuide() {
+  // Queries
+  const query = useQuery({ queryKey: ['languages'], queryFn: new Api().getLanguages() });
+
+
   const handleSubmit = (data: GuideForm) => {
     console.log("Form submitted:", data)
     // Handle form submission here
