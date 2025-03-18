@@ -1,6 +1,6 @@
 "use client"
 
-import ModularForm from "@/components/form"
+import Form from "@/components/form"
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -31,7 +31,7 @@ export default function SignupGuide() {
   }
 
   return (
-    <ModularForm
+    <Form
       title="Profile Information"
       description="Complete your profile information below"
       fields={[

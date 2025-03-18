@@ -44,21 +44,30 @@ type DropdownCheckboxFieldConfig = BaseFieldConfig & {
 
 type FieldConfig = TextFieldConfig | TextareaFieldConfig | DropdownCheckboxFieldConfig
 
-type ModularFormProps = {
+type FormProps = {
   fields: FieldConfig[]
   onSubmit: (data: any) => void
   submitButtonText?: string
   title?: string
   description?: string
-}
+} & (
+  | { 
+      onCancel?: undefined; 
+      cancelButtonText?: undefined 
+    } // Neither exists
+  | { 
+    onCancel: (data: any) => void; 
+    cancelButtonText: string 
+  } // Both required
+)
 
-export default function ModularForm({
+export default function Form({
   fields,
   onSubmit,
   submitButtonText = "Submit",
   title,
   description
-}: ModularFormProps) {
+}: FormProps) {
   // Generate Zod schema dynamically based on field configurations
   const generateZodSchema = () => {
     const schemaMap: Record<string, any> = {}
