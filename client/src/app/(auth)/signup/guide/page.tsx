@@ -3,6 +3,7 @@ import Form from "@/components/form";
 import { useQuery } from "@tanstack/react-query";
 import Api from "@/utils/api";
 import Loading from "@/components/Loading";
+import { Error } from "@/components/Error";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -28,9 +29,13 @@ type GuideForm = {
 
 export default function SignupGuide() {
   // Queries
-  const { data: languages, isLoading, error } = useQuery({ queryKey: ['languages'], queryFn:() =>  new Api().getLanguages() });
+  const { data: languages, isLoading, error, refetch } = useQuery({
+    retry: false,  
+    queryKey: ['languages'], 
+    queryFn:() =>  new Api().getLanguages() });
+    
   if (isLoading) return <Loading/>
-  if (error) return <div>Error</div>
+  if (error) return <Error retryAction={() => refetch()}/>
 
   const handleSubmit = (data: GuideForm) => {
     console.log("Form submitted:", data)
