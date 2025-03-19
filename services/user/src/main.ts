@@ -6,6 +6,7 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({ credentials: true });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   const logger = new Logger('Bootstrap');
   app.useLogger(logger);

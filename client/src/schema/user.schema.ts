@@ -10,4 +10,13 @@ const UserSchema = z.object({
     updated_at: z.string().transform((val) => new Date(val)),
 });
 
-export { UserSchema };
+
+// Define the expected structure of a language object
+const LanguageSchema = z.object({
+    code: z.string(),
+    name: z.string(),
+  });
+
+
+
+export { UserSchema, LanguageSchema };

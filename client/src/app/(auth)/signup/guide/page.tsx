@@ -2,6 +2,7 @@
 import Form from "@/components/form";
 import { useQuery } from "@tanstack/react-query";
 import Api from "@/utils/api";
+import Loading from "@/components/Loading";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -24,18 +25,19 @@ type GuideForm = {
     name: string
 }
 
-console.log(process.env.BASE_URL);
 
 export default function SignupGuide() {
   // Queries
-  const query = useQuery({ queryKey: ['languages'], queryFn:() =>  new Api().getLanguages() });
-
-console.log({query});
+  const { data: languages, isLoading, error } = useQuery({ queryKey: ['languages'], queryFn:() =>  new Api().getLanguages() });
+  if (isLoading) return <Loading/>
+  if (error) return <div>Error</div>
 
   const handleSubmit = (data: GuideForm) => {
     console.log("Form submitted:", data)
     // Handle form submission here
   }
+
+
 
   return (
     <Form
@@ -82,7 +84,7 @@ console.log({query});
           type: "dropdown-checkbox",
           name: "languages",
           label: "Languages",
-          options: [],
+          options: languages?.map((lang) => ({ value: lang.code, label: lang.name })) || [],
           placeholder: "Select languages",
           required: true,
           validation: {
