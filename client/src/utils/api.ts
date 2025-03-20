@@ -41,7 +41,7 @@ export default class Api {
   // 🛠 Fetch languages with validation
   async getLanguages(): Promise<Language[]> {
     
-    const response = await this.axios.get('/user/languagesz');
+    const response = await this.axios.get('/user/languages');
 
     // ✅ Validate API response
     const parsed = z.array(LanguageSchema).safeParse(response.data);

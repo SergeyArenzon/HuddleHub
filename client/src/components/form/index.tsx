@@ -8,6 +8,9 @@ import * as z from "zod"
 import { FormTextField } from "./FormTextField"
 import { FormTextareaField } from "./FormTextareaField"
 import { FormDropdownCheckboxField } from "./FormDropdownCheckboxField"
+import { Input } from "../ui/input"
+import { FormFieldBase } from "./FormFieldBase"
+import { Textarea } from "../ui/textarea"
 
 // Field types
 type BaseFieldConfig = {
@@ -150,34 +153,39 @@ export default function Form<T>({
     switch (field.type) {
       case 'text':
         return (
-          <FormTextField
-            key={field.name}
-            name={field.name}
-            label={field.label}
-            placeholder={field.placeholder}
-            helperText={field.helperText}
-            register={register}
-            errors={errors}
-            disabled={field.disabled}
-            required={field.required}
-            type={field.inputType || 'text'}
-          />
+            <FormFieldBase
+              name={field.name}
+              label={field.label}
+              helperText={field.helperText}
+              errors={errors}
+              disabled={field.disabled}
+              required={field.required}
+            >
+              <Input 
+                id={field.name} type={field.inputType || 'text'} 
+                placeholder={field.placeholder} 
+                disabled={field.disabled} 
+                {...register(field.name)} />
+            </FormFieldBase>
+          
         )
 
       case 'textarea':
         return (
-          <FormTextareaField
-            key={field.name}
+          <FormFieldBase
             name={field.name}
             label={field.label}
-            placeholder={field.placeholder}
             helperText={field.helperText}
-            register={register}
             errors={errors}
             disabled={field.disabled}
-            required={field.required}
-            rows={field.rows}
-          />
+            required={field.required}>
+            <Textarea
+              id={field.name}
+              placeholder={field.placeholder}
+              disabled={field.disabled}
+              className={`min-h-[${6 * 24}px]`}
+            />
+          </FormFieldBase>
         )
 
       case 'dropdown-checkbox':
