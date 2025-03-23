@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { Language } from '@/types';
 import { z } from 'zod';
-import { LanguageSchema } from '@/schema/user.schema';
+import { CountrySchema, LanguageSchema } from '@/schema/user.schema';
 
 export default class Api {
   private axios: AxiosInstance;
@@ -40,9 +40,7 @@ export default class Api {
 
   // 🛠 Fetch languages with validation
   async getLanguages(): Promise<Language[]> {
-    
     const response = await this.axios.get('/user/languages');
-
     // ✅ Validate API response
     const parsed = z.array(LanguageSchema).safeParse(response.data);
     if (!parsed.success) {
@@ -50,6 +48,24 @@ export default class Api {
       throw new Error('Unexpected API response format.');
     }
 
+    return parsed.data;
+  }
+  
+  async getCountries(): Promise<Language[]> {
+    const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,cca3');
+    const fixedCountries = response.data.map((country: {name: { common: string }, cca3: string}) => {
+      return {
+        name: country.name.common,
+        code: country.cca3
+      }
+    })
+    
+    // ✅ Validate API response
+    const parsed = z.array(CountrySchema).safeParse(fixedCountries);
+    if (!parsed.success) {
+      console.error('Invalid API response:', parsed.error);
+      throw new Error('Unexpected API response format.');
+    }
     return parsed.data;
   }
 }

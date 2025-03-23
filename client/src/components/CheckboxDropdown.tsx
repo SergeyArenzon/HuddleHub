@@ -8,9 +8,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import type { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from "react-hook-form"
-import { FormFieldBase } from "./FormFieldBase"
 
-export type DropdownCheckboxFieldProps = {
+export type CheckboxDropdownProps = {
   name: string
   label: string
   options: Array<{ value: string; label: string }>
@@ -25,12 +24,11 @@ export type DropdownCheckboxFieldProps = {
   className?: string
 }
 
-export function FormDropdownCheckboxField({
+export function CheckboxDropdown({
   name,
   label,
   options,
   placeholder,
-  helperText,
   register,
   errors,
   watch,
@@ -38,7 +36,7 @@ export function FormDropdownCheckboxField({
   disabled = false,
   required = false,
   className = "",
-}: DropdownCheckboxFieldProps) {
+}: CheckboxDropdownProps) {
   const [open, setOpen] = React.useState(false)
   const selectedItems = (watch(name) as string[]) || []
 
@@ -57,15 +55,6 @@ export function FormDropdownCheckboxField({
   }, [register, name])
 
   return (
-    <FormFieldBase
-      name={name}
-      label={label}
-      helperText={helperText}
-      errors={errors}
-      disabled={disabled}
-      required={required}
-      className={className}
-    >
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -110,7 +99,6 @@ export function FormDropdownCheckboxField({
           </Command>
         </PopoverContent>
       </Popover>
-    </FormFieldBase>
   )
 }
 

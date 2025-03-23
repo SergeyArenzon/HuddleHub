@@ -11,12 +11,14 @@ const UserSchema = z.object({
 });
 
 
+const ISOSchema = z.object({
+  code: z.string(),
+  name: z.string(),
+})
+
 // Define the expected structure of a language object
-const LanguageSchema = z.object({
-    code: z.string(),
-    name: z.string(),
-  });
+const LanguageSchema = ISOSchema
 
+const CountrySchema = ISOSchema;
 
-
-export { UserSchema, LanguageSchema };
+export { UserSchema, LanguageSchema, CountrySchema  };

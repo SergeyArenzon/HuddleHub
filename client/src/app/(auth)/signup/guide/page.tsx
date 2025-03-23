@@ -16,9 +16,6 @@ const categories = [
   { value: "entertainment", label: "Entertainment" },
 ]
 
-
-
-
 type GuideForm = {
     bio: string
     categories: string[]
@@ -33,9 +30,15 @@ export default function SignupGuide() {
     retry: false,  
     queryKey: ['languages'], 
     queryFn:() =>  new Api().getLanguages() });
+
+    const { data: countries, isLoading: isCountriesLoading, error: countriesError, refetch: countriesRefetch } = useQuery({
+      retry: false,  
+      queryKey: ['countries'], 
+      queryFn:() =>  new Api().getCountries() });
+      
     
-  if (isLoading) return <Loading/>
-  if (error) return <Error retryAction={() => refetch()}/>
+  if (isLoading || isCountriesLoading) return <Loading/>
+  if (error || countriesError) return <Error retryAction={() => refetch()}/>
 
   const handleSubmit = (data: GuideForm) => {
     console.log("Form submitted:", data)
@@ -45,6 +48,7 @@ export default function SignupGuide() {
 
 
   return (
+    <>
     <Form
       title="Profile Information"
       description="Complete your profile information below"
@@ -97,10 +101,20 @@ export default function SignupGuide() {
           },
           helperText: "Select the languages you speak.",
         },
+        {
+          type: "select-dropdown",
+          name: "countries",
+          label: "Country",
+          options: countries?.map((lang) => ({ value: lang.code, label: lang.name })) || [],
+          placeholder: "Select country",
+          required: true,
+          helperText: "Select the country you live in.",
+        },
       ]}
       onSubmit={handleSubmit}
       submitButtonText="Save Profile"
     />
+    </>
   )
 }
 

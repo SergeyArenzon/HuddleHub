@@ -5,12 +5,11 @@ import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { FormTextField } from "./FormTextField"
-import { FormTextareaField } from "./FormTextareaField"
-import { FormDropdownCheckboxField } from "./FormDropdownCheckboxField"
 import { Input } from "../ui/input"
 import { FormFieldBase } from "./FormFieldBase"
 import { Textarea } from "../ui/textarea"
+import { CheckboxDropdown } from "../CheckboxDropdown"
+import SelectDropdown from "../SelectDropdown"
 
 // Field types
 type BaseFieldConfig = {
@@ -39,13 +38,21 @@ type TextareaFieldConfig = BaseFieldConfig & {
   rows?: number
 }
 
-type DropdownCheckboxFieldConfig = BaseFieldConfig & {
+type CheckboxDropdownFieldConfig = BaseFieldConfig & {
   type: 'dropdown-checkbox'
   options: Array<{ value: string; label: string }>
   placeholder?: string
 }
 
-type FieldConfig = TextFieldConfig | TextareaFieldConfig | DropdownCheckboxFieldConfig
+type SelectDropdownFieldConfig = BaseFieldConfig & {
+  type: 'select-dropdown'
+  options: Array<{ value: string; label: string }>
+  placeholder?: string
+}
+
+
+
+type FieldConfig = TextFieldConfig | TextareaFieldConfig | CheckboxDropdownFieldConfig | SelectDropdownFieldConfig
 
 type FormProps<T> = {
   fields: FieldConfig[]
@@ -154,6 +161,7 @@ export default function Form<T>({
       case 'text':
         return (
             <FormFieldBase
+              key={field.name}
               name={field.name}
               label={field.label}
               helperText={field.helperText}
@@ -173,6 +181,7 @@ export default function Form<T>({
       case 'textarea':
         return (
           <FormFieldBase
+            key={field.name}
             name={field.name}
             label={field.label}
             helperText={field.helperText}
@@ -190,20 +199,52 @@ export default function Form<T>({
 
       case 'dropdown-checkbox':
         return (
-          <FormDropdownCheckboxField
+          <FormFieldBase
             key={field.name}
             name={field.name}
-            label={field.label}
-            options={field.options}
-            placeholder={field.placeholder}
+            label={field.name}
             helperText={field.helperText}
-            register={register}
-            watch={watch}
-            setValue={setValue}
             errors={errors}
             disabled={field.disabled}
-            required={field.required}
-          />
+            required={field.disabled}>
+              <CheckboxDropdown
+                key={field.name}
+                name={field.name}
+                label={field.label}
+                options={field.options}
+                placeholder={field.placeholder}
+                helperText={field.helperText}
+                register={register}
+                errors={errors}
+                watch={watch}
+                setValue={setValue}
+                disabled={field.disabled}/>
+
+          </FormFieldBase>
+        )
+      case 'select-dropdown':
+        return (
+          <FormFieldBase
+            key={field.name}
+            name={field.name}
+            label={field.name}
+            helperText={field.helperText}
+            errors={errors}
+            disabled={field.disabled}
+            required={field.disabled}>
+              <SelectDropdown
+                key={field.name}
+                name={field.name}
+                label={field.label}
+                options={field.options}
+                placeholder={field.placeholder}
+                helperText={field.helperText}
+                register={register}
+                errors={errors}
+                watch={watch}
+                setValue={setValue}
+                disabled={field.disabled}/>
+          </FormFieldBase>
         )
 
       default:
