@@ -92,9 +92,7 @@ export default function Form<T>({
               label={field.label}
               helperText={field.helperText}
               errors={errors}
-              disabled={field.disabled}
-              required={field.required}
-            >
+              required={field.required}>
               <Input 
                 id={field.name} type={field.inputType || 'text'} 
                 placeholder={field.placeholder} 
@@ -112,7 +110,6 @@ export default function Form<T>({
             label={field.label}
             helperText={field.helperText}
             errors={errors}
-            disabled={field.disabled}
             required={field.required}>
             <Textarea
               id={field.name}
@@ -132,7 +129,6 @@ export default function Form<T>({
             label={field.label}
             helperText={field.helperText}
             errors={errors}
-            disabled={field.disabled}
             required={field.required}>
               <CheckboxDropdown
                 key={field.name}
@@ -157,7 +153,6 @@ export default function Form<T>({
             label={field.label}
             helperText={field.helperText}
             errors={errors}
-            disabled={field.disabled}
             required={field.required}>
               <SelectDropdown
                 key={field.name}

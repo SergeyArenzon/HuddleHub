@@ -9,7 +9,6 @@ export type FormFieldBaseProps = {
   label: string
   helperText?: string
   errors: FieldErrors
-  disabled?: boolean
   required?: boolean
   className?: string
   children: React.ReactNode
@@ -20,7 +19,6 @@ export function FormFieldBase({
   label,
   helperText,
   errors,
-  disabled = false,
   required = false,
   className = "",
   children,
@@ -31,7 +29,7 @@ export function FormFieldBase({
         {label}
         {required && <span className="text-red-500">*</span>}
       </Label>
-
+      
       {children}
 
       {errors[name] && <p className="text-sm text-red-500">{errors[name]?.message as string}</p>}

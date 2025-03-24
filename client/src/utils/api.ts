@@ -68,4 +68,22 @@ export default class Api {
     }
     return parsed.data;
   }
+
+  async getCities(): Promise<Language[]> {
+    const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,cca3');
+    const fixedCountries = response.data.map((country: {name: { common: string }, cca3: string}) => {
+      return {
+        name: country.name.common,
+        code: country.cca3
+      }
+    })
+    
+    // ✅ Validate API response
+    const parsed = z.array(CountrySchema).safeParse(fixedCountries);
+    if (!parsed.success) {
+      console.error('Invalid API response:', parsed.error);
+      throw new Error('Unexpected API response format.');
+    }
+    return parsed.data;
+  }
 }
