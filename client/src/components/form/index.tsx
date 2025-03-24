@@ -10,49 +10,9 @@ import { FormFieldBase } from "./FormFieldBase"
 import { Textarea } from "../ui/textarea"
 import { CheckboxDropdown } from "../CheckboxDropdown"
 import SelectDropdown from "../SelectDropdown"
+import { CheckboxDropdownFieldConfig, FieldConfig, TextFieldConfig } from "./types"
+import { validateCheckboxDropdown, validateText } from "./validations"
 
-// Field types
-type BaseFieldConfig = {
-  name: string
-  label: string
-  helperText?: string
-  required?: boolean
-  disabled?: boolean
-  validation?: {
-    min?: number
-    max?: number
-    pattern?: RegExp
-    message?: string
-  }
-}
-
-type TextFieldConfig = BaseFieldConfig & {
-  type: 'text'
-  placeholder?: string
-  inputType?: string // For HTML input types like 'email', 'password', etc.
-}
-
-type TextareaFieldConfig = BaseFieldConfig & {
-  type: 'textarea'
-  placeholder?: string
-  rows?: number
-}
-
-type CheckboxDropdownFieldConfig = BaseFieldConfig & {
-  type: 'dropdown-checkbox'
-  options: Array<{ value: string; label: string }>
-  placeholder?: string
-}
-
-type SelectDropdownFieldConfig = BaseFieldConfig & {
-  type: 'select-dropdown'
-  options: Array<{ value: string; label: string }>
-  placeholder?: string
-}
-
-
-
-type FieldConfig = TextFieldConfig | TextareaFieldConfig | CheckboxDropdownFieldConfig | SelectDropdownFieldConfig
 
 type FormProps<T> = {
   fields: FieldConfig[]
@@ -84,48 +44,12 @@ export default function Form<T>({
 
     fields.forEach(field => {
       let fieldSchema: z.ZodString | z.ZodArray<z.ZodString> = z.string();
-
-      if (field.required) {
-        fieldSchema = fieldSchema.min(1, `${field.label} is required`)
-      }
-
-      if (field.type === 'textarea' || field.type === 'text') {
-        if (field.validation?.min) {
-          fieldSchema = fieldSchema.min(
-            field.validation.min,
-            field.validation.message || `${field.label} must be at least ${field.validation.min} characters`
-          )
-        }
-        if (field.validation?.max) {
-          fieldSchema = fieldSchema.max(
-            field.validation.max,
-            field.validation.message || `${field.label} must be at most ${field.validation.max} characters`
-          )
-        }
-        if (field.validation?.pattern) {
-          fieldSchema = fieldSchema.regex(
-            field.validation.pattern,
-            field.validation.message || `${field.label} has an invalid format`
-          )
-        }
-      }
-
-      if (field.type === 'dropdown-checkbox') {
-        fieldSchema = z.array(z.string())
-        if (field.validation?.min) {
-          fieldSchema = fieldSchema.min(
-            field.validation.min,
-            field.validation.message || `Select at least ${field.validation.min} ${field.label.toLowerCase()}`
-          )
-        }
-        if (field.validation?.max) {
-          fieldSchema = fieldSchema.max(
-            field.validation.max,
-            field.validation.message || `Select at most ${field.validation.max} ${field.label.toLowerCase()}`
-          )
-        }
-      }
-
+      
+      if (field.type === 'textarea' || field.type === 'text') 
+        fieldSchema = validateText(field as TextFieldConfig)
+      if (field.type === 'dropdown-checkbox') 
+        fieldSchema = validateCheckboxDropdown(field as CheckboxDropdownFieldConfig)
+      
       schemaMap[field.name] = fieldSchema
     })
 
@@ -150,6 +74,8 @@ export default function Form<T>({
     }, {} as Record<string, unknown> )
   })
 
+  console.log({errors});
+  
   // Handle form submission
   const onSubmitHandler = (data: FormValues) => {
     onSubmit(data as T)
@@ -190,9 +116,10 @@ export default function Form<T>({
             required={field.required}>
             <Textarea
               id={field.name}
+              className={`min-h-[${6 * 24}px]`}
               placeholder={field.placeholder}
               disabled={field.disabled}
-              className={`min-h-[${6 * 24}px]`}
+              {...register(field.name)} 
             />
           </FormFieldBase>
         )
@@ -202,11 +129,11 @@ export default function Form<T>({
           <FormFieldBase
             key={field.name}
             name={field.name}
-            label={field.name}
+            label={field.label}
             helperText={field.helperText}
             errors={errors}
             disabled={field.disabled}
-            required={field.disabled}>
+            required={field.required}>
               <CheckboxDropdown
                 key={field.name}
                 name={field.name}
@@ -215,8 +142,8 @@ export default function Form<T>({
                 placeholder={field.placeholder}
                 helperText={field.helperText}
                 register={register}
-                errors={errors}
                 watch={watch}
+                required={field.required}
                 setValue={setValue}
                 disabled={field.disabled}/>
 
@@ -227,11 +154,11 @@ export default function Form<T>({
           <FormFieldBase
             key={field.name}
             name={field.name}
-            label={field.name}
+            label={field.label}
             helperText={field.helperText}
             errors={errors}
             disabled={field.disabled}
-            required={field.disabled}>
+            required={field.required}>
               <SelectDropdown
                 key={field.name}
                 name={field.name}
@@ -240,7 +167,6 @@ export default function Form<T>({
                 placeholder={field.placeholder}
                 helperText={field.helperText}
                 register={register}
-                errors={errors}
                 watch={watch}
                 setValue={setValue}
                 disabled={field.disabled}/>

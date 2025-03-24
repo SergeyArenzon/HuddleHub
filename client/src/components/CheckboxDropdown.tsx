@@ -7,7 +7,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import type { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from "react-hook-form"
+import type { UseFormRegister, UseFormWatch, UseFormSetValue } from "react-hook-form"
 
 export type CheckboxDropdownProps = {
   name: string
@@ -16,7 +16,6 @@ export type CheckboxDropdownProps = {
   placeholder?: string
   helperText?: string
   register: UseFormRegister<any>
-  errors: FieldErrors
   watch: UseFormWatch<any>
   setValue: UseFormSetValue<any>
   disabled?: boolean
@@ -30,7 +29,6 @@ export function CheckboxDropdown({
   options,
   placeholder,
   register,
-  errors,
   watch,
   setValue,
   disabled = false,
@@ -62,8 +60,7 @@ export function CheckboxDropdown({
             role="combobox"
             aria-expanded={open}
             className="w-full justify-between"
-            disabled={disabled}
-          >
+            disabled={disabled}>
             {selectedItems.length > 0
               ? `${selectedItems.length} ${label.toLowerCase()} selected`
               : placeholder || `Select ${label.toLowerCase()}`}
@@ -80,8 +77,7 @@ export function CheckboxDropdown({
                   <CommandItem
                     key={option.value}
                     onSelect={() => handleItemToggle(option.value)}
-                    className="flex items-center gap-2 cursor-pointer"
-                  >
+                    className="flex items-center gap-2 cursor-pointer">
                     <Checkbox
                       checked={selectedItems.includes(option.value)}
                       onCheckedChange={() => handleItemToggle(option.value)}
