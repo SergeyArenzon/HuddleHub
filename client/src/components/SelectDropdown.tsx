@@ -43,7 +43,8 @@ export default function SelectDropdown({
 }: SelectDropdownProps) {
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState<SelectDropdownProps["defaultValue"]>(defaultValue)
-
+  console.log({selected});
+  
   const handleSelect = (currentValue: string) => {
     setValue(name, currentValue, { shouldValidate: true })
     setSelected(currentValue)

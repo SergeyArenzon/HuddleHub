@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import Api from "@/utils/api";
 import Loading from "@/components/Loading";
 import { Error } from "@/components/Error";
+import { useCallback, useEffect, useState } from "react";
+import { GeoLocationService } from "@/lib/geo-location";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -16,39 +18,50 @@ const categories = [
   { value: "entertainment", label: "Entertainment" },
 ]
 
-type GuideForm = {
+type GuideFormValues = {
     bio: string
     categories: string[]
     languages: string[]
     name: string
+    country: string
+    city: string
 }
 
-
 export default function SignupGuide() {
+  console.log("SignupGuide rerender");
+  const [formState, setFormState] = useState<GuideFormValues>();
+  const api = new Api();
+  const geoLocationService = new GeoLocationService();
+  
+  const handleFormChange = (currentState: Partial<GuideFormValues>) => {
+    console.log("[][][][][");
+    console.log({currentState});
+    
+    setFormState(currentState as GuideFormValues);
+    
+  };
+  
   // Queries
   const { data: languages, isLoading, error, refetch } = useQuery({
     retry: false,  
     queryKey: ['languages'], 
-    queryFn:() =>  new Api().getLanguages() });
+    queryFn:() => api.getLanguages() });
 
-    const { data: countries, isLoading: isCountriesLoading, error: countriesError, refetch: countriesRefetch } = useQuery({
-      retry: false,  
-      queryKey: ['countries'], 
-      queryFn:() =>  new Api().getCountries() });
-      
     
-  if (isLoading || isCountriesLoading) return <Loading/>
-  if (error || countriesError) return <Error retryAction={() => refetch()}/>
 
-  const handleSubmit = (data: GuideForm) => {
+  const handleSubmit = (data: GuideFormValues) => {
     console.log("Form submitted:", data)
     // Handle form submission here
   }
+  
+  if (isLoading) return <Loading/>
+  if (error) return <Error retryAction={() => refetch()}/>
 
-
-
+  console.log( geoLocationService.getAllCities("IL"));
+  console.log({country: formState?.country});
+  
+  
   return (
-    <>
     <Form
       title="Profile Information"
       description="Complete your profile information below"
@@ -103,18 +116,28 @@ export default function SignupGuide() {
         },
         {
           type: "select-dropdown",
-          name: "countries",
+          name: "country",
           label: "Country",
-          options: countries?.map((lang) => ({ value: lang.code, label: lang.name })) || [],
+          options: geoLocationService.getAllCountries()?.map(country => ({ value: country.code, label: country.name })),
           placeholder: "Select country",
           required: true,
           helperText: "Select the country you live in.",
         },
+        {
+          type: "select-dropdown",
+          name: "city",
+          label: "City",
+          options: geoLocationService.getAllCities(formState?.country || [])?.map(city => ({ value: city.code, label: city.name })) || [],
+          placeholder: "Select city",
+          required: true,
+          disabled: !Boolean(formState?.country),
+          helperText: "Select the city you live in.",
+        },
       ]}
       onSubmit={handleSubmit}
+      onChange={handleFormChange} 
       submitButtonText="Save Profile"
     />
-    </>
   )
 }
 

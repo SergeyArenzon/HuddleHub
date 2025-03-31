@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { useEffect, useMemo } from  "react"
 import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,6 +17,7 @@ import { validateCheckboxDropdown, validateText } from "./validations"
 type FormProps<T> = {
   fields: FieldConfig[]
   onSubmit: (data: T) => void
+  onChange?: (data: Partial<T>) => void
   submitButtonText?: string
   title?: string
   description?: string
@@ -34,12 +35,15 @@ type FormProps<T> = {
 export default function Form<T>({
   fields,
   onSubmit,
+  onChange,
   submitButtonText = "Submit",
   title,
   description
 }: FormProps<T>) {
   // Generate Zod schema dynamically based on field configurations
   const generateZodSchema = () => {
+    console.log("Form rerender");
+    
     const schemaMap: Record<string, z.ZodTypeAny> = {}; // ✅ Correct type
 
     fields.forEach(field => {
@@ -74,7 +78,18 @@ export default function Form<T>({
     }, {} as Record<string, unknown> )
   })
 
-  console.log({errors});
+  // Set up subscription to form changes instead of watching all values
+  useEffect(() => {
+    if (!onChange) return;
+    
+    // Subscribe to form changes
+    const subscription = watch((formValues) => {
+      onChange(formValues as Partial<T>);
+    });
+    
+    // Cleanup subscription
+    return () => subscription.unsubscribe();
+  }, [watch, onChange]);
   
   // Handle form submission
   const onSubmitHandler = (data: FormValues) => {
