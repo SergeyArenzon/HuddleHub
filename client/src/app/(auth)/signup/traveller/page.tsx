@@ -8,21 +8,14 @@ import { useCallback, useEffect, useState } from "react";
 import { GeoLocationService } from "@/lib/geo-location";
 
 const categories = [
-  { value: "cultural", label: "Cultural Tours" },
-  { value: "historical", label: "Historical Sites" },
-  { value: "adventure", label: "Adventure Travel" },
-  { value: "food", label: "Food & Culinary" },
-  { value: "nature", label: "Nature & Wildlife" },
-  { value: "city", label: "City Tours" },
-  { value: "shopping", label: "Shopping & Markets" },
-  { value: "nightlife", label: "Nightlife & Entertainment" },
-  { value: "religious", label: "Religious & Spiritual" },
-  { value: "photography", label: "Photography Tours" },
-  { value: "architecture", label: "Architecture & Art" },
-  { value: "wellness", label: "Wellness & Spa" },
-  { value: "sports", label: "Sports & Recreation" },
-  { value: "festivals", label: "Festivals & Events" },
-  { value: "offbeat", label: "Offbeat & Unique Experiences" }
+  { value: "technology", label: "Technology" },
+  { value: "design", label: "Design" },
+  { value: "marketing", label: "Marketing" },
+  { value: "business", label: "Business" },
+  { value: "education", label: "Education" },
+  { value: "health", label: "Health" },
+  { value: "finance", label: "Finance" },
+  { value: "entertainment", label: "Entertainment" },
 ]
 
 type GuideFormValues = {
