@@ -1,5 +1,5 @@
 import * as z from "zod"
-import {  CheckboxDropdownFieldConfig, TextFieldConfig } from "./types";
+import {  CheckboxFieldConfig, SelectFieldConfig, TextFieldConfig } from "./types";
 
 
 
@@ -30,7 +30,7 @@ const validateText = (field: TextFieldConfig) => {
       
 }
 
-const validateCheckboxDropdown = (field: CheckboxDropdownFieldConfig) => {
+const validateCheckbox = (field: CheckboxFieldConfig) => {
     let fieldSchema = z.array(z.string())
     if (field.required) {
         fieldSchema = fieldSchema.min(1, `${field.label} is required`)
@@ -49,7 +49,20 @@ const validateCheckboxDropdown = (field: CheckboxDropdownFieldConfig) => {
     }
     return fieldSchema
 }
+const validateSelect = (field: SelectFieldConfig) => {
+    let fieldSchema = z.string()
+    if (field.required) {
+        fieldSchema = fieldSchema.min(1, `${field.label} is required`)
+    }
+    if (field.validation?.min) {
+        fieldSchema = fieldSchema.min(
+        field.validation.min,
+        field.validation.message || `Select at least ${field.validation.min} ${field.label.toLowerCase()}`
+        )
+    }
+    return fieldSchema
+}
 
 
 
-export { validateText, validateCheckboxDropdown };
+export { validateText, validateCheckbox, validateSelect };

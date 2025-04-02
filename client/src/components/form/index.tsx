@@ -10,8 +10,8 @@ import { FormFieldBase } from "./FormFieldBase"
 import { Textarea } from "../ui/textarea"
 import { CheckboxDropdown } from "../CheckboxDropdown"
 import SelectDropdown from "../SelectDropdown"
-import { CheckboxDropdownFieldConfig, FieldConfig, TextFieldConfig } from "./types"
-import { validateCheckboxDropdown, validateText } from "./validations"
+import { CheckboxFieldConfig, FieldConfig, TextFieldConfig, SelectFieldConfig } from "./types"
+import { validateCheckbox, validateText, validateSelect } from "./validations"
 
 
 type FormProps<T> = {
@@ -51,8 +51,10 @@ export default function Form<T>({
       
       if (field.type === 'textarea' || field.type === 'text') 
         fieldSchema = validateText(field as TextFieldConfig)
-      if (field.type === 'dropdown-checkbox') 
-        fieldSchema = validateCheckboxDropdown(field as CheckboxDropdownFieldConfig)
+      if (field.type === 'checkbox') 
+        fieldSchema = validateCheckbox(field as CheckboxFieldConfig)
+      if (field.type === 'select') 
+        fieldSchema = validateSelect(field as SelectFieldConfig)
       
       schemaMap[field.name] = fieldSchema
     })
@@ -73,7 +75,7 @@ export default function Form<T>({
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: fields.reduce((acc, field) => {
-      acc[field.name] = field.type === 'dropdown-checkbox' ? [] : ''
+      acc[field.name] = field.type === 'checkbox' ? [] : ''
       return acc
     }, {} as Record<string, unknown> )
   })
@@ -136,7 +138,7 @@ export default function Form<T>({
           </FormFieldBase>
         )
 
-      case 'dropdown-checkbox':
+      case 'checkbox':
         return (
           <FormFieldBase
             key={field.name}
@@ -160,7 +162,7 @@ export default function Form<T>({
 
           </FormFieldBase>
         )
-      case 'select-dropdown':
+      case 'select':
         return (
           <FormFieldBase
             key={field.name}

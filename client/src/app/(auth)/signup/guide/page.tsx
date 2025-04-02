@@ -56,10 +56,6 @@ export default function SignupGuide() {
   
   if (isLoading) return <Loading/>
   if (error) return <Error retryAction={() => refetch()}/>
-
-  console.log( geoLocationService.getAllCities("IL"));
-  console.log({country: formState?.country});
-  
   
   return (
     <Form
@@ -91,7 +87,7 @@ export default function SignupGuide() {
           helperText: "Write a short bio to introduce yourself to others.",
         },
         {
-          type: "dropdown-checkbox",
+          type: "checkbox",
           name: "categories",
           label: "Categories",
           options: categories,
@@ -103,7 +99,7 @@ export default function SignupGuide() {
           helperText: "Select the categories that interest you.",
         },
         {
-          type: "dropdown-checkbox",
+          type: "checkbox",
           name: "languages",
           label: "Languages",
           options: languages?.map((lang) => ({ value: lang.code, label: lang.name })) || [],
@@ -115,7 +111,7 @@ export default function SignupGuide() {
           helperText: "Select the languages you speak.",
         },
         {
-          type: "select-dropdown",
+          type: "select",
           name: "country",
           label: "Country",
           options: geoLocationService.getAllCountries()?.map(country => ({ value: country.isoCode, label: country.name })),
@@ -124,13 +120,17 @@ export default function SignupGuide() {
           helperText: "Select the country you live in.",
         },
         {
-          type: "select-dropdown",
+          type: "select",
           name: "city",
           label: "City",
           options: geoLocationService.getAllCities(formState?.country || "")?.map(city => ({ value: city.name, label: city.name })) || [],
           placeholder: "Select city",
           required: true,
           disabled: !Boolean(formState?.country),
+          validation: {
+            min: 1,
+            max: 1,
+          },
           helperText: "Select the city you live in.",
         },
       ]}

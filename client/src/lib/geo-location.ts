@@ -1,7 +1,6 @@
 import { ICity, ICountry } from 'country-state-city';
 import CSCCity from 'country-state-city/lib/city';
 import CSCCountry from 'country-state-city/lib/country';
-import { Country, City } from '@/types';
 
 export class GeoLocationService {
    getAllCities(countryCode: string): ICity[] { 

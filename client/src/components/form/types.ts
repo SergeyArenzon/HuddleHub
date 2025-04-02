@@ -25,20 +25,20 @@ type BaseFieldConfig = {
     rows?: number
   }
   
-  type CheckboxDropdownFieldConfig = BaseFieldConfig & {
-    type: 'dropdown-checkbox'
+  type CheckboxFieldConfig = BaseFieldConfig & {
+    type: 'checkbox'
     options: Array<{ value: string; label: string }>
     placeholder?: string
   }
   
-  type SelectDropdownFieldConfig = BaseFieldConfig & {
-    type: 'select-dropdown'
+  type SelectFieldConfig = BaseFieldConfig & {
+    type: 'select'
     options: Array<{ value: string; label: string }>
     placeholder?: string
   }
   
   
   
-type FieldConfig = TextFieldConfig | TextareaFieldConfig | CheckboxDropdownFieldConfig | SelectDropdownFieldConfig
+type FieldConfig = TextFieldConfig | TextareaFieldConfig | CheckboxFieldConfig | SelectFieldConfig
   
-export type { FieldConfig, TextFieldConfig, TextareaFieldConfig, CheckboxDropdownFieldConfig, SelectDropdownFieldConfig }
+export type { FieldConfig, TextFieldConfig, TextareaFieldConfig, CheckboxFieldConfig, SelectFieldConfig }

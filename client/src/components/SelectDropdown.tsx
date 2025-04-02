@@ -43,7 +43,6 @@ export default function SelectDropdown({
 }: SelectDropdownProps) {
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState<SelectDropdownProps["defaultValue"]>(defaultValue)
-  console.log({selected});
   
   const handleSelect = (currentValue: string) => {
     setValue(name, currentValue, { shouldValidate: true })
@@ -54,7 +53,7 @@ export default function SelectDropdown({
     useEffect(() => {
       register(name)
     }, [register, name])
-  
+    
   return (
     <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -76,7 +75,11 @@ export default function SelectDropdown({
             <CommandEmpty>No options found.</CommandEmpty>
             <CommandGroup>
                 {options.map((option) => (
-                <CommandItem id={option.value} key={option.value} value={option.value} onSelect={handleSelect}>
+                <CommandItem 
+                    id={option.value} 
+                    key={option.value} 
+                    value={`${option.value}`} 
+                    onSelect={handleSelect}>
                     <Check className={cn("mr-2 h-4 w-4 text-primary", selected === option.value ? "opacity-100" : "opacity-0")} />
                     <Label htmlFor={`${option.value}`} className="flex-grow cursor-pointer">{option.label}</Label>
                 </CommandItem>
