@@ -33,7 +33,7 @@ export function FormFieldBase({
       {children}
 
       {errors[name] && <p className="text-sm text-red-500">{errors[name]?.message as string}</p>}
-      {helperText && <p className="text-sm text-muted-foreground">{helperText}</p>}
+      {!errors[name]  && helperText && <p className="text-sm text-muted-foreground">{helperText}</p>}
     </div>
   )
 }

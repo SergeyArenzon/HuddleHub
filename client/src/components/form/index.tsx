@@ -42,8 +42,6 @@ export default function Form<T>({
 }: FormProps<T>) {
   // Generate Zod schema dynamically based on field configurations
   const generateZodSchema = () => {
-    console.log("Form rerender");
-    
     const schemaMap: Record<string, z.ZodTypeAny> = {}; // ✅ Correct type
 
     fields.forEach(field => {
