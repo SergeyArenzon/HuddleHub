@@ -25,25 +25,14 @@ build:
   local:
     useBuildkit: true
 manifests:
-  # helm:
-  #   releases:
-  #     - name: elasticsearch
-  #       chartPath: k8s/minikube/elasticsearch
-  #       valuesFiles: 
-  #         - k8s/minikube/elasticsearch/values.yaml
-  #     - name: logstash
-  #       chartPath: k8s/minikube/logstash
-  #       valuesFiles: 
-  #         - k8s/minikube/logstash/values.yaml
-  #     - name: filebeat
-  #       chartPath: k8s/minikube/filebeat
-  #       valuesFiles: 
-  #         - k8s/minikube/filebeat/values.yaml
-  #     - name: kibana
-  #       chartPath: k8s/minikube/kibana
-  #       valuesFiles: 
-  #         - k8s/minikube/kibana/values.yaml
-    
+  helm:
+    releases:
+      - name: redis
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: redis
+        valuesFiles:
+          - k8s/minikube/redis/values.yaml
+
 
   rawYaml:
 
@@ -61,12 +50,6 @@ manifests:
     - k8s/minikube/rabbitmq/storageClass.yaml
     - k8s/minikube/rabbitmq/configMap.yaml
 
-    # REDIS
-    # - k8s/minikube/redis/configMap.yaml
-    # - k8s/minikube/redis/persistentVolume.yaml
-    # - k8s/minikube/redis/service.yaml
-    # - k8s/minikube/redis/statefulSet.yaml
-    # - k8s/minikube/redis/storageClass.yaml
     
     # USER_DB
     - k8s/minikube/user-db/deployment.yaml
