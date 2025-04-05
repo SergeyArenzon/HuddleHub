@@ -32,10 +32,12 @@ manifests:
         remoteChart: redis
         valuesFiles:
           - k8s/minikube/redis/values.yaml
-
+      - name: user-db
+        chartPath: k8s/helm/user-db/
+        valuesFiles:
+          - k8s/helm/user-db/values.yaml
 
   rawYaml:
-
     # SECRETS
     - k8s/minikube/secrets/globals.yaml
 
@@ -44,19 +46,11 @@ manifests:
     - k8s/minikube/gateway/service.yaml
 
     # RABBITMQ
-    - k8s/minikube/rabbitmq/deployment.yaml
-    - k8s/minikube/rabbitmq/persistentVolume.yaml
-    - k8s/minikube/rabbitmq/service.yaml
-    - k8s/minikube/rabbitmq/storageClass.yaml
-    - k8s/minikube/rabbitmq/configMap.yaml
-
-    
-    # USER_DB
-    - k8s/minikube/user-db/deployment.yaml
-    - k8s/minikube/user-db/persistentVolume.yaml
-    - k8s/minikube/user-db/configMap.yaml
-    - k8s/minikube/user-db/service.yaml
-    - k8s/minikube/user-db/storageClass.yaml
+    # - k8s/minikube/rabbitmq/deployment.yaml
+    # - k8s/minikube/rabbitmq/persistentVolume.yaml
+    # - k8s/minikube/rabbitmq/service.yaml
+    # - k8s/minikube/rabbitmq/storageClass.yaml
+    # - k8s/minikube/rabbitmq/configMap.yaml
 
     # USER
     - k8s/minikube/secrets/globals.yaml
