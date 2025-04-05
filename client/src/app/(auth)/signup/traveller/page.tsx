@@ -18,7 +18,7 @@ const categories = [
   { value: "entertainment", label: "Entertainment" },
 ]
 
-type GuideFormValues = {
+type TravellerFormValues = {
     bio: string
     categories: string[]
     languages: string[]
@@ -27,17 +27,17 @@ type GuideFormValues = {
     city: string
 }
 
-export default function SignupGuide() {
-  console.log("SignupGuide rerender");
-  const [formState, setFormState] = useState<GuideFormValues>();
+export default function SignupTraveller() {
+;
+  const [formState, setFormState] = useState<TravellerFormValues>();
   const api = new Api();
   const geoLocationService = new GeoLocationService();
   
-  const handleFormChange = (currentState: Partial<GuideFormValues>) => {
+  const handleFormChange = (currentState: Partial<TravellerFormValues>) => {
     console.log("[][][][][");
     console.log({currentState});
     
-    setFormState(currentState as GuideFormValues);
+    setFormState(currentState as TravellerFormValues);
     
   };
   
@@ -49,7 +49,7 @@ export default function SignupGuide() {
 
     
 
-  const handleSubmit = (data: GuideFormValues) => {
+  const handleSubmit = (data: TravellerFormValues) => {
     console.log("Form submitted:", data)
     // Handle form submission here
   }
@@ -65,8 +65,8 @@ export default function SignupGuide() {
         {
           type: "text",
           name: "name",
-          label: "Guide Name",
-          placeholder: "Enter guide name",
+          label: "Traveller Name",
+          placeholder: "Enter traveller name",
           required: true,
           validation: {
             min: 2,
