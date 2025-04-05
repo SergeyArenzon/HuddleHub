@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "babel-plugin-react-compiler": "19.0.0-beta-e993439-20250328",
-    "country-state-city": "^3.2.1"
-  }
-}
