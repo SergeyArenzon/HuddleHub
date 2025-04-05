@@ -46,11 +46,11 @@ manifests:
     - k8s/minikube/gateway/service.yaml
 
     # RABBITMQ
-    # - k8s/minikube/rabbitmq/deployment.yaml
-    # - k8s/minikube/rabbitmq/persistentVolume.yaml
-    # - k8s/minikube/rabbitmq/service.yaml
-    # - k8s/minikube/rabbitmq/storageClass.yaml
-    # - k8s/minikube/rabbitmq/configMap.yaml
+    - k8s/minikube/rabbitmq/deployment.yaml
+    - k8s/minikube/rabbitmq/persistentVolume.yaml
+    - k8s/minikube/rabbitmq/service.yaml
+    - k8s/minikube/rabbitmq/storageClass.yaml
+    - k8s/minikube/rabbitmq/configMap.yaml
 
     # USER
     - k8s/minikube/secrets/globals.yaml
