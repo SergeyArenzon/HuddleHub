@@ -3,7 +3,6 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Providers } from './enums';
 import { JwtService } from '@nestjs/jwt';
 import { AuthDto, ProviderUserDto } from './dtos';
-import { AuthController } from './auth.controller';
 
 @Injectable()
 export class AuthService {
