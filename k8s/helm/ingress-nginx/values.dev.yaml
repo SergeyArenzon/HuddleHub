@@ -1,0 +1,8 @@
+controller:
+  service:
+    type: NodePort
+  config:
+    use-forwarded-headers: "true"
+    use-proxy-protocol: "false"
+  extraArgs:
+    default-ssl-certificate: "default/ingress-nginx-tls" 

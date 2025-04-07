@@ -1,0 +1,57 @@
+replicaCount: 1
+
+image:
+  repository: sergeyarenzon/huddlehub-auth
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 4002
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 150Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+env:
+  NODE_ENV: production
+  PORT: 4002
+  JWT_MAX_AGE: 3600000
+  # Add other environment variables as needed
+
+postgresql:
+  enabled: true
+  auth:
+    username: postgres
+    password: postgres
+    database: auth_db
+  persistence:
+    size: 8Gi
+
+rabbitmq:
+  enabled: true
+  auth:
+    username: guest
+    password: guest
+
+configMaps:
+  rabbitmq:
+    name: rabbitmq-config
+    keys:
+      RABBITMQ_HOST: rabbitmq
+
+secrets:
+  global:
+    name: global-secrets
+    keys:
+      jwt-secret: jwt-secret 

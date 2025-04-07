@@ -36,14 +36,26 @@ manifests:
         chartPath: k8s/helm/user-db/
         valuesFiles:
           - k8s/helm/user-db/values.yaml
+      - name: auth
+        chartPath: k8s/helm/auth/
+        valuesFiles:
+          - k8s/helm/auth/values.yaml
+      - name: user
+        chartPath: k8s/helm/user/
+        valuesFiles:
+          - k8s/helm/user/values.yaml
+      # - name: ingress-nginx
+      #   chartPath: k8s/helm/ingress-nginx/
+      #   valuesFiles:
+      #     - k8s/helm/ingress-nginx/values.yaml
+      #     - k8s/helm/ingress-nginx/values.dev.yaml
 
   rawYaml:
     # SECRETS
     - k8s/minikube/secrets/globals.yaml
 
     # GATEWAY
-    - k8s/minikube/gateway/ingress.yaml
-    - k8s/minikube/gateway/service.yaml
+    - k8s/minikube/gateway/*
 
     # RABBITMQ
     - k8s/minikube/rabbitmq/deployment.yaml
@@ -51,11 +63,3 @@ manifests:
     - k8s/minikube/rabbitmq/service.yaml
     - k8s/minikube/rabbitmq/storageClass.yaml
     - k8s/minikube/rabbitmq/configMap.yaml
-
-    # USER
-    - k8s/minikube/secrets/globals.yaml
-    - k8s/minikube/user/deployment.yaml
-    - k8s/minikube/user/service.yaml
-    
-    # AUTH
-    - k8s/minikube/auth/*
