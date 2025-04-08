@@ -27,6 +27,10 @@ build:
 manifests:
   helm:
     releases:
+      - name: secrets
+        chartPath: k8s/helm/secrets/
+        valuesFiles:
+          - k8s/helm/secrets/values.yaml
       - name: redis
         repo: https://charts.bitnami.com/bitnami
         remoteChart: redis
@@ -51,9 +55,6 @@ manifests:
       #     - k8s/helm/ingress-nginx/values.dev.yaml
 
   rawYaml:
-    # SECRETS
-    - k8s/minikube/secrets/globals.yaml
-
     # GATEWAY
     - k8s/minikube/gateway/*
 
