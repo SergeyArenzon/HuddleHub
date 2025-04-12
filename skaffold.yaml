@@ -48,19 +48,12 @@ manifests:
         chartPath: k8s/helm/user/
         valuesFiles:
           - k8s/helm/user/values.yaml
-      # - name: ingress-nginx
-      #   chartPath: k8s/helm/ingress-nginx/
-      #   valuesFiles:
-      #     - k8s/helm/ingress-nginx/values.yaml
-      #     - k8s/helm/ingress-nginx/values.dev.yaml
+      - name: kafka
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: kafka
+        valuesFiles:
+           - k8s/helm/kafka/values.yaml
 
   rawYaml:
     # GATEWAY
     - k8s/minikube/gateway/*
-
-    # RABBITMQ
-    - k8s/minikube/rabbitmq/deployment.yaml
-    - k8s/minikube/rabbitmq/persistentVolume.yaml
-    - k8s/minikube/rabbitmq/service.yaml
-    - k8s/minikube/rabbitmq/storageClass.yaml
-    - k8s/minikube/rabbitmq/configMap.yaml
