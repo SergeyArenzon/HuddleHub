@@ -55,11 +55,6 @@ spec:
                 configMapKeyRef:
                   name: {{ index .Values.configMaps "user-db" "name" | quote }}
                   key: POSTGRES_HOST
-            - name: RABBITMQ_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Values.configMaps.rabbitmq.name }}
-                  key: RABBITMQ_HOST
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu }}

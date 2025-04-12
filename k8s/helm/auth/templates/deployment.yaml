@@ -29,11 +29,6 @@ spec:
           env:
             - name: PORT
               value: {{ .Values.env.PORT | quote }}
-            - name: RABBITMQ_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Values.configMaps.rabbitmq.name }}
-                  key: RABBITMQ_HOST
             - name: JWT_MAX_AGE
               valueFrom:
                 configMapKeyRef:

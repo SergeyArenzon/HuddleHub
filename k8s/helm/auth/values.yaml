@@ -17,17 +17,21 @@ resources:
     cpu: 100m
     memory: 150Mi
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 3
-  targetCPUUtilizationPercentage: 80
+# autoscaling:
+#   enabled: false
+#   minReplicas: 1
+#   maxReplicas: 3
+#   targetCPUUtilizationPercentage: 80
 
 env:
   NODE_ENV: production
   PORT: 4002
   JWT_MAX_AGE: 3600000
   # Add other environment variables as needed
+
+# configMaps:
+#   rabbitmq:
+#     name: rabbitmq-config
 
 postgresql:
   enabled: true
@@ -38,17 +42,6 @@ postgresql:
   persistence:
     size: 8Gi
 
-rabbitmq:
-  enabled: true
-  auth:
-    username: guest
-    password: guest
-
-configMaps:
-  rabbitmq:
-    name: rabbitmq-config
-    keys:
-      RABBITMQ_HOST: rabbitmq
 
 secrets:
   global:

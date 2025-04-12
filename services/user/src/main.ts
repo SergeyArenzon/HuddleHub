@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+// import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,14 +12,14 @@ async function bootstrap() {
   app.useLogger(logger);
   await app.listen(process.env.PORT ?? 3000);
 
-  const microservice = app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.RMQ,
-    options: {
-      urls: [process.env.RABBITMQ_HOST],
-      queue: 'user_queue',
-      queueOptions: { durable: true },
-    },
-  });
-  await microservice.listen();
+  // const microservice = app.connectMicroservice<MicroserviceOptions>({
+  //   transport: Transport.RMQ,
+  //   options: {
+  //     urls: [process.env.RABBITMQ_HOST],
+  //     queue: 'user_queue',
+  //     queueOptions: { durable: true },
+  //   },
+  // });
+  // await microservice.listen();
 }
 bootstrap();

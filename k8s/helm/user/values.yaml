@@ -26,7 +26,3 @@ configMaps:
     keys:
       POSTGRES_HOST: user-db
       POSTGRES_PORT: "5432"
-  rabbitmq:
-    name: rabbitmq-config
-    keys:
-      RABBITMQ_HOST: rabbitmq 
