@@ -27,41 +27,33 @@ build:
 manifests:
   helm:
     releases:
+      - name: secrets
+        chartPath: k8s/helm/secrets/
+        valuesFiles:
+          - k8s/helm/secrets/values.yaml
       - name: redis
         repo: https://charts.bitnami.com/bitnami
         remoteChart: redis
         valuesFiles:
           - k8s/minikube/redis/values.yaml
-
+      - name: user-db
+        chartPath: k8s/helm/user-db/
+        valuesFiles:
+          - k8s/helm/user-db/values.yaml
+      - name: auth
+        chartPath: k8s/helm/auth/
+        valuesFiles:
+          - k8s/helm/auth/values.yaml
+      - name: user
+        chartPath: k8s/helm/user/
+        valuesFiles:
+          - k8s/helm/user/values.yaml
+      - name: kafka
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: kafka
+        valuesFiles:
+           - k8s/helm/kafka/values.yaml
 
   rawYaml:
-
-    # SECRETS
-    - k8s/minikube/secrets/globals.yaml
-
     # GATEWAY
-    - k8s/minikube/gateway/ingress.yaml
-    - k8s/minikube/gateway/service.yaml
-
-    # RABBITMQ
-    - k8s/minikube/rabbitmq/deployment.yaml
-    - k8s/minikube/rabbitmq/persistentVolume.yaml
-    - k8s/minikube/rabbitmq/service.yaml
-    - k8s/minikube/rabbitmq/storageClass.yaml
-    - k8s/minikube/rabbitmq/configMap.yaml
-
-    
-    # USER_DB
-    - k8s/minikube/user-db/deployment.yaml
-    - k8s/minikube/user-db/persistentVolume.yaml
-    - k8s/minikube/user-db/configMap.yaml
-    - k8s/minikube/user-db/service.yaml
-    - k8s/minikube/user-db/storageClass.yaml
-
-    # USER
-    - k8s/minikube/secrets/globals.yaml
-    - k8s/minikube/user/deployment.yaml
-    - k8s/minikube/user/service.yaml
-    
-    # AUTH
-    - k8s/minikube/auth/*
+    - k8s/minikube/gateway/*

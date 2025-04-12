@@ -1,5 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Injectable, Logger } from '@nestjs/common';
 import { Providers } from './enums';
 import { JwtService } from '@nestjs/jwt';
 import { AuthDto, ProviderUserDto } from './dtos';
@@ -8,11 +7,7 @@ import { AuthDto, ProviderUserDto } from './dtos';
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
 
-  constructor(
-    private jwtService: JwtService,
-    @Inject('USER_SERVICE')
-    private rabbitClient: ClientProxy,
-  ) {}
+  constructor(private jwtService: JwtService) {}
 
   generateToken(payload: Record<string, string>): string {
     this.logger.log('Sign JWT token');

@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: sergeyarenzon/huddlehub-user
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 4001
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 150Mi
+
+env:
+  PORT: 4001
+
+configMaps:
+  user-db:
+    name: user-db-config
+    keys:
+      POSTGRES_HOST: user-db
+      POSTGRES_PORT: "5432"

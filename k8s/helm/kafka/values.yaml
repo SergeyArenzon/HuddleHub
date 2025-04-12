@@ -1,0 +1,74 @@
+## values.yaml for bitnami/kafka with KRaft mode
+## For use with skaffold
+
+## Enable KRaft mode (no Zookeeper)
+kraft:
+  enabled: true
+  clusterId: "5Yr1SIgYQz-C6WL4Ql-YeA"
+
+## Add environment variables
+extraEnvVars:
+  - name: ALLOW_PLAINTEXT_LISTENER
+    value: "yes"
+
+## Number of Kafka nodes
+replicaCount: 1
+
+## Additional Kafka configuration
+extraConfig: |
+  # Configuration settings removed as they are deprecated or handled differently in KRaft
+  # inter.broker.protocol.version=3.3
+  # log.message.format.version=3.3
+  # metadata.version=3.3
+
+## Controller settings
+controller:
+  replicaCount: 1
+  controllerOnly: false
+
+## Persistence configuration
+persistence:
+  enabled: true
+  size: 1Gi
+
+## External access
+externalAccess:
+  enabled: false
+
+## Service settings
+service:
+  type: ClusterIP
+
+## Resources configuration
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+## Network policy
+networkPolicy:
+  enabled: false
+
+## Default replication settings for single-node
+defaultReplicationFactor: 1
+offsetsTopicReplicationFactor: 1
+transactionStateLogReplicationFactor: 1
+transactionStateLogMinIsr: 1
+numPartitions: 1
+minInsyncReplicas: 1
+
+## Allow auto-creation of topics
+allowAutoTopicCreation: true
+deleteTopicEnable: true
+
+## Define internal listeners explicitly
+listeners:
+  client:
+    protocol: PLAINTEXT
+    # Port 9092 is the default
+  controller:
+    protocol: PLAINTEXT
+    # Port 9093 is the default
