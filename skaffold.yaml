@@ -1,10 +1,10 @@
 apiVersion: skaffold/v4beta11
 kind: Config
 metadata:
-  name: huddlehub
+  name: rappid-guide
 build:
   artifacts:
-    - image: sergeyarenzon/huddlehub-auth
+    - image: sergeyarenzon/rappid-guide-auth
       context: services/auth
       docker:
         dockerfile: Dockerfile
@@ -12,7 +12,7 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
-    - image: sergeyarenzon/huddlehub-user
+    - image: sergeyarenzon/rappid-guide-user
       context: services/user
       docker:
         dockerfile: Dockerfile
