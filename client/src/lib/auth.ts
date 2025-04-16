@@ -25,7 +25,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     signIn: async ({ account, user }) => {
       
-      const response = await fetch(`http://huddlehub.io/api/auth`, {
+      const response = await fetch(`http://rappid-guide.io/api/auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
