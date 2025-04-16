@@ -14,7 +14,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: huddlehub.io
+  - host: rapid-guide.io
     http:
       paths:
       - pathType: Prefix
