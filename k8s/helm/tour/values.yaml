@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: sergeyarenzon/huddlehub-tour
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 4003
+
+env:
+  PORT: 4003
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi 

@@ -20,6 +20,14 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: sergeyarenzon/huddlehub-tour
+      context: services/tour
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
   tagPolicy:
     gitCommit: {}
   local:
@@ -48,6 +56,10 @@ manifests:
         chartPath: k8s/helm/user/
         valuesFiles:
           - k8s/helm/user/values.yaml
+      - name: tour
+        chartPath: k8s/helm/tour/
+        valuesFiles:
+          - k8s/helm/tour/values.yaml
       - name: kafka
         repo: https://charts.bitnami.com/bitnami
         remoteChart: kafka
