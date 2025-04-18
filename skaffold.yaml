@@ -48,6 +48,11 @@ manifests:
         chartPath: k8s/helm/user-db/
         valuesFiles:
           - k8s/helm/user-db/values.yaml
+      - name: tour-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - k8s/helm/tour-db/values.yaml
       - name: auth
         chartPath: k8s/helm/auth/
         valuesFiles:

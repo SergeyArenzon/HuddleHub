@@ -14,6 +14,12 @@ spec:
       labels:
         app: {{ include "tour.fullname" . }}
     spec:
+      initContainers:
+        - name: check-tour-db-ready
+          image: busybox:latest
+          command: ['sh', '-c', 
+            'until nc -z -w1 {{ .Values.database.host }} {{ .Values.database.port }}; 
+            do echo waiting for database; sleep 2; done;']
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -23,8 +29,8 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           env:
-            - name: PORT
-              value: "{{ .Values.env.PORT }}"
+            - name: DATABASE_URL
+              value: "{{ .Values.database.host }}:{{ .Values.database.port }}"
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu }}
@@ -32,12 +38,3 @@ spec:
             requests:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
-          # Add liveness and readiness probes here if needed
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http 
