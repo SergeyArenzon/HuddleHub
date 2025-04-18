@@ -1,0 +1,31 @@
+## Bitnami PostgreSQL chart configuration for tour service
+global:
+  storageClass: ""
+
+## Override the name of the chart
+fullnameOverride: "tour-db"
+
+auth:
+  username: postgres
+  password: postgres
+  database: tour
+  postgresPassword: postgres
+
+primary:
+  persistence:
+    size: 1Gi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 150Mi
+
+# Use default PostgreSQL port 5432
+service:
+  ports:
+    postgresql: 5432
+
+metrics:
+  enabled: false 

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tour.fullname" . }}
+  labels:
+    app: {{ include "tour.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "tour.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "tour.fullname" . }}
+    spec:
+      initContainers:
+        - name: check-tour-db-ready
+          image: busybox:latest
+          command: ['sh', '-c', 
+            'until nc -z -w1 {{ .Values.database.host }} {{ .Values.database.port }}; 
+            do echo waiting for database; sleep 2; done;']
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          env:
+            - name: DATABASE_URL
+              value: "{{ .Values.database.host }}:{{ .Values.database.port }}"
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}

@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: sergeyarenzon/huddlehub-tour
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 4003
+
+env:
+  PORT: 4003
+
+database:
+  host: "tour-db"
+  port: 5432
+  name: "tour"
+  user: "postgres"
+  password: "postgres"
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi 
