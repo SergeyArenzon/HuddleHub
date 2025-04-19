@@ -23,11 +23,11 @@ spec:
           service:
             name: user
             port:
-              number: 4001
+              number: 3000
       - pathType: Prefix
         path: /api/auth(/|$)(.*)
         backend:
           service:
             name: auth
             port:
-              number: 4002
+              number: 3000

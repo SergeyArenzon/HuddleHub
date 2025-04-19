@@ -28,7 +28,7 @@ spec:
               containerPort: {{ .Values.service.port }}
           env:
             - name: PORT
-              value: {{ .Values.env.PORT | quote }}
+              value: {{ .Values.service.port | quote }}
             - name: JWT_MAX_AGE
               valueFrom:
                 configMapKeyRef:
