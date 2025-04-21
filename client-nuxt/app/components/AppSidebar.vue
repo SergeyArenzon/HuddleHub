@@ -29,6 +29,15 @@ import {
 } from "@/components/ui/sidebar"
 
 import { Input } from "@/components/ui/input"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 // User state management
 // We'll need to use Nuxt's auth system or similar
@@ -73,6 +82,7 @@ const signOut = () => {
       </div>
     </SidebarHeader>
     <SidebarContent>
+      <!-- Main sections -->
       <SidebarGroup>
         <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
         <SidebarGroupContent>
@@ -131,20 +141,65 @@ const signOut = () => {
       </SidebarGroup>
     </SidebarContent>
     <SidebarFooter class="border-t p-4">
-      <!-- Simplified user profile section since we don't have Avatar and DropdownMenu components -->
-      <div class="flex w-full items-center gap-3 rounded-md p-2 text-left">
-        <div class="h-9 w-9 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
-          {{ `${user.first_name.charAt(0)}${user.last_name.charAt(0)}` }}
-        </div>
-        <div class="flex-1 overflow-hidden">
-          <p class="text-sm font-medium leading-none truncate">{{ `${user.first_name} ${user.last_name}` }}</p>
-          <p class="text-xs text-muted-foreground truncate">{{ user.email }}</p>
-        </div>
-        <button @click="signOut" class="flex items-center text-muted-foreground hover:text-foreground">
-          <LogOut class="h-4 w-4" />
-        </button>
+      <!-- User profile with dropdown menu -->
+      <div class="relative">
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <button class="flex w-full items-center gap-3 rounded-md p-2 text-left cursor-pointer hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+              <Avatar class="h-9 w-9">
+                <AvatarImage :src="user.image_url" :alt="user.first_name" referrerpolicy="no-referrer" />
+                <AvatarFallback class="bg-primary text-primary-foreground">
+                  {{ `${user.first_name.charAt(0)}${user.last_name.charAt(0)}` }}
+                </AvatarFallback>
+              </Avatar>
+              <div class="flex-1 overflow-hidden">
+                <p class="text-sm font-medium leading-none truncate">{{ `${user.first_name} ${user.last_name}` }}</p>
+                <p class="text-xs text-muted-foreground truncate">{{ user.email }}</p>
+              </div>
+              <ChevronUp class="h-4 w-4 text-muted-foreground" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" class="w-[200px]">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <User class="mr-2 h-4 w-4" />
+              <span>Profile</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <CreditCard class="mr-2 h-4 w-4" />
+              <span>Billing</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings class="mr-2 h-4 w-4" />
+              <span>Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem @click="signOut">
+              <LogOut class="mr-2 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </SidebarFooter>
     <SidebarRail />
   </Sidebar>
 </template>
+
+<style scoped>
+.animate-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style>
