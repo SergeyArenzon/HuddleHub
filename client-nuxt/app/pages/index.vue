@@ -1,8 +1,16 @@
+<script setup lang="ts">
+import { Button } from '@/components/ui/button'
+import AppSidebar from '@/components/AppSidebar.vue'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+</script>
+
 
 <template>
-  <div>
-    <h1>Welcome to HuddleHub</h1>
-    <p>Your custom application content goes here</p>
-     <Button>Click me</Button>
-  </div>
-</template> 
+  <SidebarProvider>
+    <AppSidebar />
+    <main>
+      <SidebarTrigger />
+      <slot />
+    </main>
+  </SidebarProvider>
+</template>
