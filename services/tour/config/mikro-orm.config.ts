@@ -1,6 +1,6 @@
 import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { Tour } from './entities';
+import { Tour } from 'src/entities/tour.entity';
 
 const microOrmConfig: MikroOrmModuleSyncOptions = {
   clientUrl: process.env.TOUR_DB_HOST, // Connection URL
