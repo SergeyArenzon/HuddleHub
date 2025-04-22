@@ -30,7 +30,7 @@ spec:
               protocol: TCP
           env:
             - name: DATABASE_URL
-              value: "{{ .Values.database.host }}:{{ .Values.database.port }}"
+              value: "{{ .Values.database.url }}"
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu }}
