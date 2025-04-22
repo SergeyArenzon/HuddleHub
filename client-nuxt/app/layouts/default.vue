@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="min-h-screen bg-background">
+  <div class=" flex justify-center">
     <!-- This layout is for non-authenticated users, intentionally minimal -->
     <slot />
   </div>

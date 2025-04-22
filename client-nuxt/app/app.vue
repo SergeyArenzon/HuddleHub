@@ -10,7 +10,7 @@ console.log({isAuthenticated:isAuthenticated.value});
 </script>
 
 <template>
-  <div>
+  <div class="min-h-screen bg-background">
     <NuxtRouteAnnouncer />
     
     <!-- Apply different layouts based on authentication state -->
