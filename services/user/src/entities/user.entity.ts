@@ -44,7 +44,6 @@ export class User extends BaseEntity {
   image_url: string;
 
   // One-to-One relationship with Guide entity
-  @OneToOne(() => Guide, guide => guide.user)
-
+  @OneToOne(() => Guide, (guide) => guide.user)
   guide!: Guide; // Make this nullable if the relationship is optional
 }

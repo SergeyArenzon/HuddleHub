@@ -7,7 +7,7 @@ image:
 
 service:
   type: ClusterIP
-  port: 4002
+  port: 3000
 
 resources:
   limits:
@@ -25,7 +25,6 @@ resources:
 
 env:
   NODE_ENV: production
-  PORT: 4002
   JWT_MAX_AGE: 3600000
   # Add other environment variables as needed
 

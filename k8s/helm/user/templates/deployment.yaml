@@ -34,7 +34,7 @@ spec:
           command: ["npx", "mikro-orm", "migration:up"]
           env:
             - name: PORT
-              value: {{ .Values.env.PORT | quote }}
+              value: {{ .Values.service.port | quote }}
             - name: USER_DB_HOST
               valueFrom:
                 configMapKeyRef:
@@ -49,7 +49,7 @@ spec:
               containerPort: {{ .Values.service.port }}
           env:
             - name: PORT
-              value: {{ .Values.env.PORT | quote }}
+              value: {{ .Values.service.port | quote }}
             - name: USER_DB_HOST
               valueFrom:
                 configMapKeyRef:

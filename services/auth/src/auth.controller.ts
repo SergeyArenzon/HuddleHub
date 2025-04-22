@@ -39,7 +39,7 @@ export class AuthController {
     const user = await this.authService.authenticateProvider(body);
     this.logger.debug(`Authenticated user: ${JSON.stringify(user)}`);
 
-    const res = await fetch('http://user:4001/auth', {
+    const res = await fetch('http://user:3000/auth', {
       method: 'POST',
       body: JSON.stringify(user),
       headers: {

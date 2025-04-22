@@ -3,16 +3,17 @@ FROM node:20-alpine AS builder
 # Install pnpm
 RUN npm install -g pnpm
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
+COPY tsconfig.json tsconfig.build.json nest-cli.json ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile --prod=false
 
-# Copy the rest of the application source code
-COPY . .
+# Copy the source code
+COPY src/ ./src/
 
 # Build the application
 RUN pnpm run build
@@ -23,18 +24,18 @@ RUN pnpm prune --prod
 
 # Stage 2: Production stage
 FROM node:20-alpine AS runner
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy necessary files from the builder stage
-# Ensure destination directories end with a slash
-COPY --from=builder /usr/src/app/node_modules ./node_modules/
-COPY --from=builder /usr/src/app/dist ./dist/
-COPY --from=builder /usr/src/app/package.json ./package.json
+# Copy built files from the builder stage
+COPY --from=builder /app/node_modules ./node_modules/
+COPY --from=builder /app/dist ./dist/
+COPY --from=builder /app/package.json ./
 
-EXPOSE 4003
+# Set necessary environment variables
+ENV NODE_ENV=production
 
-# Set NODE_ENV to production
-ENV NODE_ENV production
+EXPOSE 3000
+WORKDIR /app/dist
 
-# Start the application using the main file in dist
-CMD [ "node", "dist/main.js" ] 
+# Start the application
+CMD ["node", "main.js"] 

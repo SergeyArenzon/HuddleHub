@@ -3,8 +3,7 @@ import {
   AfterDelete,
   AfterUpdate,
   Entity,
-  ManyToOne,
-  OneToOne
+  OneToOne,
 } from '@mikro-orm/core';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';

@@ -13,6 +13,7 @@ env:
   PORT: 4003
 
 database:
+  url: "postgresql://postgres:postgres@tour-db:5432/postgres?schema=public"
   host: "tour-db"
   port: 5432
   name: "tour"
@@ -26,3 +27,10 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi 
+
+# configMaps:
+#   tour-db:
+#     name: tour-db-config
+#     keys:
+#       POSTGRES_HOST: tour-db
+#       POSTGRES_PORT: 5432
