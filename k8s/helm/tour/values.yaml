@@ -13,7 +13,7 @@ env:
   PORT: 4003
 
 database:
-  url: "postgresql://postgres:postgres@tour-db:5432/tour?schema=public"
+  url: "postgresql://postgres:postgres@tour-db:5432/postgres?schema=public"
   host: "tour-db"
   port: 5432
   name: "tour"

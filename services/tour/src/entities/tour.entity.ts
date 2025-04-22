@@ -1,4 +1,10 @@
-import { AfterCreate, AfterDelete, AfterUpdate, Entity, Property } from '@mikro-orm/core';
+import {
+  AfterCreate,
+  AfterDelete,
+  AfterUpdate,
+  Entity,
+  Property,
+} from '@mikro-orm/core';
 import { BaseEntity } from './base.entity';
 
 @Entity()

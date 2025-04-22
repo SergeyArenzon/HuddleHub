@@ -3,11 +3,11 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { Tour } from 'src/entities/tour.entity';
 
 const microOrmConfig: MikroOrmModuleSyncOptions = {
-  clientUrl: process.env.TOUR_DB_HOST, // Connection URL
+  clientUrl: process.env.DATABASE_URL, // Connection URL
   entities: [Tour],
   driver: PostgreSqlDriver, // Specify PostgreSQL driver
   migrations: {
-    path: 'src/migrations', // Ensure migrations are inside src
+    path: './migrations', // Ensure migrations are inside src
   },
   debug: true, // Enable for development
 };
