@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import {
   Settings,
   Users,
@@ -38,16 +39,11 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useAuth } from '@/composables/useAuth'
 
-// User state management
-// We'll need to use Nuxt's auth system or similar
-// For now we'll use a reactive object
-const user = ref({
-  first_name: 'John',
-  last_name: 'Doe',
-  email: 'john.doe@example.com',
-  image_url: ''
-})
+// Use the auth composable to get user data and logout function
+const { user, logout } = useAuth()
+const router = useRouter()
 
 const activeTab = ref('analytics')
 
@@ -61,9 +57,10 @@ const tabs = [
 ]
 
 const signOut = () => {
-  // Implement sign out functionality
-  // This would typically use Nuxt auth
-  console.log('Signing out')
+  // Use the logout function from our auth composable
+  logout()
+  // Redirect to signin page
+  router.push('/signin')
 }
 </script>
 

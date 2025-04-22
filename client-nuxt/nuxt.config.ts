@@ -6,9 +6,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: [
-    'shadcn-nuxt'
-  ],
+  modules: ['shadcn-nuxt', '@nuxt/image'],
 
   shadcn: {
     /**
