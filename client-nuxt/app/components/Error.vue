@@ -1,24 +1,35 @@
 <script setup lang="ts">
 import { AlertCircle, Home, RotateCcw } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
-
-interface ErrorProps {
-  statusCode?: number
-  title?: string
-  description?: string
-  showHomeButton?: boolean
-  showRetryButton?: boolean
-  iconComponent?: any
-  retryAction?: () => void
-}
+import type { PropType } from 'vue'
 
 // Define props with default values
-const props = withDefaults(defineProps<ErrorProps>(), {
-  title: 'An error occurred',
-  description: 'Something went wrong. Please try again later.',
-  iconComponent: AlertCircle,
-  showHomeButton: true,
-  showRetryButton: true
+defineProps({
+  statusCode: Number,
+  title: {
+    type: String,
+    default: 'An error occurred'
+  },
+  description: {
+    type: String,
+    default: 'Something went wrong. Please try again later.'
+  },
+  iconComponent: {
+    type: Object,
+    default: () => AlertCircle
+  },
+  showHomeButton: {
+    type: Boolean,
+    default: true
+  },
+  showRetryButton: {
+    type: Boolean,
+    default: true
+  },
+  retryAction: {
+    type: Function as PropType<() => void>,
+    default: () => {}
+  }
 })
 </script>
 
@@ -26,6 +37,7 @@ const props = withDefaults(defineProps<ErrorProps>(), {
   <div class="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
     <div class="rounded-full bg-muted p-6 mb-6">
       <component 
+        v-if="iconComponent"
         :is="iconComponent" 
         class="h-12 w-12 text-muted-foreground" 
         aria-hidden="true" 
