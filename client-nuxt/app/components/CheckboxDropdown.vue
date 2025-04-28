@@ -26,6 +26,12 @@ const open = ref(false)
 const searchQuery = ref('')
 const commandInputRef = ref<HTMLInputElement | null>(null)
 
+// Watch for changes to the modelValue prop
+watch(() => props.modelValue, (newValue, oldValue) => {
+  console.log('🔍 FormCheckboxDropdown - modelValue prop changed:',
+    { newValue, oldValue, isArray: Array.isArray(newValue) })
+}, { immediate: true, deep: true })
+
 // Filtered options based on search query
 const filteredOptions = computed(() => {
   if (!searchQuery.value) return props.options
@@ -38,7 +44,9 @@ const filteredOptions = computed(() => {
 
 // Handle item toggle
 const handleItemToggle = (value: string) => {
+  console.log('🔍 FormCheckboxDropdown - handleItemToggle called with:', value)
   const currentValues = Array.isArray(props.modelValue) ? [...props.modelValue] : []
+  console.log('🔍 FormCheckboxDropdown - Current modelValue:', currentValues)
   
   let newValues: string[]
   if (currentValues.includes(value)) {
@@ -47,6 +55,7 @@ const handleItemToggle = (value: string) => {
     newValues = [...currentValues, value]
   }
   
+  console.log('🔍 FormCheckboxDropdown - Emitting new values:', newValues)
   emit('update:modelValue', newValues)
 }
 
@@ -115,15 +124,15 @@ watch(open, (isOpen) => {
               <div 
                 v-for="option in filteredOptions" 
                 :key="option.value"
+                :for="`checkbox-${option.value}`"
                 class="flex items-center px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground rounded-sm w-full"
                 @click="handleItemToggle(option.value)"
               >
                 <Checkbox
-                  :id="`checkbox-${option.value}`"
-                  :checked="Array.isArray(modelValue) && modelValue.includes(option.value)"
-                  @click.stop
+                  :model-value="Array.isArray(modelValue) && modelValue.includes(option.value)"
                   class="mr-2"
                 />
+                <!-- <div v-show="Array.isArray(modelValue) && modelValue.includes(option.value)">v</div> -->
                 <span class="flex-grow">
                   {{ option.label }}
                 </span>

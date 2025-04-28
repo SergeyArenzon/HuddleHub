@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import FormFieldBase from './FormFieldBase.vue'
-import SelectDropdown from './SelectDropdown.vue'
-import CheckboxDropdown from './CheckboxDropdown.vue'
+import SelectDropdown from '../SelectDropdown.vue'
+import CheckboxDropdown from '../CheckboxDropdown.vue'
 import type { FieldConfig, TextFieldConfig, TextareaFieldConfig, CheckboxFieldConfig, SelectFieldConfig } from './types'
 
 const props = defineProps<{
@@ -142,6 +142,7 @@ const handleChange = (field: string, value: string | string[] | number) => {
           :placeholder="field.placeholder"
           v-model="formData[field.name]"
           :disabled="field.disabled"
+          @update:modelValue="(value: string[]) => handleChange(field.name, value)"
         />
       </FormFieldBase>
     </template>
