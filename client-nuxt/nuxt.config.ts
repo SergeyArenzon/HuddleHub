@@ -6,7 +6,12 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: ['shadcn-nuxt', '@nuxt/image', '@nuxt/icon'],
+  modules: [
+    'shadcn-nuxt', 
+    '@nuxt/image', 
+    '@nuxt/icon', 
+    '@vee-validate/nuxt'
+  ],
 
   shadcn: {
     /**
