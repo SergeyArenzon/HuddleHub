@@ -9,8 +9,7 @@ export default defineNuxtConfig({
   modules: [
     'shadcn-nuxt', 
     '@nuxt/image', 
-    '@nuxt/icon', 
-    '@vee-validate/nuxt'
+    '@nuxt/icon'
   ],
 
   shadcn: {

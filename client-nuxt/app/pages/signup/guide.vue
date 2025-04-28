@@ -10,7 +10,12 @@ const fields: FieldConfig[] = [
     type: 'text',
     required: true,
     placeholder: 'Enter your full name',
-    helperText: 'Please enter your full name as it appears on official documents'
+    helperText: 'Please enter your full name as it appears on official documents',
+    validation: {
+      min: 2,
+      max: 100,
+      message: 'Name must be between 2 and 100 characters'
+    }
   },
   {
     name: 'email',
@@ -19,7 +24,11 @@ const fields: FieldConfig[] = [
     inputType: 'email',
     required: true,
     placeholder: 'Enter your email address',
-    helperText: 'We will send a verification link to this email'
+    helperText: 'We will send a verification link to this email',
+    validation: {
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      message: 'Please enter a valid email address'
+    }
   },
   {
     name: 'country',
@@ -47,14 +56,22 @@ const fields: FieldConfig[] = [
       { value: 'travel', label: 'Travel' },
       { value: 'technology', label: 'Technology' }
     ],
-    helperText: 'Select at least one interest'
+    helperText: 'Select at least one interest',
+    validation: {
+      min: 1,
+      message: 'Please select at least one interest'
+    }
   },
   {
     name: 'bio',
     label: 'Bio',
     type: 'textarea',
     placeholder: 'Tell us about yourself',
-    helperText: 'Optional: Share something about yourself with the community'
+    helperText: 'Optional: Share something about yourself with the community',
+    validation: {
+      max: 500,
+      message: 'Bio must be less than 500 characters'
+    }
   }
 ]
 

@@ -17,9 +17,6 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.4
         version: 4.1.4(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.1))
-      '@vee-validate/nuxt':
-        specifier: ^4.15.0
-        version: 4.15.0(magicast@0.3.5)(vue@3.5.13(typescript@5.8.3))
       '@vee-validate/zod':
         specifier: ^4.15.0
         version: 4.15.0(vue@3.5.13(typescript@5.8.3))(zod@3.24.3)
@@ -50,6 +47,9 @@ importers:
       tw-animate-css:
         specifier: ^1.2.5
         version: 1.2.8
+      vee-validate:
+        specifier: ^4.15.0
+        version: 4.15.0(vue@3.5.13(typescript@5.8.3))
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
@@ -1389,9 +1389,6 @@ packages:
     resolution: {integrity: sha512-e30+CfCl1avR+hzFtpvnBSesZ5TN2KbShStdT2Z+zs5WIBUvobQwVxSR0arX43To6KfwtCXAfi0iOOIH0kufHQ==}
     peerDependencies:
       vue: '>=3.5.13'
-
-  '@vee-validate/nuxt@4.15.0':
-    resolution: {integrity: sha512-AhQHPLxH4tTf35op+ifkBhnnRwv/EzT8Fi9PQlEwKyLGZgepFQO1qTm6IyaA6aoSKcFWHz3R3hyMrMQdXbiOxQ==}
 
   '@vee-validate/zod@4.15.0':
     resolution: {integrity: sha512-MpvIKiyg9X5yD8bJW0no2AU7wtR2T5mrvD9tuPRiie951sU2n6QKgMV38qKKOiqFBCxsMSjIuLLLV3V5kVE4nQ==}
@@ -6066,15 +6063,6 @@ snapshots:
       hookable: 5.5.3
       unhead: 2.0.8
       vue: 3.5.13(typescript@5.8.3)
-
-  '@vee-validate/nuxt@4.15.0(magicast@0.3.5)(vue@3.5.13(typescript@5.8.3))':
-    dependencies:
-      '@nuxt/kit': 3.16.2(magicast@0.3.5)
-      local-pkg: 0.5.1
-      vee-validate: 4.15.0(vue@3.5.13(typescript@5.8.3))
-    transitivePeerDependencies:
-      - magicast
-      - vue
 
   '@vee-validate/zod@4.15.0(vue@3.5.13(typescript@5.8.3))(zod@3.24.3)':
     dependencies:
