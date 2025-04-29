@@ -5,20 +5,18 @@ import AuthLayout from '@/layouts/auth.vue'
 import { NuxtLayout } from '#components';
 
 const { loggedIn, user, session, fetch, clear, openInPopup } = useUserSession()
-
 </script>
 
 <template>
   <NuxtLayout>
-
       <div class="min-h-screen bg-background">
         <NuxtRouteAnnouncer />
         <!-- Apply different layouts based on authentication state and route -->
         <DashboardLayout v-if="loggedIn">
-          <!-- <NuxtPage /> -->
+          <NuxtPage />
         </DashboardLayout>
         
-        <AuthLayout v-else="isAuthRoute">
+        <AuthLayout v-else>
           <NuxtPage />
         </AuthLayout>
       </div>
