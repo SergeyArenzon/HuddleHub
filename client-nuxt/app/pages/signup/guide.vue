@@ -36,6 +36,7 @@ const fields: FieldConfig[] = [
     type: 'select',
     required: true,
     placeholder: 'Select your country',
+    helperText: 'Select country',
     options: [
       { value: 'us', label: 'United States' },
       { value: 'ca', label: 'Canada' },
