@@ -6,10 +6,8 @@ import FormFieldBase from './FormFieldBase.vue'
 import SelectDropdown from '../SelectDropdown.vue'
 import CheckboxDropdown from '../CheckboxDropdown.vue'
 import type { FieldConfig, TextFieldConfig, TextareaFieldConfig, CheckboxFieldConfig, SelectFieldConfig } from './types'
-import { useForm } from 'vee-validate'
-import { createFormSchema } from './validations'
-import { toTypedSchema } from '@vee-validate/zod'
 import { ref } from 'vue'
+import { createFormSchema } from './validations'
 
 const props = defineProps<{
   fields: FieldConfig[]
@@ -23,57 +21,64 @@ const emit = defineEmits<{
   (e: 'change', data: Record<string, any>): void
 }>()
 
-// Track which fields have been blurred
-const blurredFields = ref<Record<string, boolean>>({})
+// Track form values and errors
+const values = ref<Record<string, any>>({})
+const errors = ref<Record<string, string>>({})
 
-// Initialize blurred fields
+// Initialize values
 props.fields.forEach(field => {
-  blurredFields.value[field.name] = false
+  values.value[field.name] = field.type === 'checkbox' ? [] : ''
 })
 
-// Create the validation schema
-const validationSchema = toTypedSchema(createFormSchema(props.fields))
+// Create form schema
+const formSchema = createFormSchema(props.fields)
 
-// Initialize form with vee-validate
-const { handleSubmit, errors, values, setFieldValue } = useForm({
-  validationSchema,
-  initialValues: props.fields.reduce((acc, field) => {
-    acc[field.name] = field.type === 'checkbox' ? [] : ''
-    return acc
-  }, {} as Record<string, any>),
-  validateOnMount: false,
-  validateOnBlur: true,
-  validateOnChange: false
-})
+// Validate all fields
+const validateForm = (): boolean => {
+  try {
+    formSchema.parse(values.value)
+    errors.value = {}
+    return true
+  } catch (error: any) {
+    if (error.errors) {
+      errors.value = error.errors.reduce((acc: Record<string, string>, err: any) => {
+        acc[err.path[0]] = err.message
+        return acc
+      }, {})
+    }
+    return false
+  }
+}
 
 // Handle form submission
-const onSubmit = handleSubmit((values) => {
-  // Mark all fields as blurred on submit
-  props.fields.forEach(field => {
-    blurredFields.value[field.name] = true
-  })
-  emit('submit', values)
-})
+const onSubmit = () => {
+  if (validateForm()) {
+    emit('submit', values.value)
+  }
+}
 
 // Handle input change
 const handleChange = (field: string, value: string | string[] | number) => {
-  setFieldValue(field, value)
-  emit('change', values)
-}
-
-// Handle field blur
-const handleBlur = (fieldName: string) => {
-  blurredFields.value[fieldName] = true
-}
-
-// Helper to check if field should show error
-const shouldShowError = (fieldName: string) => {
-  return blurredFields.value[fieldName]
+  values.value[field] = value
+  try {
+    formSchema.parse(values.value)
+    delete errors.value[field]
+  } catch (error: any) {
+    if (error.errors) {
+      const fieldError = error.errors.find((err: any) => err.path[0] === field)
+      if (fieldError) {
+        errors.value[field] = fieldError.message
+      } else {
+        delete errors.value[field]
+      }
+    }
+  }
+  emit('change', values.value)
 }
 </script>
 
 <template>
-  <form @submit="onSubmit" class="w-full max-w-2xl mx-auto space-y-6 p-4">
+  <form @submit.prevent="onSubmit" class="w-full max-w-2xl mx-auto space-y-6 p-4">
     <div v-if="title || description" class="space-y-2">
       <h2 v-if="title" class="text-2xl font-bold">{{ title }}</h2>
       <p v-if="description" class="text-muted-foreground">{{ description }}</p>
@@ -86,8 +91,8 @@ const shouldShowError = (fieldName: string) => {
         :name="field.name"
         :label="field.label"
         :helperText="field.helperText"
-        :error="shouldShowError(field.name) ? errors[field.name] : undefined"
         :required="field.required"
+        :error="errors[field.name]"
       >
         <Input 
           :id="field.name"
@@ -96,7 +101,6 @@ const shouldShowError = (fieldName: string) => {
           :disabled="field.disabled"
           v-model="values[field.name]"
           @update:modelValue="(value: string | number) => handleChange(field.name, value)"
-          @blur="handleBlur(field.name)"
         />
       </FormFieldBase>
 
@@ -106,8 +110,8 @@ const shouldShowError = (fieldName: string) => {
         :name="field.name"
         :label="field.label"
         :helperText="field.helperText"
-        :error="shouldShowError(field.name) ? errors[field.name] : undefined"
         :required="field.required"
+        :error="errors[field.name]"
       >
         <Textarea
           :id="field.name"
@@ -115,7 +119,6 @@ const shouldShowError = (fieldName: string) => {
           :disabled="field.disabled"
           v-model="values[field.name]"
           @update:modelValue="(value: string | number) => handleChange(field.name, value)"
-          @blur="handleBlur(field.name)"
         />
       </FormFieldBase>
 
@@ -125,8 +128,8 @@ const shouldShowError = (fieldName: string) => {
         :name="field.name"
         :label="field.label"
         :helperText="field.helperText"
-        :error="shouldShowError(field.name) ? errors[field.name] : undefined"
         :required="field.required"
+        :error="errors[field.name]"
       >
         <SelectDropdown 
           :options="(field as SelectFieldConfig).options"
@@ -134,7 +137,6 @@ const shouldShowError = (fieldName: string) => {
           v-model="values[field.name]"
           :disabled="field.disabled"
           @update:modelValue="(value: string) => handleChange(field.name, value)"
-          @blur="handleBlur(field.name)"
         />
       </FormFieldBase>
 
@@ -144,8 +146,8 @@ const shouldShowError = (fieldName: string) => {
         :name="field.name"
         :label="field.label"
         :helperText="field.helperText"
-        :error="shouldShowError(field.name) ? errors[field.name] : undefined"
         :required="field.required"
+        :error="errors[field.name]"
       >
         <CheckboxDropdown
           :options="(field as CheckboxFieldConfig).options"
@@ -154,7 +156,6 @@ const shouldShowError = (fieldName: string) => {
           v-model="values[field.name]"
           :disabled="field.disabled"
           @update:modelValue="(value: string[]) => handleChange(field.name, value)"
-          @blur="handleBlur(field.name)"
         />
       </FormFieldBase>
     </template>

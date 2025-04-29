@@ -21,7 +21,7 @@ const props = defineProps<{
     
     <slot />
 
-    <p v-if="error" class="text-sm text-red-500">{{ error }}</p>
+    <p v-if="error" class="text-sm text-red-500 ml-3">{{ error }}</p>
     <p v-else-if="helperText" class="text-sm text-muted-foreground">{{ helperText }}</p>
   </div>
 </template> 

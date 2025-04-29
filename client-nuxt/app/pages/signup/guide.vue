@@ -81,10 +81,6 @@ const handleSubmit = (data: Record<string, any>) => {
   // Handle form submission here
 }
 
-// Handle form changes
-const handleChange = (data: Record<string, any>) => {
-  console.log('Form changed:', data)
-}
 </script>
 
 <template>
@@ -97,7 +93,6 @@ const handleChange = (data: Record<string, any>) => {
           title="Create Your Account"
           description="Please fill out the form below to get started with your account."
           @submit="handleSubmit"
-          @change="handleChange"
         />
     </div>
 </template>
