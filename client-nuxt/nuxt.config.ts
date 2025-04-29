@@ -2,14 +2,24 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
+  runtimeConfig: {
+    oauth: {
+      // provider in lowercase (github, google, etc.)
+      google: {
+        clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET,
+      }
+    }
+  },
   future: {
     compatibilityVersion: 4,
   },
 
   modules: [
-    'shadcn-nuxt', 
-    '@nuxt/image', 
-    '@nuxt/icon'
+    'shadcn-nuxt',
+    '@nuxt/image',
+    '@nuxt/icon',
+    'nuxt-auth-utils'
   ],
 
   shadcn: {

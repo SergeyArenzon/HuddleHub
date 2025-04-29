@@ -7,6 +7,7 @@ import AppSidebar from '@/components/AppSidebar.vue'
   <div class="flex">
     <AppSidebar />
     <div class="flex-1 p-6">
+      dashboard layout
       <slot />
     </div>
   </div>

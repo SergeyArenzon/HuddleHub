@@ -1,25 +1,26 @@
 <script setup lang="ts">
 // Import layouts based on authentication status
-import AuthenticatedLayout from './layouts/authenticated.vue'
-import DefaultLayout from './layouts/default.vue'
+import DashboardLayout from '@/layouts/dashboard.vue'
+import AuthLayout from '@/layouts/auth.vue'
+import { NuxtLayout } from '#components';
 
-// Use the auth composable to get authentication state
-const { isAuthenticated } = useAuth()
-console.log({isAuthenticated:isAuthenticated.value});
+const { loggedIn, user, session, fetch, clear, openInPopup } = useUserSession()
 
 </script>
 
 <template>
-  <div class="min-h-screen bg-background">
-    <NuxtRouteAnnouncer />
-    
-    <!-- Apply different layouts based on authentication state -->
-    <AuthenticatedLayout v-if="isAuthenticated">
-      <NuxtPage />
-    </AuthenticatedLayout>
-    
-    <DefaultLayout v-else>
-      <NuxtPage />
-    </DefaultLayout>
-  </div>
+  <NuxtLayout>
+
+      <div class="min-h-screen bg-background">
+        <NuxtRouteAnnouncer />
+        <!-- Apply different layouts based on authentication state and route -->
+        <DashboardLayout v-if="loggedIn">
+          <!-- <NuxtPage /> -->
+        </DashboardLayout>
+        
+        <AuthLayout v-else="isAuthRoute">
+          <NuxtPage />
+        </AuthLayout>
+      </div>
+  </NuxtLayout>
 </template>
