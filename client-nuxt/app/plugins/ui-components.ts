@@ -12,7 +12,7 @@ import {
   SidebarMenuButton, 
   SidebarFooter,
   SidebarRail 
-} from '~/app/components/ui/sidebar'
+} from '@/components/ui/sidebar'
 
 import {
   DropdownMenu,
@@ -21,10 +21,10 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator
-} from '~/app/components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu'
 
-import { Avatar, AvatarImage, AvatarFallback } from '~/app/components/ui/avatar'
-import { Input } from '~/app/components/ui/input'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Input } from '@/components/ui/input'
 
 export default defineNuxtPlugin((nuxtApp) => {
   // Register sidebar components
