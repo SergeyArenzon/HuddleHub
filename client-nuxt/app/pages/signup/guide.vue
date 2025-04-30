@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form } from '@/components/form'
+import { AppForm } from '@/components/form'
 import type { FieldConfig } from '@/components/form'
 
 // Define form fields
@@ -88,7 +88,7 @@ const handleSubmit = (data: Record<string, any>) => {
     <div class="container mx-auto py-10">
         <h1 class="text-3xl font-bold mb-8 text-center">Signup Guide</h1>
         
-        <Form 
+        <AppForm 
           :fields="fields" 
           submitButtonText="Continue" 
           title="Create Your Account"

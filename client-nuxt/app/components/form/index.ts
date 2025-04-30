@@ -1,5 +1,5 @@
-import Form from './Form.vue'
+import AppForm from './AppForm.vue'
 import FormFieldBase from './FormFieldBase.vue'
 
-export { Form, FormFieldBase }
+export { AppForm, FormFieldBase }
 export * from './types' 
