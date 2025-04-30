@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware((to) => {
-  const { loggedIn } = useUserSession();
+  const { loggedIn, user } = useUserSession();
   // List of public routes that don't require authentication
   const publicRoutes = ['/signin', '/auth/google'];
   

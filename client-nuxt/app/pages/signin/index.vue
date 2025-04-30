@@ -5,13 +5,7 @@ import { ROUTES } from '~/lib/routes'
 
 // const { isAuthenticated, login } = useAuth()
 const router = useRouter()
-
-
 const { loggedIn, user, session, fetch, clear, openInPopup } = useUserSession()
-
-console.log({loggedIn: loggedIn.value, user});
-
-
 </script>
 
 <template>

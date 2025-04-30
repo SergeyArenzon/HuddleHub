@@ -3,6 +3,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
   runtimeConfig: {
+    public: {
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3000'
+    },
     oauth: {
       // provider in lowercase (github, google, etc.)
       google: {
@@ -22,7 +25,6 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     '@pinia/nuxt'
   ],
-
   shadcn: {
     /**
      * Prefix for all the imported component

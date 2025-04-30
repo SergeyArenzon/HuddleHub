@@ -16,7 +16,7 @@ export default defineOAuthGoogleEventHandler({
       const authServiceResponse = await response.json();
 
       // Get the cookie from response headers
-       const cookie = qs.decode(response.headers.get("set-cookie") as string, "; ", "=");
+      const cookie = qs.decode(response.headers.get("set-cookie") as string, "; ", "=");
       const [cookieName, cookieValue] = Object.entries(cookie)[0] as [string, string];
         // Set the JWT token in a secure HTTP-only cookie
         setCookie(event, cookieName, cookieValue, {
