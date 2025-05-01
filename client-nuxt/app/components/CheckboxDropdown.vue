@@ -26,6 +26,11 @@ const open = ref(false)
 const searchQuery = ref('')
 const commandInputRef = ref<HTMLInputElement | null>(null)
 
+// Add debug logging for open state changes
+watch(open, (newValue) => {
+  console.log('🔍 CheckboxDropdown - open state changed:', newValue)
+})
+
 // Watch for changes to the modelValue prop
 watch(() => props.modelValue, (newValue, oldValue) => {
   console.log('🔍 FormCheckboxDropdown - modelValue prop changed:',
@@ -101,6 +106,7 @@ watch(open, (isOpen) => {
           :aria-expanded="open"
           :disabled="disabled"
           class="w-full justify-between"
+          @click="console.log('🔍 CheckboxDropdown - Button clicked')"
         >
           {{ displayText }}
           <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />

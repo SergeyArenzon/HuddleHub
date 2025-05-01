@@ -1,37 +1,21 @@
-import axios, { type AxiosInstance, AxiosError } from 'axios';
-import { Language, Country, City } from '@/types';
+import type{ Language } from '@/types';
 import { z } from 'zod';
-import { CountrySchema, LanguageSchema } from '@/schema/user.schema';
-import { City as CSCCity, ICity } from 'country-state-city';
-import { GeoLocationService } from '@/lib/geo-location';
-
+import { CountrySchema, LanguageSchema } from '@/schemas/geo-location.sachema';
+import { GeoLocationService } from '~/utils/geo-location';
 
 export default class Api {
-  private axios: AxiosInstance;
+  private baseUrl: string;
   private geoService: GeoLocationService;
 
   constructor(baseUrl: string) {
-    this.axios = axios.create({
-      baseURL: baseUrl + '/api',
-      timeout: 5000, // 5s timeout
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    
+    this.baseUrl = baseUrl + '/api';
     this.geoService = new GeoLocationService();
-
-    // Attach response interceptor
-    this.axios.interceptors.response.use(
-      (response) => response,
-      (error) => this.handleError(error)
-    );
   }
 
   // 🛑 Handle API errors globally
-  private handleError(error: AxiosError) {
+  private handleError(error: any) {
     if (error.response) {
-      const errorMessage = (error.response.data as { message?: string })?.message || 'Something went wrong.';
+      const errorMessage = (error.response._data as { message?: string })?.message || 'Something went wrong.';
       console.error('API Error:', errorMessage);
       throw new Error(errorMessage);
     } else if (error.request) {
@@ -42,36 +26,45 @@ export default class Api {
       throw new Error('Request failed. Please check your network.');
     }
   }
-  
 
   // 🛠 Fetch languages with validation
   async getLanguages(): Promise<Language[]> {
-    const response = await this.axios.get('/user/languages');
-    // ✅ Validate API response
-    const parsed = z.array(LanguageSchema).safeParse(response.data);
-    if (!parsed.success) {
-      console.error('Invalid API response:', parsed.error);
-      throw new Error('Unexpected API response format.');
-    }
+    try {
+      const { data } = await useFetch(`${this.baseUrl}/user/languages`);
+      
+      // ✅ Validate API response
+      const parsed = z.array(LanguageSchema).safeParse(data.value);
+      if (!parsed.success) {
+        console.error('Invalid API response:', parsed.error);
+        throw new Error('Unexpected API response format.');
+      }
 
-    return parsed.data;
+      return parsed.data;
+    } catch (error) {
+      this.handleError(error);
+      throw error; // Re-throw the error after handling
+    }
   }
   
   async getCountries(): Promise<Country[]> {
-    const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,cca3');
-    const fixedCountries = response.data.map((country: {name: { common: string }, cca3: string}) => {
-      return {
+    try {
+      const { data } = await useFetch('https://restcountries.com/v3.1/all?fields=name,cca3');
+      
+      const fixedCountries = (data.value as any[]).map((country: {name: { common: string }, cca3: string}) => ({
         name: country.name.common,
         code: country.cca3
+      }));
+      
+      // ✅ Validate API response
+      const parsed = z.array(CountrySchema).safeParse(fixedCountries);
+      if (!parsed.success) {
+        console.error('Invalid API response:', parsed.error);
+        throw new Error('Unexpected API response format.');
       }
-    })
-    
-    // ✅ Validate API response
-    const parsed = z.array(CountrySchema).safeParse(fixedCountries);
-    if (!parsed.success) {
-      console.error('Invalid API response:', parsed.error);
-      throw new Error('Unexpected API response format.');
+      return parsed.data;
+    } catch (error) {
+      this.handleError(error);
+      throw error; // Re-throw the error after handling
     }
-    return parsed.data;
   }
 }

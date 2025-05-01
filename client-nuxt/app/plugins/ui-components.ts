@@ -1,7 +1,7 @@
 import { defineNuxtPlugin } from '#app'
 import { 
   SidebarProvider, 
-  ShadcnSidebar,
+  Sidebar,
   SidebarHeader, 
   SidebarContent, 
   SidebarGroup, 
@@ -29,7 +29,7 @@ import { Input } from '@/components/ui/input'
 export default defineNuxtPlugin((nuxtApp) => {
   // Register sidebar components
   nuxtApp.vueApp.component('SidebarProvider', SidebarProvider)
-  nuxtApp.vueApp.component('ShadcnSidebar', ShadcnSidebar)
+  nuxtApp.vueApp.component('Sidebar', Sidebar)
   nuxtApp.vueApp.component('SidebarHeader', SidebarHeader)
   nuxtApp.vueApp.component('SidebarContent', SidebarContent)
   nuxtApp.vueApp.component('SidebarGroup', SidebarGroup)
