@@ -27,6 +27,17 @@ spec:
           env:
             - name: DATABASE_URL
               value: "{{ .Values.database.url }}"
+        - name: seed-database
+          image: postgres:17
+          command: ["sh", "-c"]
+          args: ["echo 'Starting database seeding...' && psql -h {{ .Values.database.host }} -U {{ .Values.database.user }} -d {{ .Values.database.name }} -f /app/seed.sql && echo 'Database seeding completed successfully'"]
+          env:
+            - name: PGPASSWORD
+              value: "{{ .Values.database.password }}"
+          volumeMounts:
+            - name: seed-file
+              mountPath: /app/seed.sql
+              subPath: seed.sql
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -45,3 +56,7 @@ spec:
             requests:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
+      volumes:
+        - name: seed-file
+          configMap:
+            name: {{ include "tour.fullname" . }}-seed

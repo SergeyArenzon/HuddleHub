@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "tour.fullname" . }}-seed
+  labels:
+    {{include "tour.labels" . | nindent 4 }}
+data:
+  seed.sql: |-
+    {{ .Files.Get "services/tour/src/db/seed.sql" | indent 4 }} 
