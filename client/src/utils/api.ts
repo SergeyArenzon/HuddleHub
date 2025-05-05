@@ -1,8 +1,7 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-import { Language, Country, City } from '@/types';
+import { Language, Country } from '@/types';
 import { z } from 'zod';
 import { CountrySchema, LanguageSchema } from '@/schema/user.schema';
-import { City as CSCCity, ICity } from 'country-state-city';
 import { GeoLocationService } from '@/lib/geo-location';
 
 
