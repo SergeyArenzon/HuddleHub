@@ -25,6 +25,9 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     '@pinia/nuxt'
   ],
+  plugins: [
+    '@/plugins/vue-query.ts',
+  ],
   shadcn: {
     /**
      * Prefix for all the imported component

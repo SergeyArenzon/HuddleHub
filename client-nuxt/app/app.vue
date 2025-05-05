@@ -7,9 +7,6 @@ import { NuxtLayout } from '#components';
 const { loggedIn, user, session, fetch, clear, openInPopup } = useUserSession()
 const nuxtApp = useNuxtApp()
 
-console.log('API:', nuxtApp.$api)
-onMounted(() => {
-})
 </script>
 
 <template>
