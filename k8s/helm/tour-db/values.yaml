@@ -1,9 +1,14 @@
-## Bitnami PostgreSQL chart configuration for tour service
+## Official PostgreSQL chart configuration for tour service
 global:
   storageClass: ""
 
 ## Override the name of the chart
 fullnameOverride: "tour-db"
+
+image:
+  repository: postgres
+  tag: "15.3"
+  pullPolicy: IfNotPresent
 
 auth:
   username: postgres
