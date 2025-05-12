@@ -23,6 +23,9 @@ importers:
       '@mikro-orm/postgresql':
         specifier: ^6.4.13
         version: 6.4.13(@mikro-orm/core@6.4.13)
+      '@mikro-orm/seeder':
+        specifier: 6.4.13
+        version: 6.4.13(@mikro-orm/core@6.4.13)
       '@nestjs/common':
         specifier: ^10.0.0
         version: 10.4.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -484,6 +487,12 @@ packages:
 
   '@mikro-orm/postgresql@6.4.13':
     resolution: {integrity: sha512-m2ovsYZx9F64ffBV61cHkGKMaR7fk5ETFw65kJZMAcsPEwOqUkZKS272IrMRrI//bLygirHkw+Kj60XYHmQh+w==}
+    engines: {node: '>= 18.12.0'}
+    peerDependencies:
+      '@mikro-orm/core': ^6.0.0
+
+  '@mikro-orm/seeder@6.4.13':
+    resolution: {integrity: sha512-LNFpBPUPZxb1QkMjP5KMbUXk4uaHFFFVkAxqhSVRUN/qUdeHu+q9C9UR1reeP70VcUrtGfqdqA4PpTV+rsu2Hw==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@mikro-orm/core': ^6.0.0
@@ -3665,6 +3674,12 @@ snapshots:
       - sqlite3
       - supports-color
       - tedious
+
+  '@mikro-orm/seeder@6.4.13(@mikro-orm/core@6.4.13)':
+    dependencies:
+      '@mikro-orm/core': 6.4.13
+      fs-extra: 11.3.0
+      globby: 11.1.0
 
   '@nestjs/cli@10.4.9':
     dependencies:
