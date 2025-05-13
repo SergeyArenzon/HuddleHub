@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ include "tour.fullname" . }}
     job: migration
-  annotations:
+  # annotations:
     # Add a skaffold annotation to force recreation
     # "skaffold.dev/depends-on-image1": "{{ .Values.image.repository }}"
 spec:
