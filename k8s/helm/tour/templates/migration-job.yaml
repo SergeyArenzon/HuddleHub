@@ -27,7 +27,12 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["sh", "-c"]
-          args: ["npx mikro-orm migration:up"]
+          args:
+            - |
+              echo "Running DB migrations..." &&
+              npx mikro-orm migration:up &&
+              echo "Running seeders..." &&
+              npx mikro-orm seeder:run
           env:
             - name: DATABASE_URL
               value: "{{ .Values.database.url }}"

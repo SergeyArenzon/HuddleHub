@@ -27,7 +27,10 @@ export class DatabaseSeeder extends Seeder {
       },
     ];
 
-    // Create all categories in a single operation
-    em.create(Category, categories);
+    // Create categories one by one
+    for (const categoryData of categories) {
+      const category = new Category(categoryData);
+      await em.persistAndFlush(category);
+    }
   }
 }
