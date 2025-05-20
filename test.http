@@ -21,13 +21,13 @@
 
 
 
-# GET http://huddlehub.io/api/user/guide
-curl 'http://huddlehub.io/api/user/languages' \
-  -H 'Accept: application/json, text/plain, */*' \
-  -H 'Accept-Language: en,ru;q=0.9,he;q=0.8' \
-  -H 'Cache-Control: no-cache' \
-  -H 'Connection: keep-alive' \
-  -H 'Origin: http://localhost:3000' \
-  -H 'Pragma: no-cache' \
-  -H 'Referer: http://localhost:3000/' \
-  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
+GET http://huddlehub.io/api/user/health
+# curl 'http://huddlehub.io/api/user/languages' \
+#   -H 'Accept: application/json, text/plain, */*' \
+#   -H 'Accept-Language: en,ru;q=0.9,he;q=0.8' \
+#   -H 'Cache-Control: no-cache' \
+#   -H 'Connection: keep-alive' \
+#   -H 'Origin: http://localhost:3000' \
+#   -H 'Pragma: no-cache' \
+#   -H 'Referer: http://localhost:3000/' \
+#   -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
