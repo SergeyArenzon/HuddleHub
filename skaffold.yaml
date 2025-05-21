@@ -35,6 +35,10 @@ build:
 manifests:
   helm:
     releases:
+      - name: gateway
+        chartPath: k8s/helm/gateway/
+        valuesFiles:
+          - k8s/helm/gateway/values.yaml
       - name: secrets
         chartPath: k8s/helm/secrets/
         valuesFiles:
@@ -74,6 +78,6 @@ manifests:
       #   valuesFiles:
       #      - k8s/helm/kafka/values.yaml
 
-  rawYaml:
-    # GATEWAY
-    - k8s/minikube/gateway/*
+  # rawYaml:
+  #   # GATEWAY
+  #   - k8s/minikube/gateway/*

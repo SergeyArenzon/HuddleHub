@@ -1,0 +1,32 @@
+replicaCount: 1
+
+image:
+  repository: sergeyarenzon/huddlehub-gateway
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 4000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: huddlehub.io
+  paths:
+    - path: /api/user(/|$)(.*)
+      pathType: Prefix
+      serviceName: user
+      servicePort: 3000
+    - path: /api/auth(/|$)(.*)
+      pathType: Prefix
+      serviceName: auth
+      servicePort: 3000
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 150Mi 
