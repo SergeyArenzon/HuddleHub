@@ -2,7 +2,7 @@ import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SeedManager } from '@mikro-orm/seeder';
 import { Category } from './entities/category.entity';
-import { SubCategory } from './entities/subCategory';
+import { SubCategory } from './entities/subCategory.entity';
 
 const microOrmConfig: MikroOrmModuleSyncOptions = {
   clientUrl: process.env.DATABASE_URL, // Connection URL

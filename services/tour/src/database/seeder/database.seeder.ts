@@ -1,7 +1,7 @@
 import { EntityManager } from '@mikro-orm/core';
 import { Seeder } from '@mikro-orm/seeder';
 import { Category } from 'src/entities/category.entity';
-import { SubCategory } from 'src/entities/subCategory';
+import { SubCategory } from 'src/entities/subCategory.entity';
 
 export class DatabaseSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
