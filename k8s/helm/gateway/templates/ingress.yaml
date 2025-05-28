@@ -12,17 +12,12 @@ spec:
   - host: {{ .Values.ingress.host }}
     http:
       paths:
-      - path: /api/user(/|$)(.*)
-        pathType: Prefix
+{{- range .Values.ingress.paths }}
+      - path: {{ .path }}
+        pathType: {{ .pathType }}
         backend:
           service:
-            name: user
+            name: {{ .serviceName }}
             port:
-              number: 3000
-      - path: /api/auth(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: auth
-            port:
-              number: 3000 
+              number: {{ .servicePort }}
+{{- end }} 
