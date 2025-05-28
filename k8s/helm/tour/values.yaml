@@ -7,10 +7,10 @@ image:
 
 service:
   type: ClusterIP
-  port: 4003
+  port: 3000
 
 env:
-  PORT: 4003
+  PORT: 3000
 
 database:
   url: "postgresql://postgres:postgres@tour-db:5432/postgres?schema=public"
@@ -26,11 +26,4 @@ resources:
     memory: 128Mi
   requests:
     cpu: 100m
-    memory: 128Mi 
-
-# configMaps:
-#   tour-db:
-#     name: tour-db-config
-#     keys:
-#       POSTGRES_HOST: tour-db
-#       POSTGRES_PORT: 5432
+    memory: 128Mi
