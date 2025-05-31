@@ -21,5 +21,5 @@ export abstract class BaseEntity {
   toJSON() {
     const obj = { ...this };
     return obj;
-  }
+  } gtbrbytty
 }

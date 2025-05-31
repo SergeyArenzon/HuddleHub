@@ -6,8 +6,8 @@ import {
   ManyToOne,
   Property,
 } from '@mikro-orm/core';
-import { BaseEntity } from './base.entity';
-import { Category } from './category.entity';
+import { BaseEntity } from '../../entities/base.entity';
+import { Category } from '../../category/entities/category.entity';
 
 @Entity()
 export class SubCategory extends BaseEntity {

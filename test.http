@@ -21,7 +21,7 @@
 
 
 
-GET http://huddlehub.io/api/tour/
+GET http://huddlehub.io/api/tour/category
 # curl 'http://huddlehub.io/api/user/languages' \
 #   -H 'Accept: application/json, text/plain, */*' \
 #   -H 'Accept-Language: en,ru;q=0.9,he;q=0.8' \
