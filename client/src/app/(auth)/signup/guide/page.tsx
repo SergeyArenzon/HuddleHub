@@ -7,24 +7,6 @@ import { Error } from "@/components/Error";
 import { useCallback, useEffect, useState } from "react";
 import { GeoLocationService } from "@/lib/geo-location";
 
-const categories = [
-  { value: "cultural", label: "Cultural Tours" },
-  { value: "historical", label: "Historical Sites" },
-  { value: "adventure", label: "Adventure Travel" },
-  { value: "food", label: "Food & Culinary" },
-  { value: "nature", label: "Nature & Wildlife" },
-  { value: "city", label: "City Tours" },
-  { value: "shopping", label: "Shopping & Markets" },
-  { value: "nightlife", label: "Nightlife & Entertainment" },
-  { value: "religious", label: "Religious & Spiritual" },
-  { value: "photography", label: "Photography Tours" },
-  { value: "architecture", label: "Architecture & Art" },
-  { value: "wellness", label: "Wellness & Spa" },
-  { value: "sports", label: "Sports & Recreation" },
-  { value: "festivals", label: "Festivals & Events" },
-  { value: "offbeat", label: "Offbeat & Unique Experiences" }
-]
-
 type GuideFormValues = {
     bio: string
     categories: string[]
@@ -50,12 +32,12 @@ export default function SignupGuide() {
     queryKey: ['languages'], 
     queryFn:() => api.getLanguages() });
 
-  const { data: categoryies, isLoading: isLoadingCategories, error: errorCategories, refetch: refetchCategories } = useQuery({
+  const { data: categories, isLoading: isLoadingCategories, error: errorCategories, refetch: refetchCategories } = useQuery({
     retry: false,  
     queryKey: ['categories'], 
     queryFn:() => api.getCategories() });
 
-    console.log({categoryies});
+  console.log({categories});
     
 
   const handleSubmit = (data: GuideFormValues) => {
@@ -64,8 +46,9 @@ export default function SignupGuide() {
   }
   
   if (isLoading || isLoadingCategories) return <Loading/>
-  
+
   if (error) return <Error retryAction={() => refetch()}/>
+  if (errorCategories) return <Error retryAction={() => refetchCategories()}/>
   
   return (
     <Form
@@ -97,10 +80,17 @@ export default function SignupGuide() {
           helperText: "Write a short bio to introduce yourself to others.",
         },
         {
-          type: "checkbox",
+          type: "categorized-checkbox",
           name: "categories",
           label: "Categories",
-          options: categories,
+          options: categories?.map((cat) => ({ 
+            value: cat.id, 
+            label: cat.name,
+            subcategories: cat.subcategories?.map(subcat => ({
+              value: subcat.id,
+              label: subcat.name
+            })) || []
+          })) || [],
           placeholder: "Select categories",
           required: true,
           validation: {

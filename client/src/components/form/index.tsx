@@ -12,6 +12,7 @@ import { CheckboxDropdown } from "../CheckboxDropdown"
 import SelectDropdown from "../SelectDropdown"
 import { CheckboxFieldConfig, FieldConfig, TextFieldConfig, SelectFieldConfig } from "./types"
 import { validateCheckbox, validateText, validateSelect } from "./validations"
+import { CategorizedCheckboxDropdown } from "../CategorizedCheckboxDropdown"
 
 
 type FormProps<T> = {
@@ -152,6 +153,29 @@ export default function Form<T>({
                 options={field.options}
                 placeholder={field.placeholder}
                 helperText={field.helperText}
+                register={register}
+                watch={watch}
+                required={field.required}
+                setValue={setValue}
+                disabled={field.disabled}/>
+
+          </FormFieldBase>
+        )
+      case 'categorized-checkbox':
+        return (
+          <FormFieldBase
+            key={field.name}
+            name={field.name}
+            label={field.label}
+            helperText={field.helperText}
+            errors={errors}
+            required={field.required}>
+              <CategorizedCheckboxDropdown
+                key={field.name}
+                name={field.name}
+                label={field.label}
+                options={field.options}
+                placeholder={field.placeholder}
                 register={register}
                 watch={watch}
                 required={field.required}
