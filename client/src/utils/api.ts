@@ -1,8 +1,9 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-import { Language, Country } from '@/types';
+import { Language, Country, Category } from '@/types';
 import { z } from 'zod';
 import { CountrySchema, LanguageSchema } from '@/schema/user.schema';
 import { GeoLocationService } from '@/lib/geo-location';
+import { CategorySchema } from '@/schema';
 
 
 export default class Api {
@@ -67,6 +68,16 @@ export default class Api {
     
     // ✅ Validate API response
     const parsed = z.array(CountrySchema).safeParse(fixedCountries);
+    if (!parsed.success) {
+      console.error('Invalid API response:', parsed.error);
+      throw new Error('Unexpected API response format.');
+    }
+    return parsed.data;
+  }
+
+  async getCategories(): Promise<Category[]> {
+    const response = await this.axios.get('/tour/categories');
+    const parsed = z.array(CategorySchema).safeParse(response.data);
     if (!parsed.success) {
       console.error('Invalid API response:', parsed.error);
       throw new Error('Unexpected API response format.');

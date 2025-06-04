@@ -24,7 +24,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     signIn: async ({ account, user }) => {
-      
       const response = await fetch(`http://huddlehub.io/api/auth`, {
         method: 'POST',
         headers: {
@@ -36,8 +35,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }),
       });  
 
-      
-      
       if (response.ok) {
         const userData = await response.json();
         console.log({userData});

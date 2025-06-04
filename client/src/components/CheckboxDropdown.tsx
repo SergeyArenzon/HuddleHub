@@ -1,12 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge"
 import type { UseFormRegister, UseFormWatch, UseFormSetValue } from "react-hook-form"
 
 export type CheckboxDropdownProps = {
@@ -21,6 +22,7 @@ export type CheckboxDropdownProps = {
   disabled?: boolean
   required?: boolean
   className?: string
+  maxBadges?: number
 }
 
 export function CheckboxDropdown({
@@ -34,6 +36,7 @@ export function CheckboxDropdown({
   disabled = false,
   required = false,
   className = "",
+  maxBadges = 3,
 }: CheckboxDropdownProps) {
   const [open, setOpen] = React.useState(false)
   const selectedItems = (watch(name) as string[]) || []
@@ -52,6 +55,29 @@ export function CheckboxDropdown({
     register(name)
   }, [register, name])
 
+  // Get label for a value
+  const getLabelForValue = (value: string) => {
+    const option = options.find(opt => opt.value === value)
+    return option ? option.label : value
+  }
+
+  // Remove selected item
+  const removeItem = (value: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation()
+    }
+    
+    const currentValues = [...selectedItems]
+    setValue(
+      name,
+      currentValues.filter((item) => item !== value),
+      { shouldValidate: true },
+    )
+  }
+
+  const displayBadges = selectedItems.slice(0, maxBadges)
+  const remainingCount = selectedItems.length - maxBadges
+
   return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -59,12 +85,36 @@ export function CheckboxDropdown({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between"
+            className={`w-full justify-start h-auto min-h-10 ${selectedItems.length > 0 ? "pl-3 pr-3" : ""} ${className}`}
             disabled={disabled}>
-            {selectedItems.length > 0
-              ? `${selectedItems.length} ${label.toLowerCase()} selected`
-              : placeholder || `Select ${label.toLowerCase()}`}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            {selectedItems.length > 0 ? (
+              <div className="flex flex-wrap gap-1 max-w-full">
+                {displayBadges.map((value) => (
+                  <Badge
+                    key={value}
+                    variant="secondary"
+                    className="text-xs flex items-center gap-1 max-w-[150px]"
+                  >
+                    <span className="truncate">{getLabelForValue(value)}</span>
+                    <span
+                      role="button"
+                      onClick={(e) => removeItem(value, e)}
+                      className="hover:bg-muted-foreground/20 rounded-full p-0.5 cursor-pointer"
+                    >
+                      <X className="h-3 w-3" />
+                    </span>
+                  </Badge>
+                ))}
+                {remainingCount > 0 && (
+                  <Badge variant="outline" className="text-xs">
+                    +{remainingCount}
+                  </Badge>
+                )}
+              </div>
+            ) : (
+              <span className="text-muted-foreground">{placeholder || `Select ${label.toLowerCase()}`}</span>
+            )}
+            <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0">
