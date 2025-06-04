@@ -41,11 +41,7 @@ export default function SignupGuide() {
   const geoLocationService = new GeoLocationService();
   
   const handleFormChange = (currentState: Partial<GuideFormValues>) => {
-    console.log("[][][][][");
-    console.log({currentState});
-    
     setFormState(currentState as GuideFormValues);
-    
   };
   
   // Queries
@@ -54,6 +50,12 @@ export default function SignupGuide() {
     queryKey: ['languages'], 
     queryFn:() => api.getLanguages() });
 
+  const { data: categoryies, isLoading: isLoadingCategories, error: errorCategories, refetch: refetchCategories } = useQuery({
+    retry: false,  
+    queryKey: ['categories'], 
+    queryFn:() => api.getCategories() });
+
+    console.log({categoryies});
     
 
   const handleSubmit = (data: GuideFormValues) => {
@@ -61,7 +63,8 @@ export default function SignupGuide() {
     // Handle form submission here
   }
   
-  if (isLoading) return <Loading/>
+  if (isLoading || isLoadingCategories) return <Loading/>
+  
   if (error) return <Error retryAction={() => refetch()}/>
   
   return (
