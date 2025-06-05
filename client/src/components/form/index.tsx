@@ -50,7 +50,7 @@ export default function Form<T>({
       
       if (field.type === 'textarea' || field.type === 'text') 
         fieldSchema = validateText(field as TextFieldConfig)
-      if (field.type === 'checkbox') 
+      if (field.type === 'checkbox' || field.type === 'categorized-checkbox') 
         fieldSchema = validateCheckbox(field as CheckboxFieldConfig)
       if (field.type === 'select') 
         fieldSchema = validateSelect(field as SelectFieldConfig)
@@ -213,7 +213,7 @@ export default function Form<T>({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)} className="w-full max-w-2xl mx-auto space-y-6 p-4">
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="w-full max-w-2xl mx-auto space-y-6 px-6 bg-white  max-h-min  py-10">
       {(title || description) && (
         <div className="space-y-2">
           {title && <h2 className="text-2xl font-bold">{title}</h2>}

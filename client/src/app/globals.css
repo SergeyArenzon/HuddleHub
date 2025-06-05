@@ -135,14 +135,10 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gray-100 text-foreground;
   }
   .container {
     @apply p-3;
 
   }
-}
-
-@utility my-center {
-  @apply flex justify-center items-center;
 }
