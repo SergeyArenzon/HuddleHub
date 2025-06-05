@@ -159,7 +159,7 @@ export function CategorizedCheckboxDropdown({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={`w-full justify-start h-auto min-h-10 ${selectedItems.length > 0 ? "pl-3 pr-3" : ""} ${className}`}
+          className={`w-full justify-start h-auto min-h-11 ${selectedItems.length > 0 ? "pl-3 pr-3" : ""} ${className}`}
           disabled={disabled}
         >
           {selectedItems.length > 0 ? (

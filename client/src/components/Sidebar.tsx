@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import useUserStore from "@/store/useUser"
 import { signOut } from "next-auth/react"
+import Logo from "./Logo"
 
 
 export function Sidebar({ ...props }: React.ComponentProps<typeof ShadcnSidebar>) {
@@ -57,19 +58,11 @@ export function Sidebar({ ...props }: React.ComponentProps<typeof ShadcnSidebar>
     { id: "settings", label: "Settings", icon: Settings },
   ]
 
-  console.log({user});
-  
-
   return (
     <SidebarProvider>
       <ShadcnSidebar side="right" {...props}>
         <SidebarHeader>
-          <div className="flex items-center justify-center px-4 py-2">
-            <div className="flex h-8 px-1 items-center justify-center rounded-md bg-primary">
-              <span className="text-lg font-bold text-primary-foreground">Rapid</span>
-            </div>
-            <div className="font-bold text-lg ">Guide</div>
-          </div>
+          <Logo />
           <div className="relative px-4 py-2">
             <Search className="absolute left-6 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input placeholder="Search..." className="pl-8 h-9" />
