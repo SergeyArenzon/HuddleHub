@@ -23,3 +23,15 @@ configMaps:
     keys:
       POSTGRES_HOST: user-db
       POSTGRES_PORT: "5432"
+
+# Add environment variables
+env:
+  NODE_ENV: production
+  JWT_MAX_AGE: 3600000
+
+# JWT secret configuration
+secrets:
+  global:
+    name: global-secrets
+    keys:
+      jwt-secret: jwt-secret
