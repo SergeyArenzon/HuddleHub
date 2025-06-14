@@ -6,7 +6,7 @@ import {
   OneToOne,
 } from '@mikro-orm/core';
 import { BaseEntity } from '../entities/base.entity';
-import { User } from '../entities'; 
+import { User } from '../entities';
 
 @Entity()
 export class Guide extends BaseEntity {

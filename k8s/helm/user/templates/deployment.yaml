@@ -31,7 +31,13 @@ spec:
           command: ["/bin/sh", "-c", "until nc -z -v -w30 user-db $USER_DB_PORT; do echo 'Waiting for PostgreSQL...'; sleep 5; done"]
         - name: migration
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ["npx", "mikro-orm", "migration:up"]
+          command: ["sh", "-c"]
+          args:
+            - |
+              echo "Running DB migrations..." &&
+              npx mikro-orm migration:up &&
+              echo "Running seeders..." &&
+              npx mikro-orm seeder:run
           env:
             - name: PORT
               value: {{ .Values.service.port | quote }}

@@ -7,7 +7,7 @@ import { SeedManager } from '@mikro-orm/seeder';
 
 const microOrmConfig: MikroOrmModuleSyncOptions = {
   clientUrl: process.env.USER_DB_HOST, // Connection URL
-  entities: [User, Traveller,  Languages, Guide],
+  entities: [User, Traveller, Languages, Guide],
   driver: PostgreSqlDriver, // Specify PostgreSQL driver
   migrations: {
     path: './database/migrations', // Ensure migrations are inside src
