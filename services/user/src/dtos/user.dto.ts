@@ -9,8 +9,7 @@ import {
 import { Type } from 'class-transformer';
 import { OmitType } from '@nestjs/mapped-types';
 import { OneToOne } from '@mikro-orm/core';
-import { Guide } from 'src/entities';
-import { GuideDto } from './guide.dto';
+import { GuideDto } from 'src/guide/dto/guide.dto';
 
 export class UserDto {
   @IsUUID()

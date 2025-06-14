@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { microOrmConfig } from 'config';
+import { microOrmConfig } from 'src/config';
 import { UserModule } from './user/user.module';
 import { AppController } from './app.controller';
 import { LanguagesModule } from './languages/languages.module';
