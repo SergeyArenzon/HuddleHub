@@ -23,3 +23,11 @@ configMaps:
     keys:
       POSTGRES_HOST: user-db
       POSTGRES_PORT: "5432"
+
+database:
+  url: "postgresql://postgres:postgres@user-db:5432/postgres?schema=public"
+  host: "user-db"
+  port: 5432
+  name: "user"
+  user: "postgres"
+  password: "postgres"

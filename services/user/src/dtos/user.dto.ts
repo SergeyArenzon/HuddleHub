@@ -8,9 +8,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { OmitType } from '@nestjs/mapped-types';
-import { OneToOne } from '@mikro-orm/core';
-import { Guide } from 'src/entities';
-import { GuideDto } from './guide.dto';
+import { GuideDto } from 'src/guide/dto/guide.dto';
 
 export class UserDto {
   @IsUUID()
@@ -47,7 +45,7 @@ export class CreateUserDto extends OmitType(UserDto, [
   'id',
   'created_at',
   'updated_at',
-  'guide'
+  'guide',
 ] as const) {}
 export class UpdateUserDto extends OmitType(UserDto, [
   'created_at',

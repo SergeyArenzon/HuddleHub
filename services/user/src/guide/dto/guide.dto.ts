@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { OmitType } from '@nestjs/mapped-types';
-import { UserDto } from './user.dto';
+import { UserDto } from 'src/dtos';
 
 export class GuideDto {
   @IsUUID()

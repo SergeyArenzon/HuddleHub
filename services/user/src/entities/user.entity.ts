@@ -7,7 +7,7 @@ import {
   Property,
 } from '@mikro-orm/core';
 import { BaseEntity } from './base.entity';
-import { Guide } from './guide.entity'; // Ensure the correct path to Guide entity
+import { Guide } from '../guide/guide.entity';
 
 @Entity()
 export class User extends BaseEntity {

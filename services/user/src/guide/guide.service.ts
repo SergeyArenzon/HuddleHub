@@ -1,8 +1,9 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityManager, EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
-import { CreateGuideDto, ResponseGuideDto } from 'src/dtos/guide.dto';
-import { Guide, User } from 'src/entities';
+import { CreateGuideDto, ResponseGuideDto } from './dto/guide.dto';
+import { User } from 'src/entities';
+import { Guide } from './guide.entity';
 // import { UserService } from 'src/app.service';
 
 @Injectable()
@@ -17,7 +18,7 @@ export class GuideService {
     
     async create(createGuideDto: CreateGuideDto): Promise<ResponseGuideDto> {
         const user = await this.em.findOne(User, { id: createGuideDto.user_id });
-        console.log({user});
+        
         
         // Start a new transaction with EntityManager
         const em = this.em.fork();

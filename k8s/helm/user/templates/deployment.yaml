@@ -29,17 +29,6 @@ spec:
                   name: {{ index .Values.configMaps "user-db" "name" | quote }}
                   key: POSTGRES_PORT
           command: ["/bin/sh", "-c", "until nc -z -v -w30 user-db $USER_DB_PORT; do echo 'Waiting for PostgreSQL...'; sleep 5; done"]
-        - name: migration
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ["npx", "mikro-orm", "migration:up"]
-          env:
-            - name: PORT
-              value: {{ .Values.service.port | quote }}
-            - name: USER_DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ index .Values.configMaps "user-db" "name" | quote }}
-                  key: POSTGRES_HOST
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

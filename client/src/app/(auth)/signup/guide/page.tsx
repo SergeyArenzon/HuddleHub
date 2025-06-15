@@ -18,7 +18,6 @@ type GuideFormValues = {
 }
 
 export default function SignupGuide() {
-  console.log("SignupGuide rerender");
   const [formState, setFormState] = useState<GuideFormValues>();
   const api = new Api();
   const geoLocationService = new GeoLocationService();
