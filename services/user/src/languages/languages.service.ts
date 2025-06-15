@@ -1,7 +1,12 @@
+import { EntityManager } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
-import languages from './languages';
+import { Languages } from './languages.entity';
 
 @Injectable()
 export class LanguagesService {
-    getLanguages = () : {code: string, name: string}[] => languages
+  constructor(private readonly em: EntityManager) {}
+
+  async getLanguages(): Promise<Languages[]> {
+    return this.em.findAll(Languages);
+  }
 }
