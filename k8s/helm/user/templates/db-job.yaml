@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: '{{ include "tour.fullname" . }}-db-job'
+  name: '{{ include "user.fullname" . }}-db-job'
   labels:
-    app: {{ include "tour.fullname" . }}
-    job: migration
+    app: {{ include "user.fullname" . }}
+    job: database
   # annotations:
     # Add a skaffold annotation to force recreation
     # "skaffold.dev/depends-on-image1": "{{ .Values.image.repository }}"
@@ -13,17 +13,17 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "tour.fullname" . }}
-        job: migration
+        app: {{ include "user.fullname" . }}
+        job: database
     spec:
       initContainers:
-        - name: check-tour-db-ready
+        - name: check-db-db-ready
           image: busybox:latest
           command: ['sh', '-c', 
             'until nc -z -w1 {{ .Values.database.host }} {{ .Values.database.port }}; 
             do echo waiting for database; sleep 2; done;']
       containers:
-        - name: migration
+        - name: database
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["sh", "-c"]
@@ -34,6 +34,11 @@ spec:
               echo "Running seeders..." &&
               npx mikro-orm seeder:run
           env:
-            - name: DATABASE_URL
-              value: "{{ .Values.database.url }}"
+            - name: PORT
+              value: {{ .Values.service.port | quote }}
+            - name: USER_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ index .Values.configMaps "user-db" "name" | quote }}
+                  key: POSTGRES_HOST
       restartPolicy: Never 
