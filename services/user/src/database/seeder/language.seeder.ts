@@ -743,9 +743,15 @@ export class DatabaseSeeder extends Seeder {
       },
     ];
 
+    const existingLanguages = await em.findAll(Languages);
+
     for (const language of languages) {
-      const languageEntity = new Languages(language);
-      await em.persistAndFlush(languageEntity);
+      if (
+        !existingLanguages.some((existing) => existing.code === language.code)
+      ) {
+        const languageEntity = new Languages(language);
+        await em.persistAndFlush(languageEntity);
+      }
     }
   }
 }
